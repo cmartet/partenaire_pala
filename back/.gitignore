@@ -1,0 +1,6 @@
+*.sln
+*.njsproj
+obj/**
+.vs/**
+node_modules/**
+typings/**
