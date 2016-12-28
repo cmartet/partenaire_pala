@@ -1,0 +1,27 @@
+@import '../../common';
+
+$width-card-game-info: 300px;
+$height-card-game-info: 300px;
+$color-shadow-card: #CCCCCC;
+$color-shadow-card-hover: #888888;
+
+.GameInfo {
+  margin: $margin-m;
+  width: $width-card-game-info;
+  height: $height-card-game-info;
+
+  transition: 0.5s ease-in;
+  -webkit-box-shadow: 0 0 19px 0 $color-shadow-card;
+  -moz-box-shadow: 0 0 19px 0 $color-shadow-card;
+  box-shadow: 0 0 19px 0 $color-shadow-card;
+
+  &:hover {
+    transition: 0.3s ease-in;
+    -webkit-box-shadow: 0 0 19px 0 $color-shadow-card-hover;
+    -moz-box-shadow: 0 0 19px 0 $color-shadow-card-hover;
+    box-shadow: 0 0 19px 0 $color-shadow-card-hover;
+  }
+
+  .place {
+  }
+}

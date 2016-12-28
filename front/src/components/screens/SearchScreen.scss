@@ -33,6 +33,23 @@ $color-header-shadow: #C0C0C0;
     .search,
     .create {
       padding: 0 $margin-l;
+
+      &.active {
+        border-bottom: 3px solid transparent;
+        -webkit-animation: animateBorder 1s ease forwards;
+      }
     }
   }
+}
+
+@keyframes animateBorder {
+  to { border-bottom: 3px solid deeppink; }
+}
+
+@-moz-keyframes animateBorder {
+  to { border-bottom: 3px solid deeppink; }
+}
+
+@keyframes animateBorder {
+  to { border-bottom: 3px solid deeppink; }
 }
