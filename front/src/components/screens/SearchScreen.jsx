@@ -1,12 +1,23 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {withRouter} from 'react-router'
-import SearchBar from '../search/SearchBar'
+import FilterBar from '../search/FilterBar'
+
+import './SearchScreen.scss';
 
 const SearchScreen = React.createClass({
 
     render () {
         return (
-            <SearchBar/>
+            <div>
+                <div className="header">
+                    <div className="brand">Partenaire Pala</div>
+                    <div className="menu">
+                        <div className="search">Rechercher une partie</div>
+                        <div className="create">Proposer une partie</div>
+                    </div>
+                </div>
+                <FilterBar/>
+            </div>
         )
     }
 });

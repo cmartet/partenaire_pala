@@ -1,9 +1,10 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import { Button } from 'react-bootstrap';
 
 import './LoginForm.scss';
 
 const propTypes = {
-    onLogin: PropTypes.func.isRequired
+    onLogin: React.PropTypes.func.isRequired
 };
 
 const LoginForm = React.createClass({
@@ -19,7 +20,7 @@ const LoginForm = React.createClass({
             <div className="LoginForm">
                 <form onSubmit={this.handleFormSubmit}>
                     <h1>Log me</h1>
-                    <button type="submit">Please!</button>
+                    <Button type="submit">Please!</Button>
                 </form>
             </div>
         )
