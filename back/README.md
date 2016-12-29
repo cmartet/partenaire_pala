@@ -24,18 +24,87 @@ Les informations du profil de l'utilisateur
         "token": "EAARnnh5nes0BAA8ZCvQg"
     }
 }
-````
+```
 
 ## /logout (GET)
 
 Supprime l'utilisateur de la session. 
 Ne le déconnecte pas de Facebook.
 
+## /games
+### GET
 
-## Status Codes
-_200: OK_
+Récupère les parties dont la date est supérieure à la date du jour.
 
-L'appel s'est déroulé correctement.
+#### Objet renvoyé
+
+```js
+[
+    {
+        "_id":"5863e3b6a09e5410e4f5e1b8",
+        "place":"Moga",
+        "date":"2017-10-31T14:00:00.000Z",
+        "level":"debutant",
+        "nbMissingPlayers":3,
+        "message":"toto",
+        "__v":0, // VersionKey: utilisé par le package npm mongoose
+        "players":[]
+    },
+    ...
+]
+```
+
+### POST
+
+Créé une nouvelle partie
+
+#### Headers
+
+<b>Content-Type (obligatoire)</b>: format du body de la requête
+```js
+Content-Type: "application/json"
+```
+
+#### Body
+```js
+{ 
+    "place": "Moga",
+    "date": "2017-10-31T14:00:00.000Z",
+    "level": "debutant",
+    "nbMissingPlayers": 3,
+    "message": "toto"
+}
+```
+
+### PUT
+
+Met à jour les informations d'une partie: place, date, players, message.
+
+#### Headers
+
+<b>Content-Type (obligatoire)</b>: format du body de la requête
+```js
+Content-Type: "application/json"
+```
+
+#### Body
+```js
+{
+    "_id":"58644c88bad24c1d049077d3",
+    "creator":"titi pala",
+    "place":"Moga",
+    "date":"2017-10-31T14:00:00.000Z",
+    "level":"debutant",
+    "nbMissingPlayers":3,
+    "message":"titi",
+    "__v":0,
+    "players":[]
+}
+```
+## /games/id/:id
+### DELETE
+
+Supprime une partie à partir de son _id
 
 # Lancement en local
 

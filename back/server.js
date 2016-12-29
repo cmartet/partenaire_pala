@@ -9,7 +9,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var configDB = require('./config/database.js');
-require('./app/auth/passport')(passport); // pass passport for configuration
+var middlewares = require('./app/helpers/middlewares.js');
+require('./app/services/passport.services')(passport); // pass passport for configuration
 
 var app = express();
 var port = process.env.PORT || 8080;
@@ -37,6 +38,10 @@ app.get('/ping', function (req, res) {
 });
 
 require('./app/routes/auth.routes')(app, passport);
+require('./app/routes/games.routes')(app);
+
+// manage errors ===============================================================
+app.use(middlewares.catchExceptionsError);
 
 // launch ======================================================================
 app.listen(port, function () {
