@@ -1,7 +1,9 @@
-﻿module.exports = function (app, passport) {
+﻿var middlewares = require('./../helpers/middlewares');
 
-    app.get('/profile', isLoggedIn, function (req, res) {
-        res.send(req.user);
+module.exports = function (app, passport) {
+
+    app.get('/profile', middlewares.isLoggedIn, function (req, res) {
+        res.json(req.user);
     });
 
     app.get('/logout', function (req, res) {
@@ -17,13 +19,6 @@
         passport.authenticate('facebook', {
             successRedirect: '/profile',
             failureRedirect: '/'
-        }));
+        })
+    );
 };
-
-// route middleware to ensure user is logged in
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
-}
