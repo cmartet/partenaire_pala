@@ -1,7 +1,8 @@
 @import '../../common';
 
-$width-card-game-info: 300px;
-$height-card-game-info: 300px;
+$width-card-game-info: 350px;
+$height-card-game-info: 400px;
+$height-card-header: 40px;
 $color-shadow-card: #CCCCCC;
 $color-shadow-card-hover: #888888;
 
@@ -9,19 +10,92 @@ $color-shadow-card-hover: #888888;
   margin: $margin-m;
   width: $width-card-game-info;
   height: $height-card-game-info;
-
   transition: 0.5s ease-in;
-  -webkit-box-shadow: 0 0 19px 0 $color-shadow-card;
-  -moz-box-shadow: 0 0 19px 0 $color-shadow-card;
-  box-shadow: 0 0 19px 0 $color-shadow-card;
+  -webkit-box-shadow: 0 0 10px 0 $color-shadow-card;
+  -moz-box-shadow: 0 0 10px 0 $color-shadow-card;
+  box-shadow: 0 0 10px 0 $color-shadow-card;
 
   &:hover {
     transition: 0.3s ease-in;
-    -webkit-box-shadow: 0 0 19px 0 $color-shadow-card-hover;
-    -moz-box-shadow: 0 0 19px 0 $color-shadow-card-hover;
-    box-shadow: 0 0 19px 0 $color-shadow-card-hover;
+    -webkit-box-shadow: 0 0 10px 0 $color-shadow-card-hover;
+    -moz-box-shadow: 0 0 10px 0 $color-shadow-card-hover;
+    box-shadow: 0 0 10px 0 $color-shadow-card-hover;
   }
 
-  .place {
+  .header-info {
+    display:flex;
+    flex-direction: row;
+
+    width: 100%;
+    font-size: 1.2em;
+    color: white;
+    height: $height-card-header;
+    line-height: $height-card-header;
+    text-align: center;
+    background-color: deeppink;
+    -webkit-box-shadow: 0 2px 10px #c1c1c1;
+    -moz-box-shadow: 0 2px 10px #c1c1c1;
+    box-shadow: 0 2px 10px #c1c1c1;
+
+    .place {
+      width: $width-card-game-info - 75px;
+      align-self: center;
+    }
+
+    .nb-players-info {
+      justify-content: flex-end;
+      display: flex;
+
+      .nb-players-present {
+        font-size: 1.2em;
+      }
+
+      img {
+        padding: 0 $margin-xs;
+        line-height: 18px;
+        color: white;
+      }
+    }
   }
+
+  .all-info {
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    img {
+      max-width: 150px;
+    }
+
+    .badge {
+      background-color: deeppink;
+      margin: 0 $margin-xs 0 0;
+    }
+
+    .creator-name {
+      font-weight: bolder;
+    }
+
+    .players-info {
+      text-align: center;
+    }
+
+    .game-datetime {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .date {
+        font-size: 1.2em;
+      }
+
+      .time {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+    }
+  }
+
 }
