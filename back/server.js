@@ -13,7 +13,7 @@ var middlewares = require('./app/helpers/middlewares.js');
 require('./app/services/passport.services')(passport); // pass passport for configuration
 
 var app = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8090;
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
