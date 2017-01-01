@@ -42,14 +42,26 @@ $color-header-shadow: #C0C0C0;
   }
 }
 
+.result-games {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 @keyframes animateBorder {
-  to { border-bottom: 3px solid deeppink; }
+  to {
+    border-bottom: 3px solid deeppink;
+  }
 }
 
 @-moz-keyframes animateBorder {
-  to { border-bottom: 3px solid deeppink; }
+  to {
+    border-bottom: 3px solid deeppink;
+  }
 }
 
 @keyframes animateBorder {
-  to { border-bottom: 3px solid deeppink; }
+  to {
+    border-bottom: 3px solid deeppink;
+  }
 }
