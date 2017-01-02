@@ -25,6 +25,7 @@ $color-shadow-card-hover: #888888;
   .header-info {
     display:flex;
     flex-direction: row;
+    position: relative;
 
     width: 100%;
     font-size: 1.2em;
@@ -38,13 +39,20 @@ $color-shadow-card-hover: #888888;
     box-shadow: 0 2px 10px #c1c1c1;
 
     .place {
-      width: $width-card-game-info - 75px;
+      display: flex;
+      padding-left: $margin-m;
       align-self: center;
+
+      img {
+        padding-right: $margin-xs;
+      }
     }
 
     .nb-players-info {
       justify-content: flex-end;
       display: flex;
+      position: absolute;
+      right: $margin-m;
 
       .nb-players-present {
         font-size: 1.2em;

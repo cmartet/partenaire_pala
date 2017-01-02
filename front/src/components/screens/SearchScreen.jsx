@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router'
 import FilterBar from '../search/FilterBar'
 import GameInfo from '../search/GameInfo'
-import murtest from '../../assets/images/murtest.jpg';
+import murtest from '../../../public/assets/images/murtest.jpg';
 
 import './SearchScreen.scss';
 
@@ -55,7 +55,7 @@ const SearchScreen = React.createClass({
                         level="6"
                         place="Moga"
                         maxPlayers="4"
-                        date="2017-10-31T00:00:00.000Z"
+                        date="2015-10-31T00:00:00.000Z"
                         players={[{"name": "Sushiii"}, {"name": "Pinkie pie"}]}
                     />
                 </div>

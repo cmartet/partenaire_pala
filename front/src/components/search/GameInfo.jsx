@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Badge, Button} from 'react-bootstrap';
-import PersonIcon from '../../assets/images/ic_person_white.svg';
+import PersonIcon from '../../../public/assets/images/ic_person_white.svg';
+import PlaceIcon from '../../../public/assets/images/ic_place_white.svg';
 
 import './GameInfo.scss';
 
@@ -52,7 +53,7 @@ class GameInfo extends Component {
 
     playersList() {
         const listItems = this.props.players.map((player) =>
-            <Badge>{player.name}</Badge>
+            <Badge key={player.name}>{player.name}</Badge>
         );
         return (<div> {listItems}</div>);
     }
@@ -99,22 +100,22 @@ class GameInfo extends Component {
     }
 
     gameIsOver() {
-        return this.props.date > new Date();
+        return new Date(this.props.date) < new Date();
     }
 
     gameHasEnoughPlayers() {
-        return this.props.maxPlayers >= this.props.players.length;
+        return this.props.maxPlayers <= this.props.players.length;
     }
 
     isGameComplete() {
-        return this.gameIsOver || this.gameHasEnoughPlayers;
+        return this.gameIsOver() || this.gameHasEnoughPlayers();
     }
 
     getNbPlayersInfo() {
         return (<div><span className="nb-players-present">
             {this.props.players.length}
         </span>
-            <span className="nb-players-max"> /  {this.props.maxPlayers}</span>
+            <span className="nb-players-max"> / {this.props.maxPlayers}</span>
         </div>);
     }
 
@@ -122,9 +123,12 @@ class GameInfo extends Component {
         return (
             <div className="GameInfo">
                 <div className="header-info">
-                    <div className="place">{this.props.place}</div>
+                    <div className="place">
+                        <img src={PlaceIcon} alt="place-icon"/>
+                        {this.props.place}
+                    </div>
                     <div className="nb-players-info">
-                        <img src={PersonIcon}/>
+                        <img src={PersonIcon} alt="person-icon"/>
                         {this.getNbPlayersInfo()}</div>
                 </div>
 
