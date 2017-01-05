@@ -8,6 +8,10 @@ import './SearchScreen.scss';
 
 const SearchScreen = React.createClass({
 
+    componentDidMount(){
+        this.props.gamesActions.fetchGames();
+    },
+
     isSearchScreen(){
         return this.props.location.pathname === '/' ? " active" : "";
     },
