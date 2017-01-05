@@ -3,9 +3,10 @@
 module.exports = {
     get: function (userId, callback) {
         User.findById(userId, function (err, user) {
-            var resUser = {
-                "name": user.facebook.name
-            };
+            var resUser = {};
+            if (user) {
+                resUser.name =  user.facebook.name
+            }
             callback(err, resUser);
         });
     }
