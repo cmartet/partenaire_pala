@@ -42,14 +42,14 @@ Récupère les parties dont la date est supérieure à la date du jour.
 [
     {
         "_id":"5863e3b6a09e5410e4f5e1b8",
-        "creator": "toto pala",
+        "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
         "place":"Moga",
         "date":"2017-10-31T14:00:00.000Z",
         "level":"debutant",
-        "nbMissingPlayers":3,
+        "maxMissingPlayers":3,
         "message":"toto",
-        "__v":0, // VersionKey: utilisé par le package npm mongoose
         "players":[]
+        "__v":0, // VersionKey: utilisé par le package npm mongoose
     },
     ...
 ]
@@ -63,17 +63,19 @@ Créé une nouvelle partie
 
 <b>Content-Type (obligatoire)</b>: format du body de la requête
 ```js
-Content-Type: "application/json"
+Content-Type: application/json
 ```
 
 #### Body
 ```js
 { 
+    "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
     "place": "Moga",
     "date": "2017-10-31T14:00:00.000Z",
     "level": "debutant",
-    "nbMissingPlayers": 3,
-    "message": "toto"
+    "maxMissingPlayers": 3,
+    "message": "toto",
+    "players": []
 }
 ```
 
@@ -85,21 +87,21 @@ Met à jour les informations d'une partie: place, date, players, message.
 
 <b>Content-Type (obligatoire)</b>: format du body de la requête
 ```js
-Content-Type: "application/json"
+Content-Type: application/json
 ```
 
 #### Body
 ```js
 {
     "_id":"58644c88bad24c1d049077d3",
-    "creator":"titi pala",
+    "creatorId":"5863df6204f27231c4348849",
     "place":"Moga",
     "date":"2017-10-31T14:00:00.000Z",
     "level":"debutant",
-    "nbMissingPlayers":3,
+    "maxMissingPlayers":3,
     "message":"titi",
-    "__v":0,
     "players":[]
+    "__v":0,
 }
 ```
 ## /games/id/:id
@@ -107,11 +109,36 @@ Content-Type: "application/json"
 
 Supprime une partie à partir de son _id
 
+## /users/id/:id
+### GET
+
+Récupère les informations d'un utilisateur en fonction de son id
+
+#### Objet renvoyé
+
+```js
+[
+    {
+        "_id":"5863e3b6a09e5410e4f5e1b8",
+        "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
+        "place":"Moga",
+        "date":"2017-10-31T14:00:00.000Z",
+        "level":"debutant",
+        "maxMissingPlayers":3,
+        "message":"toto",
+        "players":[]
+        "__v":0, // VersionKey: utilisé par le package npm mongoose
+    },
+    ...
+]
+```
+
+
 # Lancement en local
 
 Pour lancer le service :
 
-le service se lance sur le port 8080 par défaut
+le service se lance sur le port 8090 par défaut
 ```cmd
 > node server.js 
 ```
