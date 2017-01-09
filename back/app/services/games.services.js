@@ -12,8 +12,8 @@ module.exports = {
 
     create: function (game, callback) {
         var newGame = new Game(game);
-        newGame.save(function (err, data) {
-            callback(err, data);
+        newGame.save(function (err) {
+            callback(err);
         });
     },
 
@@ -27,8 +27,8 @@ module.exports = {
             }
         };
 
-        Game.update({ _id: game._id }, query, function (err, data) {
-            callback(err, data);
+        Game.update({ _id: game._id }, query, function (err) {
+            callback(err);
         });
     },
 
@@ -36,5 +36,18 @@ module.exports = {
         Game.remove({ _id: gameId }, function (err) {
             callback(err);
         });
-    }
+    },
+
+    isGameCreator: function (gameId, userId, callback) {
+        Game.findById(gameId, function (err, game) {
+
+            if (game) {
+                var isCreator = (game.creatorId === userId);
+                callback(err, isCreator);
+            }
+            else {
+                callback(err, false);
+            }
+        });
+    },
 };

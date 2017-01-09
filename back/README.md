@@ -82,6 +82,7 @@ Content-Type: application/json
 ### PUT
 
 Met à jour les informations d'une partie: place, date, players, message.
+Seul le créateur de la partie peut effectuer cette action.
 
 #### Headers
 
@@ -107,7 +108,8 @@ Content-Type: application/json
 ## /games/id/:id
 ### DELETE
 
-Supprime une partie à partir de son _id
+Supprime une partie à partir de son _id. 
+Seul le créateur de la partie peut effectuer cette action.
 
 ## /users/id/:id
 ### GET
