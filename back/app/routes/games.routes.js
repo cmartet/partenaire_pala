@@ -1,6 +1,7 @@
 ﻿var gamesService = require('./../services/games.services');
 var checkGameRights = require('./../helpers/middlewares').checkGameRights;
 var isLoggedIn = require('./../helpers/middlewares').isLoggedIn;
+var handleServiceCallback = require('./../helpers/tools').handleServiceCallback;
 
 module.exports = function (app) {
 
@@ -22,19 +23,4 @@ module.exports = function (app) {
         var gameid = req.params.id;
         gamesService.delete(gameid, handleServiceCallback(res));
     });
-
-    var handleServiceCallback = function (res) {
-        return function (err, data) {
-
-            if (err)
-                res.status(400).send(err);
-
-            else {
-                if (data)
-                    res.json(data);
-                else
-                    res.sendStatus(200);
-            }
-        };
-    }
 };
