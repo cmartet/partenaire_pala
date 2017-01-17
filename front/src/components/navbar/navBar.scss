@@ -1,0 +1,44 @@
+@import '../../common.scss';
+
+$height-header: 50px;
+
+$color-header-shadow: #C0C0C0;
+
+.navBar {
+  height: $height-header;
+  line-height: $height-header;
+  padding: 0 $margin-s;
+  font-size: 1.5em;
+  display: flex;
+  display: -webkit-flex;
+
+  -moz-box-shadow: 0 5px 10px 0 $color-header-shadow;
+  -webkit-box-shadow: 0 5px 10px 0 $color-header-shadow;
+  -o-box-shadow: 0 5px 10px 0 $color-header-shadow;
+  box-shadow: 0 5px 10px 0 $color-header-shadow;
+  filter: progid:DXImageTransform.Microsoft.Shadow(color=$color-header-shadow, Direction=180, Strength=20);
+
+  .brand {
+    text-align: left;
+    width: 300px;
+    font-size: 1.5em;
+  }
+
+  .menu {
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+
+    .search,
+    .create {
+      padding: 0 $margin-l;
+
+      &.active {
+        border-bottom: 3px solid transparent;
+        -webkit-animation: animateBorder 1s ease forwards;
+      }
+    }
+  }
+}
