@@ -1,20 +1,19 @@
 import React from 'react';
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router';
 
 import './LoginScreen.scss';
 
 const LoginScreen = React.createClass({
 
+    // login(){
+    //     this.props.authenticateActions.authenticateToFacebook();
+    // },
+
     render () {
         return (
             <div className="LoginScreen">
 
-                <div className="fb-login-button"
-                     data-max-rows="1"
-                     data-size="xlarge"
-                     data-show-faces="false"
-                     data-auto-logout-link="false"></div>
-
+                <a href="http://localhost:8090/auth/facebook">Log me please</a>
                 <div className="explanations">
                     <div className="expl1">
                         <h2>Pourquoi me connecter ?</h2>

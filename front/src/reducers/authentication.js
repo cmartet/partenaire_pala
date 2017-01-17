@@ -1,9 +1,8 @@
 import * as types from '../constants/ActionTypes';
-import * as appConstants from '../constants/App';
 
 function getInitialState() {
     return {
-        token: localStorage.get(appConstants.LOCALSTORAGE_AUTH_TOKEN),
+        token: null,//localStorage.get(appConstants.LOCALSTORAGE_AUTH_TOKEN),
         sessionValid: false,
         errorMessage: null,
         pending: false
@@ -38,6 +37,7 @@ export default function authentication(state=getInitialState(), action) {
                 errorMessage: action.message,
                 pending: false
             };
+        default:
+            return state;
     }
-    return state;
 }

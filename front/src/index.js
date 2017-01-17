@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContainer from './containers/AppContainer.js';
-import Login from './components/screens/LoginScreen'
+import LoginContainer from './containers/LoginContainer'
 import SearchScreen from './containers/SearchContainer'
 import InvalidRoute from './components/screens/InvalidRoute'
 import {Router, Route,IndexRoute, hashHistory} from 'react-router';
@@ -17,7 +17,7 @@ ReactDOM.render(
         <Router history={hashHistory}>
             <Route path="/" component={AppContainer}>
                 <IndexRoute component={SearchScreen}/>
-                <Route path="login" component={Login}/>
+                <Route path="login" component={LoginContainer}/>
             </Route>
             <Route path="*" component={InvalidRoute}/>
         </Router>
