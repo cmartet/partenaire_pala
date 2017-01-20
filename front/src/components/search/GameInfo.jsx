@@ -16,7 +16,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    placePicture: null,
+    placePicture: null
 };
 
 const translateDay = [

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import AppContainer from './containers/AppContainer.js';
 import LoginContainer from './containers/LoginContainer'
 import SearchScreen from './containers/SearchContainer'
+import CreateContainer from './containers/CreateContainer'
 import InvalidRoute from './components/screens/InvalidRoute'
 import {Router, Route,IndexRoute, hashHistory} from 'react-router';
 import configureStore from './store/configureStore.js';
@@ -18,6 +19,7 @@ ReactDOM.render(
             <Route path="/" component={AppContainer}>
                 <IndexRoute component={SearchScreen}/>
                 <Route path="login" component={LoginContainer}/>
+                <Route path="create" component={CreateContainer}/>
             </Route>
             <Route path="*" component={InvalidRoute}/>
         </Router>

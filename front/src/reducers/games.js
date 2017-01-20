@@ -7,6 +7,9 @@ export default (state = initialState, action) => {
         case types.RECEIVED_GAMES:
             return {games: action.data};
 
+        case types.RECEIVED_PLACES:
+            return {places: action.data};
+        
         default:
             return state;
     }
