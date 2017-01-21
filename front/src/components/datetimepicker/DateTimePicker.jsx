@@ -9,6 +9,7 @@ const DateTimePicker = React.createClass({
         return (
             <Datetime
                 locale="fr-fr"
+                value={new Date()}
                 timeFormat="HH:mm"/>
         )
     }
