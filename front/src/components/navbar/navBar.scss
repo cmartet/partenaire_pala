@@ -18,6 +18,17 @@ $color-header-shadow: #C0C0C0;
   box-shadow: 0 5px 10px 0 $color-header-shadow;
   filter: progid:DXImageTransform.Microsoft.Shadow(color=$color-header-shadow, Direction=180, Strength=20);
 
+  a {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+      color: deeppink;
+      transition: color 0.3s;
+    }
+  }
+
   .brand {
     text-align: left;
     width: 300px;

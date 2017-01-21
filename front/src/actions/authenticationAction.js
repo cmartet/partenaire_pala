@@ -1,7 +1,6 @@
-import * as types from '../constants/ActionTypes.js';
-import * as Http from '../constants/Http.js';
+// import * as types from '../constants/ActionTypes.js';
+// import * as Http from '../constants/Http.js';
 
-const API_URL_AUTHENTICATE = "http://localhost:8090/auth/facebook";
 
 //
 // export function authenticateToFacebook() {
@@ -41,11 +40,11 @@ const API_URL_AUTHENTICATE = "http://localhost:8090/auth/facebook";
 //         dispatch(redirectToLoginPage());
 //     };
 // }
-
-
-function redirectToLoginPage() {
-    return {
-        type: types.REDIRECT,
-        link: '/login'
-    };
-}
+//
+//
+// function redirectToLoginPage() {
+//     return {
+//         type: types.REDIRECT,
+//         link: '/login'
+//     };
+// }

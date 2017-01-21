@@ -4,11 +4,11 @@ import './NavBar.scss';
 
 const NavBar = React.createClass({
 
-    isSearchScreen(){
+    isSearchScreen() {
         return this.props.location.pathname === '/' ? " active" : "";
     },
 
-    isCreateScreen(){
+    isCreateScreen() {
         return this.props.location.pathname === '/create' ? " active" : "";
     },
 
@@ -17,8 +17,12 @@ const NavBar = React.createClass({
             <div className="navBar">
                 <div className="brand">Partenaire Pala</div>
                 <div className="menu">
-                    <div className={"search" + this.isSearchScreen()}>Rechercher une partie</div>
-                    <div className={"create" + this.isCreateScreen()}>Proposer une partie</div>
+                    <div className={"search" + this.isSearchScreen()}>
+                        <a href="#/">Rechercher une partie</a>
+                    </div>
+                    <div className={"create" + this.isCreateScreen()}>
+                        <a href="#/create">Proposer une partie</a>
+                    </div>
                 </div>
             </div>
         )

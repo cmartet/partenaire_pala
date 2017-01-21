@@ -6,7 +6,7 @@ import CreateScreen from '../components/screens/CreateScreen';
 
 const mapStateToProps = (state) => {
     return {
-        places: state.places
+        places: state.games.places
     }
 };
 

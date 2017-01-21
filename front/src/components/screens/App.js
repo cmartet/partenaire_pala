@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Search from './SearchScreen'
 
 import './App.scss';
 

@@ -5,4 +5,11 @@
   form {
     padding: $margin-xl;
   }
+
+  .inline-form {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+  }
+
 }
