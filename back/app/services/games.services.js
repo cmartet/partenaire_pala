@@ -1,6 +1,7 @@
 ﻿var Game = require('../models/game');
 
 module.exports = {
+    //Get all the future games
     getAll: function(callback) {
         var now = new Date();
         var query = { "date": { "$gte": now } };
@@ -10,6 +11,20 @@ module.exports = {
         });
     },
 
+    //Get by date and place
+    getBy: function (date, place, callback) {
+        var now = new Date();
+        var query = { "date": { "$gte": now } };
+
+        if (date)  query["date"]["$eq"]  = date;
+        if (place) query["place"] = { "$eq": place };
+
+        Game.find(query, function (err, games) {
+            callback(err, games);
+        });
+    },
+
+    //Create a game
     create: function (game, callback) {
         var newGame = new Game(game);
         newGame.save(function (err) {
@@ -17,6 +32,7 @@ module.exports = {
         });
     },
 
+    //Update a game
     update: function (game, callback) {
         var query = {
             $set: {
@@ -32,12 +48,14 @@ module.exports = {
         });
     },
 
+    //Delete a game
     delete: function (gameId, callback) {
         Game.remove({ _id: gameId }, function (err) {
             callback(err);
         });
     },
 
+    //Check if a user is the game creator
     isGameCreator: function (gameId, userId, callback) {
         Game.findById(gameId, function (err, game) {
 
@@ -49,5 +67,5 @@ module.exports = {
                 callback(err, false);
             }
         });
-    },
+    }
 };

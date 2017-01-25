@@ -32,9 +32,29 @@ Supprime l'utilisateur de la session.
 Ne le déconnecte pas de Facebook.
 
 ## /games
-### GET
+### GET /date/\<date>/place/\<place>
 
-Récupère les parties dont la date est supérieure à la date du jour.
+Récupère les parties en filtrant sur la date et/ou le lieu. Les filtres sont optionnels.
+
+Exemple sans filtre: 
+```
+/games
+```
+
+Exemple filtre date: 
+```
+/games/date/2017-09-06T14:00:00.000Z
+```
+
+Exemple filtre lieu: 
+```
+/games/place/Moga
+```
+
+Exemple filtre date ET lieu: 
+```
+/games/date/2017-09-06T14:00:00.000Z/place/Moga
+```
 
 #### Objet renvoyé
 
@@ -44,7 +64,7 @@ Récupère les parties dont la date est supérieure à la date du jour.
         "_id":"5863e3b6a09e5410e4f5e1b8",
         "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
         "place":"Moga",
-        "date":"2017-10-31T14:00:00.000Z",
+        "date":"2017-09-06T14:00:00.000Z",
         "level":"debutant",
         "maxMissingPlayers":3,
         "message":"toto",

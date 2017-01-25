@@ -5,8 +5,10 @@ var handleServiceCallback = require('./../helpers/tools').handleServiceCallback;
 
 module.exports = function (app) {
 
-    app.get('/games', function (req, res) {
-        gamesService.getAll(handleServiceCallback(res));
+    app.get('/games(/date/:date)?(/place/:place)?', function (req, res) {
+        var date = req.params.date;
+        var place = req.params.place;
+        gamesService.getBy(date, place, handleServiceCallback(res));
     });
 
     app.post('/games', function (req, res) {
