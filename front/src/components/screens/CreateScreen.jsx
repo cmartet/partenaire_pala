@@ -6,6 +6,8 @@ import DateTimePicker from '../datetimepicker/DateTimePicker'
 
 import './CreateScreen.scss';
 
+const propTypes = {};
+
 const defaultProps = {
     places: []
 };
@@ -16,38 +18,68 @@ const CreateScreen = React.createClass({
         this.props.gamesActions.fetchPlaces();
     },
 
-    getInitialState () {
+    getInitialState() {
         return {
-            place: ""
-        };
+            validation: {
+                maxMissingPlayers: null,
+                players: null
+            },
+            place: "",
+            date: new Date(),
+            level: "",
+            maxMissingPlayers: 4,
+            message: "",
+            players: 1
+        }
     },
 
     getValidationState() {
-        if (this.state.place !== null) {
-            const length = this.state.place.length;
+        if (this.props.place !== null) {
+            const length = this.props.place.length;
             if (length >= 1) return 'success';
             else if (length === 0) return 'error';
         }
     },
 
-    checkFormAndCreate(){
-
+    createGame() {
+        this.props.gamesActions.createGame(this.state);
     },
 
-    handleChange(e) {
-        this.setState({place: e.target.value});
+    checkFormAndCreate(){
+        var isFormValid = true;
+
+        isFormValid |= this.checkNumericInput('maxMissingPlayers');
+        isFormValid |= this.checkNumericInput('players');
+
+        if (isFormValid) {
+            this.createGame();
+        }
+    },
+
+    checkNumericInput(inputName) {
+        if (!this.state[inputName] || this.state[inputName] < 0) {
+            this.setValidationToError(inputName);
+            return false;
+        }
+        else {
+            this.resetValidation(inputName);
+            return true;
+        }
+    },
+
+    setValidationToError(inputName) {
+        this.setState({validation: {[inputName]: 'error'}});
+    },
+
+    resetValidation(inputName) {
+        this.setState({validation: {[inputName]: null}});
+    },
+
+    handleChange(inputName, e) {
+        this.setState({[inputName]: e.target.value});
     },
 
     render () {
-        function FieldGroup({id, label, ...props}) {
-            return (
-                <FormGroup controlId={id}>
-                    <ControlLabel>{label}</ControlLabel>
-                    <FormControl {...props} />
-                </FormGroup>
-            );
-        }
-
         return (
             <div className="CreateScreen">
                 <NavBar location={this.props.location}/>
@@ -56,7 +88,8 @@ const CreateScreen = React.createClass({
                         <Col xs={12} md={8}>
                             <FormGroup controlId="formControlsSelect">
                                 <ControlLabel>Lieu de la partie *</ControlLabel>
-                                <FormControl componentClass="select" placeholder="select">
+                                <FormControl componentClass="select" placeholder="select"
+                                             onChange={this.handleChange.bind(this, 'place')}>
                                     {
                                         this.props.places.map(function (p) {
                                             return <option key={p.name}
@@ -71,17 +104,41 @@ const CreateScreen = React.createClass({
                     <Row>
                         <Col md={6}>
                             <div className="inline-form">
-                                <FieldGroup
-                                    type="number"
-                                    label="Nombre de participants maximum *"
-                                    placeholder="4"
-                                />
-                                <FieldGroup
-                                    type="number"
-                                    label="Nombre de participants déjà prévus *"
-                                    placeholder="1"
-                                />
+                                <FormGroup validationState={this.state.validation.maxMissingPlayers}>
+                                    <ControlLabel>Nombre de participants maximum *</ControlLabel>
+                                    <FormControl
+                                        type="number"
+                                        value={this.state.maxMissingPlayers}
+                                        onChange={this.handleChange.bind(this, 'maxMissingPlayers')}
+                                        required
+                                    />
+                                </FormGroup>
+                                <FormGroup validationState={this.state.validation.players}>
+                                    <ControlLabel>Nombre de participants déjà prévus *</ControlLabel>
+                                    <FormControl
+                                        type="number"
+                                        value={this.state.players}
+                                        onChange={this.handleChange.bind(this, 'players')}
+                                        required
+                                    />
+                                </FormGroup>
                             </div>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={6}>
+                            <FormGroup controlId="formControlsSelect">
+                                <ControlLabel>Niveau moyen *</ControlLabel>
+                                <FormControl componentClass="select" placeholder="select"
+                                             onChange={this.handleChange.bind(this, 'level')}>
+                                    <option value="0">Débutant</option>
+                                    <option value="1">Intermédiaire</option>
+                                    <option value="2">Bon</option>
+                                    <option value="3">Très bon</option>
+                                    <option value="4">Tout niveau accepté</option>
+                                </FormControl>
+                            </FormGroup>
                         </Col>
                     </Row>
 
@@ -89,7 +146,7 @@ const CreateScreen = React.createClass({
                         <Col xs={6} md={4}>
                             <FormGroup controlId="datetime">
                                 <ControlLabel>Date et heure *</ControlLabel>
-                                <DateTimePicker/>
+                                <DateTimePicker pickedValue={this.state.date}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -101,7 +158,8 @@ const CreateScreen = React.createClass({
                                 <FormControl componentClass="textarea"
                                              onChange={this.handleChange}
                                              placeholder="(facultatif)"
-                                             value={this.state.place}/>
+                                             value={this.state.message}
+                                             onChange={this.handleChange.bind(this, 'message')}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -111,7 +169,7 @@ const CreateScreen = React.createClass({
                             <Button bsSize="large"
                                     bsStyle="primary"
                                     block
-                                    onClick={this.checkFormAndCreate()}>
+                                    onClick={this.checkFormAndCreate}>
                                 Créer
                             </Button>
                         </Col>
@@ -122,6 +180,7 @@ const CreateScreen = React.createClass({
     }
 });
 
+CreateScreen.propTypes = propTypes;
 CreateScreen.defaultProps = defaultProps;
 
 export default withRouter(CreateScreen);
