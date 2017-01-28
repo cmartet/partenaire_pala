@@ -24,11 +24,11 @@ const CreateScreen = React.createClass({
                 maxMissingPlayers: null,
                 players: null
             },
-            place: "",
+            place: '',
             date: new Date(),
-            level: "",
+            level: '',
             maxMissingPlayers: 4,
-            message: "",
+            message: '',
             players: 1
         }
     },
@@ -77,6 +77,10 @@ const CreateScreen = React.createClass({
 
     handleChange(inputName, e) {
         this.setState({[inputName]: e.target.value});
+    },
+
+    handleDatetimeChange(e){
+      this.setState({'date': e.target.value});
     },
 
     render () {
@@ -146,7 +150,8 @@ const CreateScreen = React.createClass({
                         <Col xs={6} md={4}>
                             <FormGroup controlId="datetime">
                                 <ControlLabel>Date et heure *</ControlLabel>
-                                <DateTimePicker pickedValue={this.state.date}/>
+                                <DateTimePicker pickedValue={this.state.date}
+                                                onChange={this.handleDatetimeChange}/>
                             </FormGroup>
                         </Col>
                     </Row>

@@ -10,14 +10,38 @@ import './SearchScreen.scss';
 const SearchScreen = React.createClass({
 
     componentDidMount(){
-        this.props.gamesActions.fetchGames();
+        this.search();
+    },
+
+    getInitialState() {
+        return {
+            fieldType: null,
+            date: null,
+            place: null
+        }
+    },
+
+    search() {
+        this.props.gamesActions.fetchGames(this.state.date, this.state.place);
+    },
+
+    changeStateValue(key) {
+        return (e) => this.setState({[key]: e.target.value});
+    },
+    
+    changeDateValue(e){
+        this.setState({'date': e._d});
     },
 
     render () {
         return (
             <div>
                 <NavBar location={this.props.location}/>
-                <FilterBar/>
+                <FilterBar changeFieldType={this.changeStateValue('fieldType')}
+                           changePlace={this.changeStateValue('place')}
+                           changeDateTime={this.changeDateValue}
+                           launchReseach={this.search}
+                />
                 <div className="result-games">
                     <GameInfo
                         level="3"

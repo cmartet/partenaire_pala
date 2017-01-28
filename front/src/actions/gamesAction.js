@@ -23,6 +23,20 @@ const postHeaders = (body) => {
     }
 };
 
+const formatParametersForFetchingGames = (date, place) => {
+    var url = urls.GET_GAMES_TEST; // TODO : change API URL
+
+    if (date !== null) {
+        url += '/date/' + date.toISOString();
+    }
+
+    if (place !== null) {
+        url += '/place/' + place;
+    }
+
+    return url;
+};
+
 export const createGame = (game) => {
     return function (dispatch) {
         return fetch(urls.CREATE_GAME_TEST, postHeaders(game))  // TODO : change API URL
@@ -36,9 +50,12 @@ export const createGame = (game) => {
     }
 };
 
-export const fetchGames = (/*ajouter les filtres ici*/) => {
+export const fetchGames = (date, place) => {
     return function (dispatch) {
-        return fetch(urls.GET_GAMES_TEST)  // TODO : change API URL
+
+        var url = formatParametersForFetchingGames(date, place);
+
+        return fetch(url)
             .then(response => {
                 return response.json();
             }).then(data => {

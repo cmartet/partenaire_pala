@@ -4,7 +4,8 @@ import Datetime from 'react-datetime';
 import './react-datetime.css';
 
 const propTypes = {
-    pickedValue: React.PropTypes.instanceOf(Date)
+    pickedValue: React.PropTypes.instanceOf(Date),
+    onChange: React.PropTypes.func
 };
 
 const defaultProps = {
@@ -18,6 +19,7 @@ const DateTimePicker = React.createClass({
             <Datetime
                 locale="fr-fr"
                 value={this.props.pickedValue}
+                onChange={this.props.onChange}
                 timeFormat="HH:mm"/>
         )
     }
