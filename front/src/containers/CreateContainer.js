@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as gamesActions from '../actions/gamesAction';
+import * as authenticationActions from '../actions/authenticationAction';
 
 import CreateScreen from '../components/screens/CreateScreen';
 
@@ -12,7 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        gamesActions: bindActionCreators(gamesActions, dispatch)
+        gamesActions: bindActionCreators(gamesActions, dispatch),
+        authActions: bindActionCreators(authenticationActions, dispatch)
     }
 };
 

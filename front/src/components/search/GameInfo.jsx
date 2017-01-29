@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Badge, Button} from 'react-bootstrap';
-import PersonIcon from '../../../public/assets/images/ic_person_white.svg';
-import PlaceIcon from '../../../public/assets/images/ic_place_white.svg';
+var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 
 import './GameInfo.scss';
 
@@ -124,12 +123,10 @@ class GameInfo extends Component {
             <div className="GameInfo">
                 <div className="header-info">
                     <div className="place">
-                        <img src={PlaceIcon} alt="place-icon"/>
                         {this.props.place}
                     </div>
                     <div className="nb-players-info">
-                        <img src={PersonIcon} alt="person-icon"/>
-                        {this.getNbPlayersInfo()}</div>
+                        {React.createElement(PersonIcon, null)}{this.getNbPlayersInfo()}</div>
                 </div>
 
                 <div className="all-info">
