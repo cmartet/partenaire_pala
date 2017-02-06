@@ -1,15 +1,6 @@
 ﻿var Game = require('../models/game');
 
 module.exports = {
-    //Get all the future games
-    getAll: function(callback) {
-        var now = new Date();
-        var query = { "date": { "$gte": now } };
-
-        Game.find(query, function(err, games){
-            callback(err, games);
-        });
-    },
 
     //Get by date and place
     getBy: function (date, place, callback) {

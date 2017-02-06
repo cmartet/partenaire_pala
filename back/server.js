@@ -40,6 +40,7 @@ app.get('/ping', function (req, res) {
 require('./app/routes/auth.routes')(app, passport);
 require('./app/routes/games.routes')(app);
 require('./app/routes/users.routes')(app);
+require('./app/routes/places.routes')(app);
 
 // manage errors ===============================================================
 app.use(middlewares.catchExceptionsError);

@@ -19,8 +19,8 @@ Les informations du profil de l'utilisateur
 { 
     "_id": "58638cf7fb1c20286837d2b8",
     "facebook": {
-        "id": "125197527977624",
-        "name": "Pike Apps",
+        "id":    "125197527977624",
+        "name":  "Pike Apps",
         "token": "EAARnnh5nes0BAA8ZCvQg"
     }
 }
@@ -61,15 +61,15 @@ Exemple filtre date ET lieu:
 ```js
 [
     {
-        "_id":"5863e3b6a09e5410e4f5e1b8",
-        "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
-        "place":"Moga",
-        "date":"2017-09-06T14:00:00.000Z",
-        "level":"debutant",
-        "maxMissingPlayers":3,
-        "message":"toto",
-        "players":[]
-        "__v":0, // VersionKey: utilisé par le package npm mongoose
+        "_id":               "5863e3b6a09e5410e4f5e1b8",
+        "creatorId":         "5698e3b6a09e5410e4f5e1b8", //_id du créateur
+        "place":             "Moga",
+        "date":              "2017-09-06T14:00:00.000Z",
+        "level":             "debutant",
+        "maxMissingPlayers": 3,
+        "message":           "toto",
+        "players":           []
+        "__v":               0, // VersionKey: utilisé par le package npm mongoose
     },
     ...
 ]
@@ -89,13 +89,13 @@ Content-Type: application/json
 #### Body
 ```js
 { 
-    "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
-    "place": "Moga",
-    "date": "2017-10-31T14:00:00.000Z",
-    "level": "debutant",
+    "creatorId":         "5698e3b6a09e5410e4f5e1b8", //_id du créateur
+    "place":             "Moga",
+    "date":              "2017-10-31T14:00:00.000Z",
+    "level":             "debutant",
     "maxMissingPlayers": 3,
-    "message": "toto",
-    "players": []
+    "message":           "toto",
+    "players":           []
 }
 ```
 
@@ -114,47 +114,84 @@ Content-Type: application/json
 #### Body
 ```js
 {
-    "_id":"58644c88bad24c1d049077d3",
-    "creatorId":"5863df6204f27231c4348849",
-    "place":"Moga",
-    "date":"2017-10-31T14:00:00.000Z",
-    "level":"debutant",
-    "maxMissingPlayers":3,
-    "message":"titi",
-    "players":[]
-    "__v":0,
+    "_id":               "58644c88bad24c1d049077d3",
+    "creatorId":         "5863df6204f27231c4348849",
+    "place":             "Moga",
+    "date":              "2017-10-31T14:00:00.000Z",
+    "level":             "debutant",
+    "maxMissingPlayers": 3,
+    "message":           "titi",
+    "players":           []
 }
 ```
-## /games/id/:id
-### DELETE
+### DELETE /games/id/:id
 
 Supprime une partie à partir de son _id. 
 Seul le créateur de la partie peut effectuer cette action.
 
-## /users/id/:id
-### GET
+## /users
+### GET /users/id/:id
 
 Récupère les informations d'un utilisateur en fonction de son id
 
 #### Objet renvoyé
 
 ```js
-[
-    {
-        "_id":"5863e3b6a09e5410e4f5e1b8",
-        "creatorId": "5698e3b6a09e5410e4f5e1b8", //_id du créateur
-        "place":"Moga",
-        "date":"2017-10-31T14:00:00.000Z",
-        "level":"debutant",
-        "maxMissingPlayers":3,
-        "message":"toto",
-        "players":[]
-        "__v":0, // VersionKey: utilisé par le package npm mongoose
-    },
-    ...
-]
+{
+    "_id":    "5863e3b6a09e5410e4f5e1b8",
+    "token" : "dd458dsfsdfs",
+    "email" : "partenairepala@aol.fr",
+    "name":   "Partenaire Pala",
+    "__v":    0,
+}
 ```
 
+## /places
+### GET /places
+
+Récupère les informations des lieux
+
+#### Objet renvoyé
+
+```js
+{
+    "_id":      "5863e3b6a09e5410e4f5e1b8",
+    "name" :    "Maïtena",
+    "city" :    "Villenave d'Ornon",
+    "adress":   "Rue des tilleuls",
+    "type":     3, //1: place libre, 2: mur à gauche, 3: trinquet
+    "photoUrl": "maitena.png",
+    "__v":      0,
+}
+```
+
+### GET /places/search/\<search\>
+
+Récupère les lieux en filtrant sur une chaine de caractères.
+
+Les champs pris en compte sont: name, city et adress.
+
+### POST
+
+Créé un nouveau lieu
+
+#### Headers
+
+<b>Content-Type (obligatoire)</b>: format du body de la requête
+```js
+Content-Type: application/json
+```
+
+#### Body
+```js
+{ 
+    "name" :    "Maïtena",
+    "city" :    "Villenave d'Ornon",
+    "adress":   "Rue des tilleuls",
+    "type":     3, //1: place libre, 2: mur à gauche, 3: trinquet
+    "photoUrl": "maitena.png",
+}
+```
 
 # Lancement en local
 
