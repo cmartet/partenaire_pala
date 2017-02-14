@@ -4,7 +4,6 @@ import NavBar from '../navBar/NavBar';
 import LoginScreen from './../login/Login'
 import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Row} from 'react-bootstrap';
 import DateTimePicker from '../datetimepicker/DateTimePicker'
-import * as appConstants from '../../constants/App';
 import * as urls from '../../constants/Urls';
 
 import './CreateScreen.scss';

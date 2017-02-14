@@ -30,7 +30,7 @@ const NavBar = React.createClass({
                         <a href="#/create">Proposer une partie</a>
                     </div>
                     <div className="login">
-                        {this.props.isLoggedIn ?  <span>Logout</span> : <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
+                        {this.props.isLoggedIn ? <span>Déconnexion</span> : <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
                     </div>
                 </div>
             </div>

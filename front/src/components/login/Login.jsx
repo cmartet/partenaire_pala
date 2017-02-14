@@ -6,7 +6,7 @@ var FaFacebook = require('react-icons/lib/fa/facebook');
 
 import './Login.scss';
 
-const LoginScreen = React.createClass({
+const Login = React.createClass({
 
     login(){
         window.location.href = urls.FACEBOOK_AUTH;
@@ -43,4 +43,4 @@ const LoginScreen = React.createClass({
     }
 });
 
-export default withRouter(LoginScreen);
+export default withRouter(Login);
