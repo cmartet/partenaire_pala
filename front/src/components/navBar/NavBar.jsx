@@ -1,6 +1,12 @@
 import React from 'react';
+import * as urls from '../../constants/Urls'
 
 import './NavBar.scss';
+
+const propTypes = {
+    location: React.PropTypes.object,
+    isLoggedIn: React.PropTypes.bool
+};
 
 const NavBar = React.createClass({
 
@@ -23,10 +29,14 @@ const NavBar = React.createClass({
                     <div className={"create" + this.isCreateScreen()}>
                         <a href="#/create">Proposer une partie</a>
                     </div>
+                    <div className="login">
+                        {this.props.isLoggedIn ?  <span>Logout</span> : <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
+                    </div>
                 </div>
             </div>
         )
     }
 });
 
+NavBar.propTypes = propTypes;
 export default NavBar;

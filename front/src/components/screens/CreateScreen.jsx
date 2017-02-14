@@ -15,22 +15,11 @@ const defaultProps = {
     places: []
 };
 
-const getSessionCookieKey = cookie => {
-    return cookie[0].trim() === appConstants.COOKIE_TOKEN;
-};
-
-const getSessionCookie = () => {
-    const cookies = document.cookie.split(';')
-        .map(x => x.split('='))
-        .filter(getSessionCookieKey);
-
-    return cookies[1] || null;
-};
-
 const CreateScreen = React.createClass({
 
     componentDidMount(){
         this.props.gamesActions.fetchPlaces();
+        this.props.authActions.getProfile();
     },
 
     getInitialState() {
@@ -56,7 +45,7 @@ const CreateScreen = React.createClass({
     },
 
     createGame() {
-        if (getSessionCookie() !== null) {
+        if (this.props.auth.sessionValid) {
             this.props.gamesActions.createGame(this.state);
         }
         else {
@@ -108,7 +97,7 @@ const CreateScreen = React.createClass({
             <div className="CreateScreen">
                 <NavBar location={this.props.location}/>
 
-                {getSessionCookie() === null ?
+                {this.props.id === null ?
                     (<LoginScreen/>)
                     :
                     (<Form>

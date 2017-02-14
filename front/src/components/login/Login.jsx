@@ -23,6 +23,7 @@ const LoginScreen = React.createClass({
                         onClick={this.login}>
                         {React.createElement(FaFacebook, null)} Connexion avec Facebook
                     </Button>
+
                 </div>
 
                 <div className="explanations">

@@ -8,6 +8,13 @@ const receiveGames = data => {
     }
 };
 
+const createdGame = data => {
+    return {
+        type: types.CREATED_GAME,
+        data: data
+    }
+};
+
 const receivePlaces = data => {
     return {
         type: types.RECEIVED_PLACES,
@@ -39,11 +46,11 @@ const formatParametersForFetchingGames = (date, place) => {
 
 export const createGame = (game) => {
     return function (dispatch) {
-        return fetch(urls.CREATE_GAME_TEST, postHeaders(game))  // TODO : change API URL
+        return fetch(urls.CREATE_GAME, postHeaders(game))
             .then(response => {
                 return response.json();
             }).then(data => {
-                dispatch(receiveGames(data));
+                dispatch(createdGame(data));
             }).catch(err => {
                 console.log(err);
             });
@@ -72,7 +79,7 @@ export const fetchPlaces = () => {
             .then(response => {
                 return response.json();
             }).then(data => {
-                dispatch(receivePlaces(data.results));
+                dispatch(receivePlaces(data));
             }).catch(err => {
                 console.log(err);
             });

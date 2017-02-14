@@ -1,22 +1,36 @@
 import * as types from '../constants/ActionTypes.js';
-import * as Http from '../constants/Http.js';
+import * as http from '../constants/Http.js';
 import * as urls from '../constants/Urls.js';
 
+// export function authenticateToFacebook() {
+//     return dispatch => {
+//         fetch(urls.FACEBOOK_AUTH, {
+//             method: Http.METHOD_GET
+//         })
+//             .then(response => {
+//                 dispatch({type: types.AUTHENTICATION_SUCCESS, data: response});
+//             })
+//             .catch(() => {
+//                 dispatch({type: types.AUTHENTICATION_ERROR});
+//             });
+//     };
+// }
 
-export function authenticateToFacebook() {
+export function getProfile() {
     return dispatch => {
-        fetch(urls.FACEBOOK_AUTH, {
-            method: Http.METHOD_GET
+        fetch(urls.GET_PROFILE, {
+            method: http.METHOD_GET
         })
             .then(response => {
-                dispatch({type: types.AUTHENTICATION_SUCCESS, data: response});
+                dispatch({type: types.GET_PROFILE_SUCCESS, data: response});
             })
             .catch(() => {
-                dispatch({type: types.AUTHENTICATION_ERROR});
+                dispatch({type: types.GET_PROFILE_ERROR});
             });
     };
 }
 
+//
 // export function logout(authToken, withRedirection = true) {
 //     return dispatch => {
 //         dispatch({
@@ -32,7 +46,7 @@ export function authenticateToFacebook() {
 //         }
 //     };
 // }
-//
+
 //
 // export function logoutAndRedirect() {
 //     return dispatch => {

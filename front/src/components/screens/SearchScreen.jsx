@@ -11,6 +11,7 @@ const SearchScreen = React.createClass({
 
     componentDidMount(){
         this.search();
+        this.props.authActions.getProfile();
     },
 
     getInitialState() {
@@ -36,7 +37,8 @@ const SearchScreen = React.createClass({
     render () {
         return (
             <div>
-                <NavBar location={this.props.location}/>
+                <NavBar location={this.props.location}
+                    isLoggedIn={this.props.auth.sessionValid}/>
                 <FilterBar changeFieldType={this.changeStateValue('fieldType')}
                            changePlace={this.changeStateValue('place')}
                            changeDateTime={this.changeDateValue}
