@@ -2,7 +2,7 @@
 
 module.exports = function (app, passport) {
 
-    app.get('/profile', middlewares.isLoggedIn, function (req, res) {
+    app.get('/profile',  passport.authenticate('bearer', { session: false }), function (req, res) {
         res.json(req.user);
     });
 
@@ -12,13 +12,19 @@ module.exports = function (app, passport) {
     });
 
     // send to facebook to do the authentication
-    app.get('/auth/facebook/from/:from', passport.authenticate('facebook', { scope: 'email' }));
+    app.get('/auth/facebook/from/:from', passport.authenticate('facebook', { session: false, scope: ['email'] }));
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect: 'localhost:3000/',
+            session: false,
             failureRedirect: '/'
-        })
+        }),
+        function(req, res) {
+            res.statusCode = 302;
+            res.setHeader('Location', 'http://localhost:3000/#/');
+            res.cookie('Authorization', req.user.bearer.token);
+            res.send();
+        }
     );
 };

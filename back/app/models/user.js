@@ -3,9 +3,10 @@ var mongoose = require('mongoose');
 // define the schema for user model
 var userSchema = mongoose.Schema({
 
-    facebook         : {
+    bearer         : {
         id           : String,
         token        : String,
+        nickname     : String,
         email        : String,
         name         : String
     }

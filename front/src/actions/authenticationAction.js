@@ -2,31 +2,27 @@ import * as types from '../constants/ActionTypes.js';
 import * as http from '../constants/Http.js';
 import * as urls from '../constants/Urls.js';
 
-// export function authenticateToFacebook() {
-//     return dispatch => {
-//         fetch(urls.FACEBOOK_AUTH, {
-//             method: Http.METHOD_GET
-//         })
-//             .then(response => {
-//                 dispatch({type: types.AUTHENTICATION_SUCCESS, data: response});
-//             })
-//             .catch(() => {
-//                 dispatch({type: types.AUTHENTICATION_ERROR});
-//             });
-//     };
-// }
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
 
 export function getProfile() {
+    var authHeader = new Headers();
+    authHeader.append("Authorization", "Bearer " + getCookie("Authorization"));
+
     return dispatch => {
         fetch(urls.GET_PROFILE, {
-            method: http.METHOD_GET
+            method: http.METHOD_GET,
+            headers: authHeader
         })
-            .then(response => {
-                dispatch({type: types.GET_PROFILE_SUCCESS, data: response});
-            })
-            .catch(() => {
-                dispatch({type: types.GET_PROFILE_ERROR});
-            });
+        .then(response => {
+            dispatch({type: types.GET_PROFILE_SUCCESS, data: response});
+        })
+        .catch(() => {
+            dispatch({type: types.GET_PROFILE_ERROR});
+        });
     };
 }
 

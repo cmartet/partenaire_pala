@@ -1,4 +1,5 @@
 ﻿var FacebookStrategy = require('passport-facebook').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 
 var User = require('../models/user');
 var configAuth = require('../../config/auth');
@@ -19,33 +20,28 @@ module.exports = function (passport) {
 
     passport.use(new FacebookStrategy(configAuth.facebookAuth,
         function (req, token, refreshToken, profile, done) {
-
             // asynchronous
             process.nextTick(function () {
 
                 // check if the user is already logged in session
-
                 if (!req.user) {
-
                     // check if the user is already in the database
-                    User.findOne({ 'facebook.id': profile.id }, function (err, user) {
+                    User.findOne({'bearer.id': profile.id}, function (err, user) {
                         if (err)
                             return done(err);
 
                         if (user) {
-
                             // user found in database, return that user
-                             return done(null, user);
+                            return done(null, user);
                         } else {
-
-                            // if there is no user in database, create it
                             var newUser = new User();
 
-                            newUser.facebook.id = profile.id;
-                            newUser.facebook.token = token;
-                            newUser.facebook.name = profile.displayName;
-                            newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
-                            //newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                            newUser.bearer.id = profile.id;
+                            newUser.bearer.token = token;
+                            newUser.bearer.nickname = profile.displayName;
+                            newUser.bearer.name = profile.name.givenName + ' ' + profile.name.familyName;
+                            if(profile.emails)
+                                newUser.bearer.email = (profile.emails[0].value || '').toLowerCase();
 
                             newUser.save(function (err) {
                                 if (err)
@@ -62,4 +58,24 @@ module.exports = function (passport) {
                 }
             });
         }));
+
+    passport.use(
+        new BearerStrategy(
+            function (token, done) {
+                User.findOne({'bearer.token': token},
+                    function (err, user) {
+                        if (err) {
+                            return done(err)
+                        }
+                        if (!user) {
+                            return done(null, false)
+                        }
+
+                        return done(null, user, {scope: 'all'})
+                    }
+                );
+            }
+        )
+    );
+
 };
