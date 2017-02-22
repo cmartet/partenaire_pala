@@ -5,7 +5,8 @@ import './NavBar.scss';
 
 const propTypes = {
     location: React.PropTypes.object,
-    isLoggedIn: React.PropTypes.bool
+    isLoggedIn: React.PropTypes.bool,
+    logout: React.PropTypes.func
 };
 
 const NavBar = React.createClass({
@@ -30,7 +31,7 @@ const NavBar = React.createClass({
                         <a href="#/create">Proposer une partie</a>
                     </div>
                     <div className="login">
-                        {this.props.isLoggedIn ? <span>Déconnexion</span> : <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
+                        {this.props.isLoggedIn ? <span onClick={() => this.props.logout()}>Déconnexion</span> : <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
                     </div>
                 </div>
             </div>

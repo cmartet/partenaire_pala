@@ -4,6 +4,7 @@ import FilterBar from '../search/FilterBar'
 import GameInfo from '../search/GameInfo'
 import murtest from '../../../public/assets/images/murtest.jpg';
 import NavBar from '../navBar/NavBar';
+import * as utils from '../../utils';
 
 import './SearchScreen.scss';
 
@@ -12,6 +13,7 @@ const SearchScreen = React.createClass({
     componentDidMount(){
         this.search();
         this.props.authActions.getProfile();
+        this.isSessionValid = !!utils.getAuthCookie();
     },
 
     getInitialState() {
@@ -29,7 +31,7 @@ const SearchScreen = React.createClass({
     changeStateValue(key) {
         return (e) => this.setState({[key]: e.target.value});
     },
-    
+
     changeDateValue(e){
         this.setState({'date': e._d});
     },
@@ -38,7 +40,8 @@ const SearchScreen = React.createClass({
         return (
             <div>
                 <NavBar location={this.props.location}
-                    isLoggedIn={this.props.auth.sessionValid}/>
+                        isLoggedIn={this.isSessionValid}
+                        logout={this.props.authActions.logout}/>
                 <FilterBar changeFieldType={this.changeStateValue('fieldType')}
                            changePlace={this.changeStateValue('place')}
                            changeDateTime={this.changeDateValue}

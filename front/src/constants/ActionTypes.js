@@ -1,6 +1,8 @@
 // Authentication
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
 export const GET_PROFILE_ERROR = 'GET_PROFILE_ERROR';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_ERROR = 'LOGOUT_ERROR';
 
 // Games info
 export const RECEIVED_GAMES = 'RECEIVED_GAMES';

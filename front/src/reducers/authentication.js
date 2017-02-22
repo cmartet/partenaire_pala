@@ -1,51 +1,46 @@
 import * as types from '../constants/ActionTypes';
 import * as appConstants from '../constants/App';
+import * as utils from '../utils';
+
+const initialState = {
+    id: null,
+    sessionValid: false,
+    errorMessage: null,
+    pending: false
+};
+
+const invalidState = {
+    id: null,
+    sessionValid: false,
+    errorMessage: appConstants.ERROR_MESSAGE,
+    pending: false
+};
+
 
 function getInitialState() {
     return {
-        session: {
-            id: null,
-            sessionValid: false,
-            errorMessage: null,
-            pending: false
-        }
+        session: initialState
     };
 }
 
 export default function authentication(state = getInitialState(), action) {
     switch (action.type) {
-        // case types.AUTHENTICATION_LOGOUT:
-        // case types.AUTHENTICATION_DENIED:
-        //     return {
-        //         token: null,
-        //         sessionValid: false,
-        //         errorMessage: null,
-        //         pending: false
-        //     };
         case types.GET_PROFILE_SUCCESS:
-            if (action.type === 200) {
-                return {
-                    id: action.data._id,
-                    sessionValid: true,
-                    errorMessage: null,
-                    pending: false
-                };
-            } else {
-                return {
-                    id: null,
-                    sessionValid: false,
-                    errorMessage: appConstants.ERROR_MESSAGE,
-                    pending: false
-                };
-            }
-
-        case types.GET_PROFILE_ERROR:
             return {
-                id: null,
-                sessionValid: false,
-                errorMessage: appConstants.ERROR_MESSAGE,
+                id: action.data._id,
+                sessionValid: true,
+                errorMessage: null,
                 pending: false
             };
+
+        case types.GET_PROFILE_ERROR:
+            return invalidState;
+
+        case types.LOGOUT_SUCCESS:
+            utils.removeAuthCookie();
+            window.location.reload();
+            return initialState;
+
         default:
             return state;
     }

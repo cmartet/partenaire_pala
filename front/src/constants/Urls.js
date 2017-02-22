@@ -6,4 +6,5 @@ export const GET_PLACES = 'http://localhost:8090/places';
 export const CREATE_GAME = 'http://localhost:8090/games';
 
 export const FACEBOOK_AUTH = 'http://localhost:8090/auth/facebook/from/1';
+export const LOGOUT = 'http://localhost:8090/logout';
 export const GET_PROFILE = 'http://localhost:8090/profile';
