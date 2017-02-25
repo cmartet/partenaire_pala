@@ -1,5 +1,7 @@
-import * as types from '../constants/ActionTypes.js';
-import * as urls from '../constants/Urls';
+import * as types   from '../constants/ActionTypes.js';
+import * as urls    from '../constants/Urls';
+import * as http    from '../constants/Http';
+import * as util    from '../utils';
 
 const receiveGames = data => {
     return {
@@ -22,11 +24,18 @@ const receivePlaces = data => {
     }
 };
 
-const postHeaders = (body) => {
+const postHeaders = body => {
     return {
-        'method': 'POST',
+        'method': http.METHOD_POST,
         'Content-Type': 'application/json',
         'body': body
+    }
+};
+
+const deleteHeaders = () => {
+    return {
+        'method': http.METHOD_DELETE,
+        'Authorization': 'Bearer ' + util.getAuthCookie()
     }
 };
 
@@ -63,6 +72,20 @@ export const fetchGames = (date, place) => {
         var url = formatParametersForFetchingGames(date, place);
 
         return fetch(url)
+            .then(response => {
+                return response.json();
+            }).then(data => {
+                dispatch(receiveGames(data));
+            }).catch(err => {
+                console.log(err);
+            });
+    }
+};
+
+export const deleteGame = gameId => {
+    return function (dispatch) {
+
+        return fetch(urls.DELETE_GAME + gameId, deleteHeaders())
             .then(response => {
                 return response.json();
             }).then(data => {

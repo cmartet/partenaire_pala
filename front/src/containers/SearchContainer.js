@@ -1,9 +1,8 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as gamesActions from '../actions/gamesAction';
-import * as authActions from '../actions/authenticationAction';
-
-import SearchScreen from '../components/screens/SearchScreen';
+import { bindActionCreators }   from 'redux';
+import { connect }              from 'react-redux';
+import * as gamesActions        from '../actions/gamesAction';
+import * as authActions         from '../actions/authenticationAction';
+import SearchScreen             from '../components/screens/SearchScreen';
 
 const mapStateToProps = (state) => {
     return {

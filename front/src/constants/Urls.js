@@ -4,6 +4,7 @@ export const GET_GAMES = DOMAIN_NAME + 'games';
 export const GET_GAMES_TEST = 'https://swapi.co/api/starships/9';
 export const GET_PLACES = 'http://localhost:8090/places';
 export const CREATE_GAME = 'http://localhost:8090/games';
+export const DELETE_GAME = 'http://localhost:8090/games/id/';
 
 export const FACEBOOK_AUTH = 'http://localhost:8090/auth/facebook/from/1';
 export const LOGOUT = 'http://localhost:8090/logout';

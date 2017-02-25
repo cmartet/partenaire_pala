@@ -1,10 +1,9 @@
-import React from 'react';
+import React        from 'react';
 import {withRouter} from 'react-router'
-import FilterBar from '../search/FilterBar'
-import GameInfo from '../search/GameInfo'
-import murtest from '../../../public/assets/images/murtest.jpg';
-import NavBar from '../navBar/NavBar';
-import * as utils from '../../utils';
+import FilterBar    from '../search/FilterBar'
+import GameInfo     from '../search/GameInfo'
+import murtest      from '../../../public/assets/images/murtest.jpg';
+import NavBar       from '../navBar/NavBar';
 
 import './SearchScreen.scss';
 
@@ -13,7 +12,6 @@ const SearchScreen = React.createClass({
     componentDidMount(){
         this.search();
         this.props.authActions.getProfile();
-        this.isSessionValid = !!utils.getAuthCookie();
     },
 
     getInitialState() {
@@ -40,25 +38,30 @@ const SearchScreen = React.createClass({
         return (
             <div>
                 <NavBar location={this.props.location}
-                        isLoggedIn={this.isSessionValid}
                         logout={this.props.authActions.logout}/>
+
                 <FilterBar changeFieldType={this.changeStateValue('fieldType')}
                            changePlace={this.changeStateValue('place')}
                            changeDateTime={this.changeDateValue}
-                           launchReseach={this.search}
-                />
+                           launchReseach={this.search}/>
+
                 <div className="result-games">
                     <GameInfo
-                        level="3"
+                        level="débutant"
+                        creatorId="58b13e0556f4e0c0643f7bd8"
                         placePicture={murtest}
                         place="Pessac"
                         maxPlayers="4"
                         creator="Rainbow Dash"
+                        creatorId="58b13e0556f4e0c0643f7bd8"
                         date="2017-10-31T14:00:00.000Z"
                         players={[{"name": "Sushiii"}, {"name": "Pinkie pie"}]}
+                        connectedUserId={this.props.auth._id}
+                        gameId="123"
+                        deleteGame={this.props.gamesActions.deleteGame}
                     />
                     <GameInfo
-                        level="1"
+                        level="pro"
                         place="VILLENAVE D'ORNON"
                         maxPlayers="8"
                         date="2016-12-29T14:00:00.000Z"

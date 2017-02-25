@@ -8,18 +8,18 @@
 
 @keyframes animateBorder {
   to {
-    border-bottom: 3px solid deeppink;
+    border-bottom: 3px solid $color-main-blue;
   }
 }
 
 @-moz-keyframes animateBorder {
   to {
-    border-bottom: 3px solid deeppink;
+    border-bottom: 3px solid $color-main-blue;
   }
 }
 
 @keyframes animateBorder {
   to {
-    border-bottom: 3px solid deeppink;
+    border-bottom: 3px solid $color-main-blue;
   }
 }

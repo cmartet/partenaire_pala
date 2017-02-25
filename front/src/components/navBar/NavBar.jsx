@@ -1,12 +1,13 @@
-import React from 'react';
-import * as urls from '../../constants/Urls'
+import React, {PropTypes}   from 'react';
+import * as urls            from '../../constants/Urls'
+import * as utils           from '../../utils';
+
 
 import './NavBar.scss';
 
 const propTypes = {
-    location: React.PropTypes.object,
-    isLoggedIn: React.PropTypes.bool,
-    logout: React.PropTypes.func
+    location: PropTypes.object,
+    logout: PropTypes.func
 };
 
 const NavBar = React.createClass({
@@ -31,7 +32,9 @@ const NavBar = React.createClass({
                         <a href="#/create">Proposer une partie</a>
                     </div>
                     <div className="login">
-                        {this.props.isLoggedIn ? <span onClick={() => this.props.logout()}>Déconnexion</span> : <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
+                        {utils.getAuthCookie() ?
+                            <span onClick={() => this.props.logout()} className="logout">Déconnexion</span> :
+                            <a href={urls.FACEBOOK_AUTH}>Connexion</a>}
                     </div>
                 </div>
             </div>

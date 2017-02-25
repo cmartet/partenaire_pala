@@ -24,7 +24,7 @@ $color-header-shadow: #C0C0C0;
 
     &:hover {
       text-decoration: none;
-      color: deeppink;
+      color: $color-main-blue;
       transition: color 0.3s;
     }
   }
@@ -49,6 +49,15 @@ $color-header-shadow: #C0C0C0;
       &.active {
         border-bottom: 3px solid transparent;
         -webkit-animation: animateBorder 1s ease forwards;
+      }
+    }
+
+    .logout {
+      cursor: pointer;
+
+      &:hover {
+        color: $color-main-blue;
+        transition: color 0.3s;
       }
     }
   }

@@ -1,17 +1,22 @@
-import React, {Component} from 'react';
-import {Badge, Button} from 'react-bootstrap';
+import React, {Component, PropTypes}     from 'react';
+import {Badge, Button}                   from 'react-bootstrap';
+
 var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 
 import './GameInfo.scss';
 
 const propTypes = {
-    place: React.PropTypes.string.required,
-    placePicture: React.PropTypes.string,
-    date: React.PropTypes.object.dateTime,
-    level: React.PropTypes.bool.string,
-    maxPlayers: React.PropTypes.number,
-    creator: React.PropTypes.bool.string,
-    players: React.PropTypes.array
+    gameId: PropTypes.string.required,
+    place: PropTypes.string.required,
+    placePicture: PropTypes.string,
+    date: PropTypes.object.dateTime,
+    level: PropTypes.string,
+    maxPlayers: PropTypes.number,
+    creator: PropTypes.string,
+    creatorId: PropTypes.string,
+    players: PropTypes.array,
+    connectedUserId: PropTypes.string,
+    deleteGame: PropTypes.func
 };
 
 const defaultProps = {
@@ -41,7 +46,7 @@ const translateMonth = [
     "Novembre",
     "Décembre"];
 
-var areDatesSameDay = function (date1, date2) {
+var isSameDay = function (date1, date2) {
     var firstDate = new Date(date1);
     var secondDate = new Date(date2);
 
@@ -77,15 +82,14 @@ class GameInfo extends Component {
 
     gameIsToday() {
         var today = new Date();
-        return areDatesSameDay(this.props.date, today);
+        return isSameDay(this.props.date, today);
     }
 
     gameIsTomorrow() {
         var today = new Date();
         var tomorrow = today.setDate(today.getDate() + 1);
-        return areDatesSameDay(this.props.date, tomorrow);
+        return isSameDay(this.props.date, tomorrow);
     }
-
 
     getFormattedTime() {
         var datetime = new Date(this.props.date);
@@ -118,6 +122,10 @@ class GameInfo extends Component {
         </div>);
     }
 
+    userIsCreator() {
+        return this.props.creator
+    }
+
     render() {
         return (
             <div className="GameInfo">
@@ -130,12 +138,12 @@ class GameInfo extends Component {
                 </div>
 
                 <div className="all-info">
-                      <span>
-                          Proposé par
+                    <div>
+                        Proposé par
                           <span className="creator-name">
-                              &nbsp;{this.props.creator}
+                              &nbsp;{this.props.creator} ({this.props.level})
                           </span>
-                      </span>
+                    </div>
 
                     {(this.props.placePicture !== null) ?
                         <img src={this.props.placePicture} alt={this.props.place + " Picture"}/>
@@ -150,7 +158,9 @@ class GameInfo extends Component {
                             {this.playersList()}
                         </div>
                     </div>
-                    <Button disabled={this.isGameComplete()}>Rejoindre</Button>
+                    {this.userIsCreator() ?
+                        <Button bsSize="small" bsStyle="danger" onClick={ () => this.props.deleteGame(this.props.gameId)}> Supprimer </Button> :
+                        <Button bsStyle="primary" disabled={this.isGameComplete()}>Rejoindre</Button>}
                 </div>
             </div>
         );
