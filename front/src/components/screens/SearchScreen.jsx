@@ -48,7 +48,6 @@ const SearchScreen = React.createClass({
                 <div className="result-games">
                     <GameInfo
                         level="débutant"
-                        creatorId="58b13e0556f4e0c0643f7bd8"
                         placePicture={murtest}
                         place="Pessac"
                         maxPlayers="4"

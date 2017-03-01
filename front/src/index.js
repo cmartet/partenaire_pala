@@ -5,6 +5,7 @@ import SearchScreen from './containers/SearchContainer'
 import CreateContainer from './containers/CreateContainer'
 import LoginScreen from './components/screens/LoginScreen'
 import InvalidRoute from './components/screens/InvalidRoute'
+import AuthSuccess from './components/screens/AuthSuccessScreen'
 import {Router, Route,IndexRoute, hashHistory} from 'react-router';
 import configureStore from './store/configureStore.js';
 import thunkMiddleware from 'redux-thunk';
@@ -20,6 +21,7 @@ ReactDOM.render(
                 <IndexRoute component={SearchScreen}/>
                 <Route path="create" component={CreateContainer}/>
                 <Route path="login" component={LoginScreen}/>
+                <Route path="authSuccess" component={AuthSuccess} />
             </Route>
             <Route path="*" component={InvalidRoute}/>
         </Router>
