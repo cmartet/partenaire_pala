@@ -2,13 +2,6 @@ import * as types from '../constants/ActionTypes';
 import * as appConstants from '../constants/App';
 import * as utils from '../utils';
 
-const initialState = {
-    id: null,
-    sessionValid: false,
-    errorMessage: null,
-    pending: false
-};
-
 const invalidState = {
     id: null,
     sessionValid: false,
@@ -16,14 +9,16 @@ const invalidState = {
     pending: false
 };
 
+const initialState = {
+    session: {
+        id: null,
+        sessionValid: false,
+        errorMessage: null,
+        pending: false
+    }
+};
 
-function getInitialState() {
-    return {
-        session: initialState
-    };
-}
-
-export default function authentication(state = getInitialState(), action) {
+export default function authentication(state = initialState, action) {
     switch (action.type) {
         case types.GET_PROFILE_SUCCESS:
             return {

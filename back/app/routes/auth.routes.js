@@ -2,8 +2,8 @@
 
 module.exports = function (app, passport) {
 
-    app.get('/profile',  passport.authenticate('bearer', { session: false }), function (req, res) {
-        res.json(req.user);
+    app.get('/profile', passport.authenticate('bearer', { session: false }), function (req, res) {
+         res.json(req.user);
     });
 
     app.get('/logout', function (req, res) {
@@ -12,7 +12,7 @@ module.exports = function (app, passport) {
     });
 
     // send to facebook to do the authentication
-    app.get('/auth/facebook/from/:from', passport.authenticate('facebook', { session: false, scope: ['email'] }));
+    app.get('/auth/facebook/from/:from', passport.authenticate('facebook', { display: 'popup', session: false, scope: ['email'] }));
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
         }),
         function(req, res) {
             res.statusCode = 302;
-            res.setHeader('Location', 'http://localhost:3000/#/');
+            res.setHeader('Location', 'http://localhost:3000/#/authSuccess');
             res.cookie('Authorization', req.user.bearer.token);
             res.send();
         }
