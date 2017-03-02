@@ -3,8 +3,11 @@
 // define the schema for game model
 var gameSchema = mongoose.Schema({
  
-    creatorId:         { type: String, required: true },
-    placeId:           { type: String, required: true },
+    creator: {
+        id:           { type: String, required: true },
+        name:          { type: String, required: true }
+    },
+    place:             { type: String, required: true },
     date:              { type: Date, required: true },
     level:             { type: String, required: true },
     maxMissingPlayers: { type: Number, min: 1, required: true },

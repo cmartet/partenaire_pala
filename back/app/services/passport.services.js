@@ -2,7 +2,7 @@
 var BearerStrategy = require('passport-http-bearer').Strategy;
 
 var User = require('../models/user');
-var configAuth = require('../../config/auth');
+var config = require("../config/factory");
 
 module.exports = function (passport) {
 
@@ -18,7 +18,7 @@ module.exports = function (passport) {
         });
     });
 
-    passport.use(new FacebookStrategy(configAuth.facebookAuth,
+    passport.use(new FacebookStrategy(config.facebookAuth,
         function (req, token, refreshToken, profile, done) {
             // asynchronous
             process.nextTick(function () {

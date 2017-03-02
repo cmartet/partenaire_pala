@@ -14,7 +14,7 @@ module.exports = {
 
     checkGameRights: function(req, res, next) {
         var gameId = req.params.id;
-        var userId = req.user._id; //"5698e3b6a09e5410e4f5e1b8" 
+        var userId = req.user._id;
 
         //Check if the user has the rights on the game (is the game creator)
         gamesService.isGameCreator(gameId, userId, function (err, isGameCreator) {

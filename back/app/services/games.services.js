@@ -51,7 +51,7 @@ module.exports = {
         Game.findById(gameId, function (err, game) {
 
             if (game) {
-                var isCreator = (game.creatorId === userId);
+                var isCreator = (game.creator.id === userId);
                 callback(err, isCreator);
             }
             else {

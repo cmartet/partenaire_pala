@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors');
 
-var configDB = require('./config/database.js');
+var config = require('./app/config/factory.js');
 var middlewares = require('./app/helpers/middlewares.js');
 require('./app/services/passport.services')(passport); // pass passport for configuration
 
@@ -17,7 +17,7 @@ var app = express();
 var port = process.env.PORT || 8090;
 
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
+mongoose.connect(config.dbUrl); // connect to our database
 
 app.use(cors()); // allow cross-domain requests
 app.use(morgan('dev')); // log every request to the console

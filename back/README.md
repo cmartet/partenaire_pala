@@ -89,7 +89,10 @@ Content-Type: application/json
 #### Body
 ```js
 { 
-    "creatorId":         "5698e3b6a09e5410e4f5e1b8", //_id du créateur
+    "creator":{
+        "id":"5698e3b6a09e5410e4f5e1b8", //_id du créateur
+        "name":"Madame michue"
+    },
     "place":             "Moga",
     "date":              "2017-10-31T14:00:00.000Z",
     "level":             "debutant",
