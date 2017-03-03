@@ -25,7 +25,9 @@ export function getProfile() {
     return dispatch => {
         fetch(urls.GET_PROFILE,init)
             .then(response => {
-            dispatch({type: types.GET_PROFILE_SUCCESS, data: response});
+              response.json().then(dataJson => {
+                  dispatch({type: types.GET_PROFILE_SUCCESS, data: dataJson});
+              });
         }).catch(() => {
             dispatch({type: types.GET_PROFILE_ERROR});
         });
