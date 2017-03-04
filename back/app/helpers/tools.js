@@ -1,18 +1,13 @@
 ﻿var request = require('request-promise');
 
 module.exports = {
-    handleServiceCallback: function (res) {
+    handleServiceCallback: function (req, res, next) {
         return function (err, data) {
-
             if (err)
-                res.status(400).send(err);
+                return next(err);
 
-            else {
-                if (data)
-                    res.json(data);
-                else
-                    res.sendStatus(200);
-            }
+            req.data = data;
+            next();
         };
     },
 

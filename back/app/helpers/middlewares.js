@@ -1,18 +1,26 @@
-﻿var gamesService = require('./../services/games.service');
+﻿var mongoose = require('mongoose');
+var gamesService = require('./../services/games.service');
+var config = require('./../config/factory.js');
 
 module.exports = {
-    catchExceptionsError: function (err, req, res, next) {
-        res.status(400).send(err.message);
+    manageData: function (req, res, next) {
+        if (req.data)
+            res.json(req.data);
+        else
+            res.sendStatus(200);
     },
 
-    isLoggedIn: function (req, res, next) {
-        if (req.isAuthenticated())
-            return next();
-
-        res.sendStatus(403);
+    manageError: function (err, req, res, next) {
+        res.status(500).send(err);
     },
 
-    checkGameRights: function(req, res, next) {
+    isLoggedIn: function (passport) {
+        return function (req, res, next) {
+            return passport.authenticate('bearer', { session: false })(req, res, next);
+        };
+    },
+
+    checkGameRights: function (req, res, next) {
         var gameId = req.params.id;
         var userId = req.user._id;
 
