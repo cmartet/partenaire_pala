@@ -127,73 +127,67 @@ Content-Type: application/json
     "players":           []
 }
 ```
+
 ### DELETE /games/id/:id
 
 Supprime une partie à partir de son _id. 
 Seul le créateur de la partie peut effectuer cette action.
 
-## /users
-### GET /users/id/:id
-
-Récupère les informations d'un utilisateur en fonction de son id
-
-#### Objet renvoyé
-
-```js
-{
-    "_id":    "5863e3b6a09e5410e4f5e1b8",
-    "token" : "dd458dsfsdfs",
-    "email" : "partenairepala@aol.fr",
-    "name":   "Partenaire Pala",
-    "__v":    0,
-}
-```
-
 ## /places
-### GET /places
+### GET /places/search/\<search>
 
-Récupère les informations des lieux
+Récupère les frontons en filtrant sur une chaine de caractères. 
+
+Le nombre de frontons renvoyés est limité à 25.
 
 #### Objet renvoyé
 
 ```js
-{
-    "_id":      "5863e3b6a09e5410e4f5e1b8",
-    "name" :    "Maïtena",
-    "city" :    "Villenave d'Ornon",
-    "adress":   "Rue des tilleuls",
-    "type":     3, //1: place libre, 2: mur à gauche, 3: trinquet
-    "photoUrl": "maitena.png",
-    "__v":      0,
-}
+[
+    {
+        "fronton_id":2087,
+        "created_at":"2016-04-13 19:35:27",
+        "type":"place_libre",
+        "permalink":"http://www.frontons.net/fronton/64130-viodos-abense-de-bas-france-2087.html",
+        "photo":"http://static.frontons.net/data/photos/medium/fronton-64130-viodos-abense-de-bas-france-2087_0.jpg",
+        "name":"64130 Viodos-Abense-de-Bas, France",
+        "location":
+        {
+            "lat":43.260503,
+            "lng":-0.880155,
+            "address":"D11, 64130 Viodos-Abense-de-Bas, France"
+        }
+    },
+    ...
+]
 ```
 
-### GET /places/search/\<search\>
+### GET /places/lat/\<lat>/lng/\<lng>/radius/\<radius>
 
-Récupère les lieux en filtrant sur une chaine de caractères.
+Récupère les frontons en filtrant une géolocalisation précise (latitude, longitude et rayon de recherche).
 
-Les champs pris en compte sont: name, city et adress.
+Le nombre de frontons renvoyés est limité à 25.
 
-### POST
+#### Objet renvoyé
 
-Créé un nouveau lieu
-
-#### Headers
-
-<b>Content-Type (obligatoire)</b>: format du body de la requête
 ```js
-Content-Type: application/json
-```
-
-#### Body
-```js
-{ 
-    "name" :    "Maïtena",
-    "city" :    "Villenave d'Ornon",
-    "adress":   "Rue des tilleuls",
-    "type":     3, //1: place libre, 2: mur à gauche, 3: trinquet
-    "photoUrl": "maitena.png",
-}
+[
+    {
+        "fronton_id":2087,
+        "created_at":"2016-04-13 19:35:27",
+        "type":"place_libre",
+        "permalink":"http://www.frontons.net/fronton/64130-viodos-abense-de-bas-france-2087.html",
+        "photo":"http://static.frontons.net/data/photos/medium/fronton-64130-viodos-abense-de-bas-france-2087_0.jpg",
+        "name":"64130 Viodos-Abense-de-Bas, France",
+        "location":
+        {
+            "lat":43.260503,
+            "lng":-0.880155,
+            "address":"D11, 64130 Viodos-Abense-de-Bas, France"
+        }
+    },
+    ...
+]
 ```
 
 # Lancement en local

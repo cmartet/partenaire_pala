@@ -6,5 +6,6 @@
         "callbackURL": "http://localhost:8090/auth/facebook/callback",
         "profileFields": ["name"],
         "passReqToCallback": true  // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-    }
+    },
+    "placesApi": "http://www.frontons.net/api/frontons/search?key=754991f3c59c2cd722aa600ff6d349b32b172ee3&l=fr"
 };

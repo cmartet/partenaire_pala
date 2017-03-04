@@ -1,4 +1,4 @@
-﻿var gamesService = require('./../services/games.services');
+﻿var gamesService = require('./../services/games.service');
 
 module.exports = {
     catchExceptionsError: function (err, req, res, next) {

@@ -1,8 +1,9 @@
 ﻿var expect = require('chai').expect;
 var mongoose = require('mongoose');
-var games = require('../services/games.services.js');
-var config = require('../config/factory.js');
+var games = require('../app/services/games.service.js');
+var config = require('../app/config/factory.js');
 
+process.env.NODE_ENV = 'dev';
 mongoose.connect(config.dbUrl);
 
 var game1 = {

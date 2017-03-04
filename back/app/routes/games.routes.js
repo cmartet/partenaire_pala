@@ -1,4 +1,4 @@
-﻿var gamesService = require('./../services/games.services');
+﻿var gamesService = require('./../services/games.service');
 var checkGameRights = require('./../helpers/middlewares').checkGameRights;
 var isLoggedIn = require('./../helpers/middlewares').isLoggedIn;
 var handleServiceCallback = require('./../helpers/tools').handleServiceCallback;

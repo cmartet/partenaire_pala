@@ -1,15 +1,18 @@
-﻿var utf8 = require('utf8');
-var placesService = require('./../services/places.services');
+﻿var placesService = require('./../services/places.service');
 var handleServiceCallback = require('./../helpers/tools').handleServiceCallback;
 
 module.exports = function (app) {
 
-    app.get('/places(/search/:search)?', function (req, res) {
+    app.get('/places/search/:search', function (req, res) {
         var search = req.params.search;
-        if (req.params.search)
-            search = utf8.decode(search);
+        placesService.getBySearch(search, handleServiceCallback(res));
+    });
 
-        placesService.getBy(search, handleServiceCallback(res));
+    app.get('/places/lat/:lat/lng/:lng/radius/:radius', function (req, res) {
+        var lat = req.params.lat;
+        var long = req.params.lng;
+        var radius = req.params.radius;
+        placesService.getByLocation(lat, long, radius, handleServiceCallback(res));
     });
 
     app.get('/places/id/:id', function (req, res) {

@@ -1,4 +1,6 @@
-﻿module.exports = {
+﻿var request = require('request-promise');
+
+module.exports = {
     handleServiceCallback: function (res) {
         return function (err, data) {
 
@@ -13,4 +15,20 @@
             }
         };
     },
+
+    httpGet: function (url, callback) {
+        var options = { url: url, timeout: 2000 };
+        request(options)
+            .then(function (data) {
+                try {
+                    var dataJson = JSON.parse(data);
+                    callback(null, dataJson);
+                } catch (e) {
+                    callback(e);
+                }
+            })
+            .catch(function (reason) {
+                callback(reason)
+            });
+    }
 };

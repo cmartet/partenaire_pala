@@ -11,7 +11,7 @@ var cors = require('cors');
 
 var config = require('./app/config/factory.js');
 var middlewares = require('./app/helpers/middlewares.js');
-require('./app/services/passport.services')(passport); // pass passport for configuration
+require('./app/services/passport.service')(passport); // pass passport for configuration
 
 var app = express();
 var port = process.env.PORT || 8090;
@@ -42,7 +42,6 @@ app.get('/ping', function (req, res) {
 
 require('./app/routes/auth.routes')(app, passport);
 require('./app/routes/games.routes')(app);
-require('./app/routes/users.routes')(app);
 require('./app/routes/places.routes')(app);
 
 // manage errors ===============================================================
