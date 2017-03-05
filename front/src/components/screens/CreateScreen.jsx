@@ -3,6 +3,7 @@ import {withRouter}         from 'react-router'
 import NavBar               from '../navBar/NavBar';
 import LoginScreen          from './../login/Login'
 import RaisedButton         from 'material-ui/RaisedButton';
+import FlatButton           from 'material-ui/FlatButton';
 import TextField            from 'material-ui/TextField';
 import TimePicker           from 'material-ui/TimePicker';
 import SelectField          from 'material-ui/SelectField';
@@ -11,6 +12,11 @@ import MenuItem             from 'material-ui/MenuItem';
 import {Row, Col}           from 'react-flexbox-grid';
 import * as urls            from '../../constants/Urls';
 import areIntlLocalesSupported from 'intl-locales-supported';
+import {
+    Step,
+    Stepper,
+    StepButton,
+} from 'material-ui/Stepper';
 
 import './CreateScreen.scss';
 
@@ -22,108 +28,126 @@ const defaultProps = {
 
 const CreateScreen = React.createClass({
 
-    componentDidMount(){
-        this.props.gamesActions.fetchPlaces();
-        this.props.authActions.getProfile();
-    },
+        componentDidMount(){
+            this.props.gamesActions.fetchPlaces();
+            this.props.authActions.getProfile();
+        },
 
-    getDateTimeFormat() {
-        /**
-         * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
-         */
-        if (areIntlLocalesSupported(['fr', 'fa-IR'])) {
-            return global.Intl.DateTimeFormat;
-        } else {
-            const IntlPolyfill = require('intl');
-            require('intl/locale-data/jsonp/fr');
-            require('intl/locale-data/jsonp/fa-IR');
-            return IntlPolyfill.DateTimeFormat;
-        }
+        getDateTimeFormat() {
+            /**
+             * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+             */
+            if (areIntlLocalesSupported(['fr', 'fa-IR'])) {
+                return global.Intl.DateTimeFormat;
+            } else {
+                const IntlPolyfill = require('intl');
+                require('intl/locale-data/jsonp/fr');
+                require('intl/locale-data/jsonp/fa-IR');
+                return IntlPolyfill.DateTimeFormat;
+            }
 
-    },
+        },
 
-    getInitialState() {
-        return {
-            validation: {
-                maxMissingPlayers: null,
-                players: null
-            },
-            place: '',
-            date: new Date(),
-            level: '',
-            maxMissingPlayers: 4,
-            message: '',
-            players: 1
-        }
-    },
+        getInitialState() {
+            return {
+                stepIndex: 0,
+                validation: {
+                    maxMissingPlayers: null,
+                    players: null
+                },
+                place: '',
+                date: new Date(),
+                level: '',
+                maxMissingPlayers: 4,
+                message: '',
+                players: 1
+            }
+        },
 
-    getValidationState() {
-        if (this.props.place !== null) {
-            const length = this.props.place.length;
-            return (length >= 1) ? 'success' : 'error';
-        }
-    },
+        getValidationState() {
+            if (this.props.place !== null) {
+                const length = this.props.place.length;
+                return (length >= 1) ? 'success' : 'error';
+            }
+        },
 
-    createGame() {
-        if (this.props.auth.sessionValid) {
-            this.props.gamesActions.createGame(this.state);
-        }
-        else {
-            window.location.href = urls.FACEBOOK_AUTH;
-        }
-    },
+        createGame() {
+            if (this.props.auth.sessionValid) {
+                this.props.gamesActions.createGame(this.state);
+            }
+            else {
+                window.location.href = urls.FACEBOOK_AUTH;
+            }
+        },
 
-    checkFormAndCreate(){
-        var isFormValid = true;
+        checkFormAndCreate(){
+            var isFormValid = true;
 
-        isFormValid |= this.checkNumericInput('maxMissingPlayers');
-        isFormValid |= this.checkNumericInput('players');
+            isFormValid |= this.checkNumericInput('maxMissingPlayers');
+            isFormValid |= this.checkNumericInput('players');
 
-        if (isFormValid) {
-            this.createGame();
-        }
-    },
+            if (isFormValid) {
+                this.createGame();
+            }
+        },
 
-    checkNumericInput(inputName) {
-        if (!this.state[inputName] || this.state[inputName] < 0) {
-            this.setValidationToError(inputName);
-            return false;
-        }
-        else {
-            this.resetValidation(inputName);
-            return true;
-        }
-    },
+        checkNumericInput(inputName) {
+            if (!this.state[inputName] || this.state[inputName] < 0) {
+                this.setValidationToError(inputName);
+                return false;
+            }
+            else {
+                this.resetValidation(inputName);
+                return true;
+            }
+        },
 
-    setValidationToError(inputName) {
-        this.setState({validation: {[inputName]: 'error'}});
-    },
+        setValidationToError(inputName) {
+            this.setState({validation: {[inputName]: 'error'}});
+        },
 
-    resetValidation(inputName) {
-        this.setState({validation: {[inputName]: null}});
-    },
+        resetValidation(inputName) {
+            this.setState({validation: {[inputName]: null}});
+        },
 
-    handleChange(inputName, e) {
-        this.setState({[inputName]: e.target.value});
-    },
+        handleChange(inputName, e) {
+            this.setState({[inputName]: e.target.value});
+        },
 
-    handleDateChange(e){
-        this.setState({'date': e.target.value});
-    },
+        handleDateChange(e){
+            this.setState({'date': e.target.value});
+        },
 
-    handleTimeChange(e){
-        this.setState({'time': e.target.value});
-    },
+        handleTimeChange(e){
+            this.setState({'time': e.target.value});
+        },
 
-    render () {
-        return (
-            <div className="CreateScreen">
-                <NavBar location={this.props.location}/>
+        handleNext() {
+            const {stepIndex} = this.state;
+            if (stepIndex < 3) {
+                this.setState({stepIndex: stepIndex + 1});
+            }
+            else {
+                this.checkFormAndCreate();
+            }
+        },
 
-                {this.props.id === null ?
-                    (<LoginScreen/>)
-                    :
-                    (<form>
+        getNextButtonLabel() {
+            const {stepIndex} = this.state;
+            return stepIndex < 3 ? 'Suivant' : 'Créer la partie';
+        },
+
+        handlePrev() {
+            const {stepIndex} = this.state;
+            if (stepIndex > 0) {
+                this.setState({stepIndex: stepIndex - 1});
+            }
+        },
+
+        getStepContent(stepIndex) {
+            switch (stepIndex) {
+                case 0:
+                    return (
                         <Row>
                             <Col xs={12} sm={8} md={8} lg={8}>
                                 <SelectField
@@ -138,26 +162,9 @@ const CreateScreen = React.createClass({
                                     }
                                 </SelectField>
                             </Col>
-                        </Row>
-
-                        <Row>
-                            <Col md={6}>
-                                <div className="inline-form">
-                                    <TextField
-                                        floatingLabelText="Nombre de participants maximum *"
-                                        type="number"
-                                        value={this.state.maxMissingPlayers}
-                                        onChange={this.handleChange.bind(this, 'maxMissingPlayers')}/>
-                                    <TextField
-                                        className="margin-left-l"
-                                        type="number"
-                                        floatingLabelText="Nombre de participants déjà prévus *"
-                                        value={this.state.players}
-                                        onChange={this.handleChange.bind(this, 'players')}/>
-                                </div>
-                            </Col>
-                        </Row>
-
+                        </Row>);
+                case 1:
+                    return (<div>
                         <Row>
                             <Col md={6}>
                                 <SelectField
@@ -201,22 +208,93 @@ const CreateScreen = React.createClass({
                                     onChange={this.handleChange.bind(this, 'message')}/>
                             </Col>
                         </Row>
-
+                    </div>);
+                case 2:
+                    return (
                         <Row>
-                            <Col md={8}>
-                                <RaisedButton
-                                    primary={true}
-                                    fullWidth={true}
-                                    label="Créer"
-                                    onClick={this.checkFormAndCreate}>
-                                </RaisedButton>
+                            <Col md={6}>
+                                <div className="inline-form">
+                                    <TextField
+                                        floatingLabelText="Nombre de participants maximum *"
+                                        type="number"
+                                        value={this.state.maxMissingPlayers}
+                                        onChange={this.handleChange.bind(this, 'maxMissingPlayers')}/>
+                                    <TextField
+                                        className="margin-left-l"
+                                        type="number"
+                                        floatingLabelText="Nombre de participants déjà prévus *"
+                                        value={this.state.players}
+                                        onChange={this.handleChange.bind(this, 'players')}/>
+                                </div>
                             </Col>
                         </Row>
-                    </form>)}
-            </div>
-        )
-    }
-});
+                    );
+                case 3:
+                    return (<p>Vérification des infos</p>);
+                default:
+                    return 'You\'re a long way from home sonny jim!';
+            }
+        },
+
+        render()
+        {
+            const {stepIndex} = this.state;
+            const contentStyle = {margin: '0 16px'};
+
+            return (
+                <div className="CreateScreen">
+                    <NavBar location={this.props.location}/>
+
+                    {this.props.id === null ?
+                        (<LoginScreen/>)
+                        :
+                        ( <div style={{width: '100%', maxWidth: 1000, margin: 'auto'}}>
+                            <Stepper linear={false} activeStep={stepIndex}>
+                                <Step>
+                                    <StepButton onClick={() => this.setState({stepIndex: 0})}>
+                                        Sélection du terrain
+                                    </StepButton>
+                                </Step>
+                                <Step>
+                                    <StepButton onClick={() => this.setState({stepIndex: 1})}>
+                                        Informations sur la partie
+                                    </StepButton>
+                                </Step>
+                                <Step>
+                                    <StepButton onClick={() => this.setState({stepIndex: 2})}>
+                                        Qui joue ?
+                                    </StepButton>
+                                </Step>
+                                <Step>
+                                    <StepButton onClick={() => this.setState({stepIndex: 3})}>
+                                        Vérification des informations
+                                    </StepButton>
+                                </Step>
+                            </Stepper>
+
+                            <div style={contentStyle}>
+                                <div>{this.getStepContent(stepIndex)}</div>
+                                <div style={{marginTop: 12}}>
+                                    <FlatButton
+                                        label="Précédent"
+                                        disabled={stepIndex === 0}
+                                        onTouchTap={this.handlePrev}
+                                        style={{marginRight: 12}}
+                                    />
+                                    <RaisedButton
+                                        label={this.getNextButtonLabel()}
+                                        hidden={stepIndex === 2}
+                                        primary={true}
+                                        onTouchTap={this.handleNext}
+                                    />
+                                </div>
+                            </div>
+                        </div>)}
+                </div>
+            )
+        }
+    })
+    ;
 
 CreateScreen.propTypes = propTypes;
 CreateScreen.defaultProps = defaultProps;
