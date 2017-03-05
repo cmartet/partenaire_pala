@@ -10,12 +10,10 @@ const invalidState = {
 };
 
 const initialState = {
-    session: {
-        id: null,
-        sessionValid: false,
-        errorMessage: null,
-        pending: false
-    }
+    id: null,
+    sessionValid: false,
+    errorMessage: null,
+    pending: false
 };
 
 export default function authentication(state = initialState, action) {

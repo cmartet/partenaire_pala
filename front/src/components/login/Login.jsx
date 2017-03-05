@@ -1,7 +1,8 @@
-import React from 'react';
+import React        from 'react';
 import {withRouter} from 'react-router';
-import {Button} from 'react-bootstrap';
-import * as urls from '../../constants/Urls'
+import RaisedButton from 'material-ui/RaisedButton';
+import * as urls    from '../../constants/Urls'
+
 var FaFacebook = require('react-icons/lib/fa/facebook');
 
 import './Login.scss';
@@ -18,11 +19,11 @@ const Login = React.createClass({
 
                 <div className="login-zone">
                     <div className="need-login">Vous devez vous connecter pour pouvoir créer une partie</div>
-                    <Button
-                        bsStyle="primary"
+                    <RaisedButton
+                        primary={true}
                         onClick={this.login}>
                         {React.createElement(FaFacebook, null)} Connexion avec Facebook
-                    </Button>
+                    </RaisedButton>
 
                 </div>
 

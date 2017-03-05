@@ -74,16 +74,17 @@ $color-shadow-card-hover: #888888;
       max-width: 150px;
     }
 
-    .badge {
-      background-color: $color-main-blue;
-      margin: 0 $margin-xs 0 0;
-    }
-
     .creator-name {
       font-weight: bolder;
     }
 
-    .players-info {
+    .players {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .players-list {
       text-align: center;
     }
 

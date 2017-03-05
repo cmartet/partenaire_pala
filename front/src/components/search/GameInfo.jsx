@@ -1,5 +1,6 @@
-import React, {Component, PropTypes}     from 'react';
-import {Badge, Button}                   from 'react-bootstrap';
+import React, {Component, PropTypes}    from 'react';
+import Chip                             from 'material-ui/Chip';
+import RaisedButton                     from 'material-ui/RaisedButton';
 
 var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 
@@ -21,6 +22,13 @@ const propTypes = {
 
 const defaultProps = {
     placePicture: null
+};
+
+const chipsStyle = {
+    chip: {
+        margin: 4,
+        fontSize: '10px'
+    }
 };
 
 const translateDay = [
@@ -57,9 +65,9 @@ class GameInfo extends Component {
 
     playersList() {
         const listItems = this.props.players.map((player) =>
-            <Badge key={player.name}>{player.name}</Badge>
+            <Chip style={chipsStyle.chip} key={player.name}>{player.name}</Chip>
         );
-        return (<div> {listItems}</div>);
+        return (<div className="players"> {listItems}</div>);
     }
 
     getFormattedDate() {
@@ -154,13 +162,15 @@ class GameInfo extends Component {
                     </div>
                     <div className="players-info">
                         <div className="players-list">Participants</div>
-                        <div className="players">
-                            {this.playersList()}
-                        </div>
+                        {this.playersList()}
                     </div>
                     {this.userIsCreator() ?
-                        <Button bsSize="small" bsStyle="danger" onClick={ () => this.props.deleteGame(this.props.gameId)}> Supprimer </Button> :
-                        <Button bsStyle="primary" disabled={this.isGameComplete()}>Rejoindre</Button>}
+                        <RaisedButton secondary={true}
+                                      label="Supprimer"
+                                      onClick={ () => this.props.deleteGame(this.props.gameId)}/> :
+                        <RaisedButton primary={true}
+                                      disabled={this.isGameComplete()}
+                                      label="Rejoindre"/>}
                 </div>
             </div>
         );

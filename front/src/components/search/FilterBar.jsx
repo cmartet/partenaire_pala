@@ -1,16 +1,8 @@
-import React from 'react';
-import DateTimePicker from '../datetimepicker/DateTimePicker'
-
-import {
-    Button,
-    ButtonToolbar,
-    DropdownButton,
-    MenuItem,
-    ControlLabel,
-    Form,
-    FormControl,
-    FormGroup
-} from 'react-bootstrap';
+import React, {Component}   from 'react';
+import SelectField          from 'material-ui/SelectField';
+import MenuItem             from 'material-ui/MenuItem';
+import RaisedButton         from 'material-ui/RaisedButton';
+import TextField            from 'material-ui/TextField';
 
 import './FilterBar.scss';
 
@@ -21,46 +13,39 @@ const propTypes = {
     launchReseach: React.PropTypes.func
 };
 
-const FilterBar = React.createClass({
+class FilterBar extends Component{
 
     render() {
         return (
             <div className="FilterBar">
-                <Form inline className="search-form">
-                    <FormGroup controlId="fieldType">
+                <form className="search-form">
+                    <SelectField title="Tout type de terrain"
+                                 id="filedType"
+                                 floatingLabelText="Type de terrain"
+                                 onChange={this.props.changeFieldType}>
+                        <MenuItem value="2" primaryText="Fronton place libre"/>
+                        <MenuItem value="3" primaryText="Fronton mur à gauche"/>
+                        <MenuItem value="4" primaryText="Trinquet"/>
+                    </SelectField>
 
-                        <ControlLabel>Type de terrain</ControlLabel>
-                        <ButtonToolbar>
-                            <DropdownButton title="Tout type de terrain"
-                                            id="filedType"
-                                            onChange={this.props.changeFieldType}>
-                                <MenuItem eventKey="2">Fronton place libre</MenuItem>
-                                <MenuItem eventKey="3">Fronton mur à gauche</MenuItem>
-                                <MenuItem eventKey="4">Trinquet</MenuItem>
-                            </DropdownButton>
-                        </ButtonToolbar>
-                    </FormGroup>
-                    <FormGroup controlId="place">
-                        <ControlLabel>Lieu</ControlLabel>
-                        <FormControl type="text"
-                                     placeholder="Ville, nom du terrain ..."
-                                     onChange={this.props.changePlace}/>
-                    </FormGroup>
-                    <FormGroup controlId="datetime">
-                        <ControlLabel>Date</ControlLabel>
-                        <DateTimePicker pickedValue={null}
-                                        onChange={this.props.changeDateTime}/>
-                    </FormGroup>
-                    <Button type="submit"
-                            className="search-btn"
-                            onClick={this.props.launchReseach}>
-                        Rechercher
-                    </Button>
-                </Form>
+                    <TextField
+                        className="margin-left-l"
+                        type="text"
+                        floatingLabelText="Lieu"
+                        hintText="Ville, nom du terrain ..."
+                        onChange={this.props.changePlace}/>
+
+                    <RaisedButton
+                        className="margin-left-l"
+                        primary={true}
+                        label="Rechercher"
+                        onClick={this.props.launchReseach}/>
+
+                </form>
             </div>
         )
     }
-});
+}
 
 FilterBar.propsType = propTypes;
 
