@@ -96,9 +96,9 @@ export const deleteGame = gameId => {
     }
 };
 
-export const fetchPlaces = () => {
+export const fetchPlaces = (searchedPlace) => {
     return function (dispatch) {
-        return fetch(urls.GET_PLACES)
+        return fetch(urls.GET_PLACES + searchedPlace)
             .then(response => {
                 return response.json();
             }).then(data => {

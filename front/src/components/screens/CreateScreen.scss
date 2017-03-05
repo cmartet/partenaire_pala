@@ -1,8 +1,38 @@
 @import "../../common";
 
+$color-shadow-card-hover: #888888;
+
 .CreateScreen {
 
-  form {
-    padding: $margin-xl;
+  .card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-basis: 25%;
+    flex-flow: row wrap;
+
+    .card-place {
+      width: 300px;
+
+      &.selected {
+        -webkit-box-shadow: 0 0 20px 2px $color-main-blue !important;
+        -moz-box-shadow: 0 0 20px 2px $color-main-blue !important;
+        box-shadow: 0 0 20px 2px $color-main-blue !important;
+
+        &:hover {
+          transition: none !important;
+          -webkit-box-shadow: 0 0 20px 2px $color-main-blue !important;
+          -moz-box-shadow: 0 0 20px 2px $color-main-blue !important;
+          box-shadow: 0 0 20px 2px $color-main-blue !important;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+        transition: 0.3s ease-in !important;
+        -webkit-box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
+        -moz-box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
+        box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
+      }
+    }
   }
 }
