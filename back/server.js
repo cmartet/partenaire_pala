@@ -17,7 +17,10 @@ var app = express();
 var port = process.env.PORT || 8090;
 
 // configuration ===============================================================
-mongoose.connect(config.dbUrl); // connect to our database
+mongoose.connect(config.dbUrl, { server: { socketOptions: { keepAlive: 120 } } }).then(
+    () => { console.log("Conection to MongoDB OK"); },
+    err => { console.log(err); }
+);
 
 app.use(cors()); // allow cross-domain requests
 app.use(morgan('dev')); // log every request to the console
@@ -41,11 +44,16 @@ app.get('/ping', function (req, res) {
 });
 
 require('./app/routes/auth.routes')(app, passport);
-require('./app/routes/games.routes')(app);
+require('./app/routes/games.routes')(app, passport);
 require('./app/routes/places.routes')(app);
 
-// manage errors ===============================================================
-app.use(middlewares.catchExceptionsError);
+// manage sending data ===============================================================
+app.use(middlewares.manageData);
+
+// manage sending errors ===============================================================
+app.use(function (err, req, res, next) {
+    middlewares.manageError(err, req, res, next);
+});
 
 // launch ======================================================================
 app.listen(port, function () {

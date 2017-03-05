@@ -1,8 +1,8 @@
-﻿var middlewares = require('./../helpers/middlewares');
+﻿var isLoggedIn = require('./../helpers/middlewares').isLoggedIn;
 
 module.exports = function (app, passport) {
 
-    app.get('/profile', passport.authenticate('bearer', { session: false }), function (req, res) {
+    app.get('/profile', isLoggedIn(passport), function (req, res) {
          res.json(req.user);
     });
 
