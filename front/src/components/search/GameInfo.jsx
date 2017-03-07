@@ -7,7 +7,7 @@ var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 import './GameInfo.scss';
 
 const propTypes = {
-    gameId: PropTypes.string.required,
+    gameId: PropTypes.string,
     place: PropTypes.string.required,
     placePicture: PropTypes.string,
     date: PropTypes.object.dateTime,
@@ -17,7 +17,9 @@ const propTypes = {
     creatorId: PropTypes.string,
     players: PropTypes.array,
     connectedUserId: PropTypes.string,
-    deleteGame: PropTypes.func
+    deleteGame: PropTypes.func,
+    displayMode: PropTypes.boolean,
+    nbPlayers: PropTypes.number
 };
 
 const defaultProps = {
@@ -115,7 +117,7 @@ class GameInfo extends Component {
     }
 
     gameHasEnoughPlayers() {
-        return this.props.maxPlayers <= this.props.players.length;
+        return !this.props.displayMode && this.props.maxPlayers <= this.props.players.length;
     }
 
     isGameComplete() {
@@ -123,11 +125,14 @@ class GameInfo extends Component {
     }
 
     getNbPlayersInfo() {
-        return (<div><span className="nb-players-present">
-            {this.props.players.length}
-        </span>
-            <span className="nb-players-max"> / {this.props.maxPlayers}</span>
-        </div>);
+        let nbPlayers = this.props.displayMode ? this.props.nbPlayers : this.props.players.length;
+        return (
+            <div>
+                <span className="nb-players-present">
+                    {nbPlayers}
+                </span>
+                <span className="nb-players-max"> / {this.props.maxPlayers}</span>
+            </div>);
     }
 
     userIsCreator() {
@@ -160,17 +165,23 @@ class GameInfo extends Component {
                         <div className="date">{this.getFormattedDate()}</div>
                         <div className="time">{this.getFormattedTime()}</div>
                     </div>
-                    <div className="players-info">
-                        <div className="players-list">Participants</div>
-                        {this.playersList()}
-                    </div>
-                    {this.userIsCreator() ?
-                        <RaisedButton secondary={true}
-                                      label="Supprimer"
-                                      onClick={ () => this.props.deleteGame(this.props.gameId)}/> :
-                        <RaisedButton primary={true}
-                                      disabled={this.isGameComplete()}
-                                      label="Rejoindre"/>}
+
+                    {this.props.displayMode ? null : (
+                        <div className="players-info">
+                            <div className="players-list">Participants</div>
+                            {this.playersList()}
+                        </div>
+
+                    )}
+                    {this.props.displayMode ? null :
+                        this.userIsCreator() ?
+                            <RaisedButton secondary={true}
+                                          label="Supprimer"
+                                          onClick={ () => this.props.deleteGame(this.props.gameId)}/> :
+                            <RaisedButton primary={true}
+                                          disabled={this.isGameComplete()}
+                                          label="Rejoindre"/>}
+
                 </div>
             </div>
         );

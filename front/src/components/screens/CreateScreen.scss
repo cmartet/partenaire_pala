@@ -34,5 +34,9 @@ $color-shadow-card-hover: #888888;
         box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
       }
     }
+
+    .step-nav-container {
+      margin: 0 16px;
+    }
   }
 }

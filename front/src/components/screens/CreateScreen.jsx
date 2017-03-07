@@ -1,19 +1,25 @@
-import React, {Component}   from 'react';
-import {withRouter}         from 'react-router'
-import NavBar               from '../navBar/NavBar';
-import LoginScreen          from './../login/Login'
-import RaisedButton         from 'material-ui/RaisedButton';
-import FlatButton           from 'material-ui/FlatButton';
-import TextField            from 'material-ui/TextField';
-import TimePicker           from 'material-ui/TimePicker';
-import SelectField          from 'material-ui/SelectField';
-import DatePicker           from 'material-ui/DatePicker';
-import MenuItem             from 'material-ui/MenuItem';
-import {Row, Col}           from 'react-flexbox-grid';
-import * as urls            from '../../constants/Urls';
-import * as util            from '../../utils'
-import areIntlLocalesSupported from 'intl-locales-supported';
-import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import React, {Component}       from 'react';
+import {withRouter}             from 'react-router'
+import NavBar                   from '../navBar/NavBar';
+import LoginScreen              from './../login/Login'
+import GameInfo                 from '../search/GameInfo'
+import RaisedButton             from 'material-ui/RaisedButton';
+import FlatButton               from 'material-ui/FlatButton';
+import TextField                from 'material-ui/TextField';
+import TimePicker               from 'material-ui/TimePicker';
+import SelectField              from 'material-ui/SelectField';
+import DatePicker               from 'material-ui/DatePicker';
+import MenuItem                 from 'material-ui/MenuItem';
+import {Row, Col}               from 'react-flexbox-grid';
+import * as urls                from '../../constants/Urls';
+import * as util                from '../../utils'
+import areIntlLocalesSupported  from 'intl-locales-supported';
+import {
+    Card,
+    CardActions,
+    CardMedia,
+    CardTitle, CardText
+} from 'material-ui/Card';
 
 import {
     Step,
@@ -55,7 +61,9 @@ class CreateScreen extends Component {
                 maxMissingPlayers: null,
                 players: null
             },
-            place: '',
+            place: {
+                fronton_id: 1
+            },
             date: new Date(),
             level: '',
             maxMissingPlayers: 4,
@@ -63,64 +71,36 @@ class CreateScreen extends Component {
             players: 1,
             error: {}
         };
-    }
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.props.authActions.getProfile();
-    }
+    };
 
-    createGame() {
+    createGame = () => {
         if (this.props.auth.sessionValid) {
             this.props.gamesActions.createGame(this.state);
         }
         else {
             window.location.href = urls.FACEBOOK_AUTH;
         }
-    }
+    };
 
-    checkFormAndCreate() {
-        var isFormValid = true;
+    checkFormAndCreate = () => {
+        this.createGame();
+    };
 
-        isFormValid |= this.checkNumericInput('maxMissingPlayers');
-        isFormValid |= this.checkNumericInput('players');
+    handleChange = (inputName, event) => {
+        this.setState({[inputName]: event.target.value});
+    };
 
-        if (isFormValid) {
-            this.createGame();
-        }
-    }
+    handleDateTimeChange = (stateKey) => {
+        return (event, value) => {
+            this.setState({[stateKey]: value});
+        };
+    };
 
-    checkNumericInput(inputName) {
-        if (!this.state[inputName] || this.state[inputName] < 0) {
-            this.setValidationToError(inputName);
-            return false;
-        }
-        else {
-            this.resetValidation(inputName);
-            return true;
-        }
-    }
-
-    setValidationToError(inputName) {
-        this.setState({validation: {[inputName]: 'error'}});
-    }
-
-    resetValidation(inputName) {
-        this.setState({validation: {[inputName]: null}});
-    }
-
-    handleChange(inputName, e) {
-        this.setState({[inputName]: e.target.value});
-    }
-
-    handleDateChange(e) {
-        this.setState({'date': e.target.value});
-    }
-
-    handleTimeChange(e) {
-        this.setState({'time': e.target.value});
-    }
-
-    handleNext() {
+    handleNext = () => {
         const {stepIndex} = this.state;
         if (stepIndex < 3) {
             if (this.areInfoOK(stepIndex))
@@ -129,50 +109,129 @@ class CreateScreen extends Component {
         else {
             this.checkFormAndCreate();
         }
-    }
+    };
 
-    areInfoOK(stepIndex) {
+    areInfoOK = stepIndex => {
         switch (stepIndex) {
             case 0:
-                if (!this.state.place.fronton_id) {
-                    this.setState({'error': {'place': 'Veuillez chercher puis sélectionner un fronton'}});
-                    return false;
-                }
-                else {
-                    this.setState({'error': {'place': null}});
-                    return true;
-                }
-                break;
+                return this.checkPlaceInfo();
             case 1:
-                break;
+                return this.checkGameInfo();
             case 2:
-                break;
+                return this.checkPlayersInfo();
             default:
                 return true;
         }
-    }
+    };
 
-    getNextButtonLabel() {
+    checkPlaceInfo = () => {
+        if (!this.state.place.fronton_id) {
+            this.setState({'error': {'place': 'Veuillez chercher puis sélectionner un fronton'}});
+            return false;
+        }
+        else {
+            this.resetErrorFor('place');
+            return true;
+        }
+    };
+
+    checkGameInfo = () => {
+        var isFormValid = true;
+
+        if (!this.state.level) {
+            this.setErrorMessageForKey('level', 'Veuillez sélectionner un niveau pour la partie');
+            isFormValid = false;
+        }
+        else {
+            this.resetErrorFor('level');
+        }
+
+        if (!this.state.date) {
+            this.setErrorMessageForKey('date', 'Veuillez sélectionner le jour de la partie');
+            isFormValid = false;
+        }
+        else {
+            this.resetErrorFor('date');
+        }
+
+        if (!this.state.time) {
+            this.setErrorMessageForKey('time', 'Veuillez sélectionner l\'heure de début de la partie');
+            isFormValid = false;
+        }
+        else {
+            this.resetErrorFor('time');
+        }
+
+        if(isFormValid){
+            let dateTime = new Date(this.state.date);
+            dateTime.setHours(this.state.time.getHours());
+            dateTime.setMinutes(this.state.time.getMinutes());
+            this.setState({'dateTime': dateTime});
+        }
+
+        return isFormValid;
+    };
+
+    checkPlayersInfo = () => {
+        var isFormValid = true;
+
+        if (!this.state.maxMissingPlayers) {
+            this.setErrorMessageForKey('maxMissingPlayers', 'Veuillez noter le nombre total de participants à la partie');
+            isFormValid = false;
+        }
+        else {
+            this.resetErrorFor('maxMissingPlayers');
+        }
+
+        if (!this.state.players) {
+            this.setErrorMessageForKey('players', 'Veuillez indiquer quel le nombre de personnes déjà prévues pour cette partie');
+            isFormValid = false;
+        }
+        else {
+            this.resetErrorFor('players');
+        }
+
+        return isFormValid;
+    };
+
+    resetErrorFor = key => {
+        let allErrors = this.state.error;
+        allErrors[key] = null;
+        this.setState({'error': allErrors});
+    };
+
+    setErrorMessageForKey = (key, message) => {
+        let allErrors = this.state.error;
+        allErrors[key] = message;
+        this.setState({'error': allErrors});
+    };
+
+    getNextButtonLabel = () => {
         const {stepIndex} = this.state;
-        return stepIndex < 3 ? 'Suivant' : 'Créer la partie';
-    }
+        return stepIndex < 3 ? 'Suivant' : 'C\'est tout bon, créer cette partie';
+    };
 
-    handlePrev() {
+    handlePrev = () => {
         const {stepIndex} = this.state;
         if (stepIndex > 0) {
             this.setState({stepIndex: stepIndex - 1});
         }
-    }
+    };
 
-    searchPlaces() {
+    searchPlaces = () => {
         if (this.state.searchedPlace.length < 3) {
             this.setState({'error': {'place': 'Veuillez taper au moins 3 caractères'}});
         }
         else {
-            this.setState({'error': {'place': null}});
+            this.resetErrorFor('place');
             this.props.gamesActions.fetchPlaces(this.state.searchedPlace);
         }
-    }
+    };
+
+    handleSelectChange = stateKey => {
+        return (event, index, value) => this.setState({[stateKey]: value});
+    };
+
 
     getStepContent(stepIndex) {
         switch (stepIndex) {
@@ -194,7 +253,7 @@ class CreateScreen extends Component {
                                         className="margin-left-l"
                                         label="Rechercher"
                                         primary={true}
-                                        onTouchTap={() => this.searchPlaces()}
+                                        onTouchTap={this.searchPlaces.bind(this)}
                                     />
                                 </div>
                             </Col>
@@ -203,9 +262,10 @@ class CreateScreen extends Component {
                             <div className="card-container">
                                 {
                                     this.props.places.map(place => {
-                                        return <Card className={"card-place " + (this.state.place.fronton_id === place.fronton_id ? 'selected' : '')}
-                                                     key={place.fronton_id}
-                                                     onClick={() => this.setState({'place':place})}>
+                                        return <Card
+                                            className={"card-place " + (this.state.place.fronton_id === place.fronton_id ? 'selected' : '')}
+                                            key={place.fronton_id}
+                                            onClick={() => this.setState({'place':place})}>
                                             <CardMedia>
                                                 <img src={place.photo} alt="place_pic"/>
                                             </CardMedia>
@@ -228,12 +288,16 @@ class CreateScreen extends Component {
                             <Col md={6}>
                                 <SelectField
                                     floatingLabelText="Niveau moyen *"
-                                    onChange={this.handleChange.bind(this, 'level')}>
-                                    <MenuItem value="0" primaryText="Débutant"/>
-                                    <MenuItem value="1" primaryText="Intermédiaire"/>
-                                    <MenuItem value="2" primaryText="Bon"/>
-                                    <MenuItem value="3" primaryText="Très bon"/>
-                                    <MenuItem value="4" primaryText="Tout niveau accepté"/>
+                                    value={this.state.level}
+                                    onChange={this.handleSelectChange('level')}
+                                    errorText={this.state.error.level}>
+
+                                    <MenuItem key={0} value={0} primaryText="Débutant"/>
+                                    <MenuItem key={1} value={1} primaryText="Intermédiaire"/>
+                                    <MenuItem key={2} value={2} primaryText="Bon"/>
+                                    <MenuItem key={3} value={3} primaryText="Très bon"/>
+                                    <MenuItem key={4} value={4} primaryText="Tout niveau accepté"/>
+
                                 </SelectField>
                             </Col>
                         </Row>
@@ -245,14 +309,16 @@ class CreateScreen extends Component {
                                             locale="fr"
                                             cancelLabel="Annuler"
                                             defaultDate={this.state.date}
-                                            onChange={this.handleDateChange}/>
+                                            errorText={this.state.error.date}
+                                            onChange={this.handleDateTimeChange('date')}/>
 
                                 <TimePicker
                                     format="24hr"
                                     hintText="Heure *"
                                     cancelLabel="Annuler"
                                     value={this.state.time}
-                                    onChange={this.handleTimeChange}/>
+                                    errorText={this.state.error.time}
+                                    onChange={this.handleDateTimeChange('time')}/>
                             </Col>
                         </Row>
 
@@ -278,19 +344,31 @@ class CreateScreen extends Component {
                                     floatingLabelText="Nombre de participants maximum *"
                                     type="number"
                                     value={this.state.maxMissingPlayers}
+                                    errorText={this.state.error.maxMissingPlayers}
                                     onChange={this.handleChange.bind(this, 'maxMissingPlayers')}/>
                                 <TextField
                                     className="margin-left-l"
                                     type="number"
                                     floatingLabelText="Nombre de participants déjà prévus *"
                                     value={this.state.players}
+                                    errorText={this.state.error.players}
                                     onChange={this.handleChange.bind(this, 'players')}/>
                             </div>
                         </Col>
                     </Row>
                 );
             case 3:
-                return (<p>Vérification des infos</p>);
+                return (
+                    <GameInfo
+                        level={this.state.level}
+                        placePicture={this.state.place.photo}
+                        place={this.state.place.name}
+                        maxPlayers={this.state.maxMissingPlayers}
+                        creator={this.props.auth.name}
+                        date={this.state.dateTime}
+                        displayMode={true}
+                        nbPlayers={this.state.players}
+                    />);
             default:
                 return 'You\'re a long way from home sonny jim!';
         }
@@ -298,7 +376,6 @@ class CreateScreen extends Component {
 
     render() {
         const {stepIndex} = this.state;
-        const contentStyle = {margin: '0 16px'};
 
         return (
             <div className="CreateScreen">
@@ -331,7 +408,7 @@ class CreateScreen extends Component {
                             </Step>
                         </Stepper>
 
-                        <div style={contentStyle}>
+                        <div className="step-nav-container">
                             <div>{this.getStepContent(stepIndex)}</div>
                             <div style={{marginTop: 12}}>
                                 <FlatButton
