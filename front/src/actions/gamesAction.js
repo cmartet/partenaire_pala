@@ -27,8 +27,11 @@ const receivePlaces = data => {
 const postHeaders = body => {
     return {
         'method': http.METHOD_POST,
-        'Content-Type': 'application/json',
-        'body': body
+        'headers': {
+            'Authorization': 'Bearer ' + util.getAuthCookie(),
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify(body)
     }
 };
 
