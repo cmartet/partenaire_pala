@@ -13,7 +13,7 @@ module.exports = function (app, passport) {
         gamesService.getBy(startDate, endDate, place, handleServiceCallback(req, res, next));
     });
 
-    app.post('/games', function (req, res, next) {
+    app.post('/games', isLoggedIn(passport), function (req, res, next) {
         var newGame = req.body;
         gamesService.create(newGame, handleServiceCallback(req, res, next));
     });
