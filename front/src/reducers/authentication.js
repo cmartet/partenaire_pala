@@ -22,7 +22,7 @@ export default function authentication(state = initialState, action) {
     switch (action.type) {
         case types.GET_PROFILE_SUCCESS:
             return {
-                id: action.data.bearer.id,
+                id: action.data._id,
                 name: action.data.bearer.name,
                 sessionValid: true,
                 errorMessage: null,

@@ -43,7 +43,7 @@ const deleteHeaders = () => {
 };
 
 const formatParametersForFetchingGames = (date, place) => {
-    var url = urls.GET_GAMES_TEST; // TODO : change API URL
+    var url = urls.GET_GAMES;
 
     if (date !== null) {
         url += '/date/' + date.toISOString();

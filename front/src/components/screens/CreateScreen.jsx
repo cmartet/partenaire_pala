@@ -82,7 +82,7 @@ class CreateScreen extends Component {
             maxMissingPlayers: this.state.maxMissingPlayers,
             message: this.state.message,
             creator: {
-                id: this.props.auth.id,
+                _id: this.props.auth.id,
                 name: this.props.auth.name
             },
             players: []
@@ -305,11 +305,11 @@ class CreateScreen extends Component {
                                     onChange={this.handleSelectChange('level')}
                                     errorText={this.state.error.level}>
 
-                                    <MenuItem key={0} value={0} primaryText="Débutant"/>
-                                    <MenuItem key={1} value={1} primaryText="Intermédiaire"/>
-                                    <MenuItem key={2} value={2} primaryText="Bon"/>
-                                    <MenuItem key={3} value={3} primaryText="Très bon"/>
-                                    <MenuItem key={4} value={4} primaryText="Tout niveau accepté"/>
+                                    <MenuItem key={0} value="Débutant" primaryText="Débutant"/>
+                                    <MenuItem key={1} value="Intermédiaire" primaryText="Intermédiaire"/>
+                                    <MenuItem key={2} value="Bon" primaryText="Bon"/>
+                                    <MenuItem key={3} value="Très bon" primaryText="Très bon"/>
+                                    <MenuItem key={4} value="Tout niveau accepté" primaryText="Tout niveau accepté"/>
 
                                 </SelectField>
                             </Col>
