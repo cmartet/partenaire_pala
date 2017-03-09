@@ -11,7 +11,7 @@ module.exports = {
     },
 
     manageError: function (err, req, res, next) {
-        res.status(500).send(err);
+        res.status(500).send(err.message);
     },
 
     isLoggedIn: function (passport) {

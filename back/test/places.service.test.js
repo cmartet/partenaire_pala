@@ -10,12 +10,12 @@ describe("places service", function () {
             expect(result.length).to.be.equals(2);
             done();
         });
-    });
+    }).timeout(5000);
 
     it("getByLocation return the filtered places", function (done) {
         places.getByLocation("43.258128", "-0.881101", "10", function (err, result) {
             expect(result.length).to.be.equals(25);
             done();
         });
-    });
+    }).timeout(5000);
 });

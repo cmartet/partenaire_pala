@@ -32,46 +32,65 @@ Supprime l'utilisateur de la session.
 Ne le déconnecte pas de Facebook.
 
 ## /games
-### GET /date/\<date>/place/\<place>
+### GET
 
-Récupère les parties en filtrant sur la date et/ou le lieu. Les filtres sont optionnels.
+Récupère les parties en filtrant sur une date de début et/ou une date de fin et/ou un lieu. Les filtres sont optionnels.
 
 Exemple sans filtre: 
 ```
 /games
 ```
 
-Exemple filtre date: 
+Exemple filtre date de début: 
 ```
-/games/date/2017-09-06T14:00:00.000Z
+/games?search={"start":"2017-03-11T14:00:00.000Z"}
+```
+
+Exemple filtre date de fin: 
+```
+/games?search={"end":"2017-03-11T14:00:00.000Z"}
 ```
 
 Exemple filtre lieu: 
 ```
-/games/place/Moga
+/games?search={"place":"begles"}
 ```
 
-Exemple filtre date ET lieu: 
+Exemple avec tous les filtres: 
 ```
-/games/date/2017-09-06T14:00:00.000Z/place/Moga
+/games?search={"start":"2017-03-11T14:00:00.000Z","end":"2017-03-12T14:00:00.000Z","place":"begles"}
 ```
 
 #### Objet renvoyé
 
 ```js
 [
-    {
-        "_id":               "5863e3b6a09e5410e4f5e1b8",
-        "creatorId":         "5698e3b6a09e5410e4f5e1b8", //_id du créateur
-        "place":             "Moga",
-        "date":              "2017-09-06T14:00:00.000Z",
-        "level":             "debutant",
-        "maxMissingPlayers": 3,
-        "message":           "toto",
-        "players":           []
-        "__v":               0, // VersionKey: utilisé par le package npm mongoose
-    },
-    ...
+    { 
+        "_id" : "58c14f2387f8c551ccdc45c8", 
+        "date" : "2017-03-13T22:02:14.196+0000", 
+        "level" : "expert", 
+        "maxMissingPlayers" : NumberInt(4), 
+        "message" : "toto", 
+        "players" : [], 
+        "place" : {
+            "fronton_id" : NumberInt(184), 
+            "type" : "place_libre", 
+            "permalink" : "http://www.frontons.net/fronton/33610-cestas-france-184.html", 
+            "photo" : "http://static.frontons.net/data/photos/medium/fronton-33610-cestas-france-184_0.jpg", 
+            "name" : "33610 Cestas, France", 
+            "location" : {
+                "lat" : 44.741801, 
+                "lng" : -0.680074, 
+                "address" : "10 Avenue de la Chênaie, 33610 Cestas, France", 
+                "search_key" : "10 Avenue de la Chenaie, 33610 Cestas, France" //utilisé pour la recherche serveur
+            }
+        }, 
+        "creator" : {
+            "_id" : "125197527977624", 
+            "name" : "Pike Apps"
+        }, 
+        "__v" : NumberInt(0) //utilisé par mongoose
+    }
 ]
 ```
 
@@ -88,24 +107,35 @@ Content-Type: application/json
 
 #### Body
 ```js
-{ 
-    "creator":{
-        "id":"5698e3b6a09e5410e4f5e1b8", //_id du créateur
-        "name":"Madame michue"
+{
+    "creator": { 
+        "_id": "5698e3b6a09e5410e4f5e1b8", 
+        "name": "Madame michue" 
     },
-    "place":             "Moga",
-    "date":              "2017-10-31T14:00:00.000Z",
-    "level":             "debutant",
+    "place": {
+        "fronton_id": 2087,
+        "type": "place_libre",
+        "photo": "http://static.frontons.net/data/photos/medium/fronton-64130-viodos-abense-de-bas-france-2087_0.jpg",
+        "permalink": "http://www.frontons.net/fronton/64130-viodos-abense-de-bas-france-2087.html",
+        "name": "64130 Viodos-Abense-de-Bas, France",
+        "location":
+        {
+            "lat": 43.260503,
+            "lng": -0.880155,
+            "address": "D11, 64130 Viodos-Abense-de-Bas, France"
+        }
+    },
+    "date": "2099-01-01T14:00:00.000Z",
+    "level": "debutant",
     "maxMissingPlayers": 3,
-    "message":           "toto",
-    "players":           []
+    "message": "toto",
+    "players": []
 }
 ```
 
 ### PUT
 
-Met à jour les informations d'une partie: place, date, players, message.
-Seul le créateur de la partie peut effectuer cette action.
+Met à jour les informations d'une partie. Seul le créateur de la partie peut effectuer cette action.
 
 #### Headers
 
@@ -117,14 +147,29 @@ Content-Type: application/json
 #### Body
 ```js
 {
-    "_id":               "58644c88bad24c1d049077d3",
-    "creatorId":         "5863df6204f27231c4348849",
-    "place":             "Moga",
-    "date":              "2017-10-31T14:00:00.000Z",
-    "level":             "debutant",
+    "_id" : "58c14f2387f8c551ccdc45c8", 
+    "creator": { 
+        "_id": "5698e3b6a09e5410e4f5e1b8", 
+        "name": "Madame michue" 
+    },
+    "place": {
+        "fronton_id": 2087,
+        "type": "place_libre",
+        "photo": "http://static.frontons.net/data/photos/medium/fronton-64130-viodos-abense-de-bas-france-2087_0.jpg",
+        "permalink": "http://www.frontons.net/fronton/64130-viodos-abense-de-bas-france-2087.html",
+        "name": "64130 Viodos-Abense-de-Bas, France",
+        "location":
+        {
+            "lat": 43.260503,
+            "lng": -0.880155,
+            "address": "D11, 64130 Viodos-Abense-de-Bas, France"
+        }
+    },
+    "date": "2099-01-01T14:00:00.000Z",
+    "level": "debutant",
     "maxMissingPlayers": 3,
-    "message":           "titi",
-    "players":           []
+    "message": "toto",
+    "players": []
 }
 ```
 
@@ -173,7 +218,7 @@ Le nombre de frontons renvoyés est limité à 25.
 ```js
 [
     {
-        "fronton_id":2087,
+        "fronton_net_id":2087,
         "created_at":"2016-04-13 19:35:27",
         "type":"place_libre",
         "permalink":"http://www.frontons.net/fronton/64130-viodos-abense-de-bas-france-2087.html",

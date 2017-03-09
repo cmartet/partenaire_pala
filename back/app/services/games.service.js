@@ -1,15 +1,18 @@
-﻿var Game = require('../models/game');
+﻿var utf8 = require('utf8');
+var Game = require('../models/game');
+
+require('../helpers/extendString')(String);
 
 module.exports = {
 
     //Get by date and place
-    getBy: function (date, place, callback) {
+    getBy: function (startDate, endDate, place, callback) {
         var now = new Date();
-        var query = { "date": { "$gte": now } };
+        var query = { "$and": [] };
 
-        if (date)  query["date"]["$eq"]  = date;
-        if (place) query["place"] = { "$eq": place };
-
+        buildDateFilter(query, startDate, endDate);
+        buildPlaceFilter(query, place);
+        
         Game.find(query, function (err, games) {
             callback(err, games);
         });
@@ -17,6 +20,8 @@ module.exports = {
 
     //Create a game
     create: function (game, callback) {
+        game.place.location.search_key = game.place.location.address.noAccents();
+
         var newGame = new Game(game);
         newGame.save(function (err) {
             callback(err);
@@ -25,6 +30,8 @@ module.exports = {
 
     //Update a game
     update: function (game, callback) {
+        game.place.location.search_key = game.place.location.address.noAccents();
+
         var query = {
             $set: {
                 place: game.place,
@@ -54,8 +61,31 @@ module.exports = {
                 return callback(err);
             }
 
-            var isCreator = (game.creator.id === userId);
+            var isCreator = (game.creator._id === userId);
             callback(err, isCreator);
         });
+    }
+};
+
+var buildDateFilter = function (query, startDate, endDate) {
+    //TODO verif start date >= now => put now then
+    //TODO verif startDate <= endDate => put same day then
+    if (startDate) {
+        query["$and"].push({ "date": { "$gte": new Date(startDate) }});
+    } else {
+        query["$and"].push({ "date": { "$gte": new Date() }});
+    }
+
+    if (endDate) {
+        query["$and"].push({ "date": { "$lte": new Date(endDate) } });
+    }
+};
+
+var buildPlaceFilter = function (query, place) {
+    if (place) {
+        var search = utf8.decode(place);
+        search = search.noAccents();
+        var regex = new RegExp(".*" + search + ".*", "i");
+        query["$and"].push({ 'place.location.search_key': regex });
     }
 };
