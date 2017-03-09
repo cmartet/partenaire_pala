@@ -4,6 +4,7 @@ import * as utils from '../utils';
 
 const invalidState = {
     id: null,
+    name: null,
     sessionValid: false,
     errorMessage: appConstants.ERROR_MESSAGE,
     pending: false
@@ -11,6 +12,7 @@ const invalidState = {
 
 const initialState = {
     id: null,
+    name: null,
     sessionValid: false,
     errorMessage: null,
     pending: false
@@ -20,7 +22,8 @@ export default function authentication(state = initialState, action) {
     switch (action.type) {
         case types.GET_PROFILE_SUCCESS:
             return {
-                id: action.data._id,
+                id: action.data.bearer.id,
+                name: action.data.bearer.name,
                 sessionValid: true,
                 errorMessage: null,
                 pending: false

@@ -3,6 +3,7 @@ import {withRouter}             from 'react-router'
 import NavBar                   from '../navBar/NavBar';
 import LoginScreen              from './../login/Login'
 import GameInfo                 from '../search/GameInfo'
+import Popup                    from '../popup/Popup'
 import RaisedButton             from 'material-ui/RaisedButton';
 import FlatButton               from 'material-ui/FlatButton';
 import TextField                from 'material-ui/TextField';
@@ -11,7 +12,6 @@ import SelectField              from 'material-ui/SelectField';
 import DatePicker               from 'material-ui/DatePicker';
 import MenuItem                 from 'material-ui/MenuItem';
 import {Row, Col}               from 'react-flexbox-grid';
-import * as urls                from '../../constants/Urls';
 import * as util                from '../../utils'
 import areIntlLocalesSupported  from 'intl-locales-supported';
 import {
@@ -47,7 +47,6 @@ const getDateTimeFormat = () => {
         require('intl/locale-data/jsonp/fa-IR');
         return IntlPolyfill.DateTimeFormat;
     }
-
 };
 
 class CreateScreen extends Component {
@@ -61,9 +60,7 @@ class CreateScreen extends Component {
                 maxMissingPlayers: null,
                 players: null
             },
-            place: {
-                fronton_id: 1
-            },
+            place: {},
             date: new Date(),
             level: '',
             maxMissingPlayers: 4,
@@ -77,17 +74,29 @@ class CreateScreen extends Component {
         this.props.authActions.getProfile();
     };
 
-    createGame = () => {
-        if (this.props.auth.sessionValid) {
-            this.props.gamesActions.createGame(this.state);
-        }
-        else {
-            window.location.href = urls.FACEBOOK_AUTH;
+    buildGameFromState = () => {
+        return {
+            place: this.state.place,
+            date: this.state.dateTime,
+            level: this.state.level,
+            maxMissingPlayers: this.state.maxMissingPlayers,
+            message: this.state.message,
+            creator: {
+                id: this.props.auth.id,
+                name: this.props.auth.name
+            },
+            players: []
         }
     };
 
-    checkFormAndCreate = () => {
-        this.createGame();
+    createGame = () => {
+        if (this.props.auth.sessionValid) {
+            let game = this.buildGameFromState();
+            this.props.gamesActions.createGame(game);
+        }
+        else {
+            this.setState({openPopup: true});
+        }
     };
 
     handleChange = (inputName, event) => {
@@ -100,6 +109,10 @@ class CreateScreen extends Component {
         };
     };
 
+    closePopup = () => {
+        this.setState({openPopup: false});
+    };
+
     handleNext = () => {
         const {stepIndex} = this.state;
         if (stepIndex < 3) {
@@ -107,7 +120,7 @@ class CreateScreen extends Component {
                 this.setState({stepIndex: stepIndex + 1});
         }
         else {
-            this.checkFormAndCreate();
+            this.createGame();
         }
     };
 
@@ -162,7 +175,7 @@ class CreateScreen extends Component {
             this.resetErrorFor('time');
         }
 
-        if(isFormValid){
+        if (isFormValid) {
             let dateTime = new Date(this.state.date);
             dateTime.setHours(this.state.time.getHours());
             dateTime.setMinutes(this.state.time.getMinutes());
@@ -379,7 +392,8 @@ class CreateScreen extends Component {
 
         return (
             <div className="CreateScreen">
-                <NavBar location={this.props.location}/>
+                <NavBar location={this.props.location}
+                        logout={this.props.authActions.logout}/>
 
                 {this.props.id === null ?
                     (<LoginScreen/>)
@@ -407,6 +421,12 @@ class CreateScreen extends Component {
                                 </StepLabel>
                             </Step>
                         </Stepper>
+
+                        <Popup title="Connexion obligatoire"
+                               message="Il faut vous connecter pour continuer !"
+                               open={this.state.openPopup}
+                               cancelButton={false}
+                               handleClose={() => this.closePopup()}/>
 
                         <div className="step-nav-container">
                             <div>{this.getStepContent(stepIndex)}</div>
