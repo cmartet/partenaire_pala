@@ -45,12 +45,21 @@ const deleteHeaders = () => {
 const formatParametersForFetchingGames = (date, place) => {
     var url = urls.GET_GAMES;
 
+    var filter = {};
+    var isFilterSet = false;
+
     if (date !== null) {
-        url += '/date/' + date.toISOString();
+        filter.date = date.toISOString();
+        isFilterSet = true;
     }
 
     if (place !== null) {
-        url += '/place/' + place;
+        filter.place = place;
+        isFilterSet = true;
+    }
+
+    if (isFilterSet) {
+        url += '?search=' + JSON.stringify(filter);
     }
 
     return url;

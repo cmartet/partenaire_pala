@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes.js';
 
-const initialState = {games: {}};
+const initialState = {};
 
 export default (state = initialState, action) => {
     switch (action.type) {

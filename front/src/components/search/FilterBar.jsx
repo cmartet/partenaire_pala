@@ -33,6 +33,7 @@ class FilterBar extends Component{
                         type="text"
                         floatingLabelText="Lieu"
                         hintText="Ville, nom du terrain ..."
+                        onKeyPress={(e) => {if (e.key === 'Enter') this.props.launchReseach()}}
                         onChange={this.props.changePlace}/>
 
                     <RaisedButton
