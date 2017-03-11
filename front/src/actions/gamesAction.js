@@ -38,7 +38,9 @@ const postHeaders = body => {
 const deleteHeaders = () => {
     return {
         'method': http.METHOD_DELETE,
-        'Authorization': 'Bearer ' + util.getAuthCookie()
+        'headers': {
+            'Authorization': 'Bearer ' + util.getAuthCookie()
+        }
     }
 };
 
