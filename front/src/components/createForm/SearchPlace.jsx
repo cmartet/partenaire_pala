@@ -34,7 +34,8 @@ class SearchPlace extends React.Component {
         this.state = {
             searchedPlace: '',
             error: null,
-            selectedPlace: this.props.selectedPlace || {}
+            selectedPlace: this.props.selectedPlace || {},
+            searchLaunched: false
         }
     };
 
@@ -47,6 +48,7 @@ class SearchPlace extends React.Component {
             this.setState({'error': 'Veuillez taper au moins 3 caractères'});
         }
         else {
+            this.setState({'searchLaunched': true});
             this.setState({'error': null});
             this.props.searchAction(this.state.searchedPlace);
         }
@@ -85,21 +87,24 @@ class SearchPlace extends React.Component {
                 <Row>
                     <div className="card-container">
                         {
-                            this.props.places.map(place => {
-                                return <Card
-                                    className={"card-place " + (this.state.selectedPlace.fronton_id === place.fronton_id ? 'selected' : '')}
-                                    key={place.fronton_id}
-                                    onClick={this.selectPlace(place)}>
-                                    <CardMedia>
-                                        <img src={place.photo} alt="place_pic"/>
-                                    </CardMedia>
-                                    <CardTitle title={place.name} subtitle={util.mapPlaceType(place.type)}/>
-                                    <CardText>{place.location.address}</CardText>
-                                    <CardActions>
-                                        <FlatButton label="Choisir ce fronton"/>
-                                    </CardActions>
-                                </Card>;
-                            })
+                            this.props.places.length > 0 ?
+                                this.props.places.map(place => {
+                                    return <Card
+                                        className={"card-place " + (this.state.selectedPlace.fronton_id === place.fronton_id ? 'selected' : '')}
+                                        key={place.fronton_id}
+                                        onClick={this.selectPlace(place)}>
+                                        <CardMedia>
+                                            <img src={place.photo} alt="place_pic"/>
+                                        </CardMedia>
+                                        <CardTitle title={place.name} subtitle={util.mapPlaceType(place.type)}/>
+                                        <CardText>{place.location.address}</CardText>
+                                        <CardActions>
+                                            <FlatButton label="Choisir ce fronton"/>
+                                        </CardActions>
+                                    </Card>;
+                                }) :
+                                this.state.searchLaunched ?
+                                    (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>) : null
                         }
                     </div>
                 </Row>
