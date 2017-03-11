@@ -94,6 +94,25 @@ describe("games service", function () {
         });
     });
 
+    it("join a game should add a player in the game players array", function (done) {
+        var player = {
+            "_id": "7698e3b6a09e5410e4f5e1b9",
+            "name": "Monsieur michue"
+        };
+
+        var place = "begles";
+        games.getBy(game2.date, game2.date, place, function (err, result) {
+            var game = result[0];
+            games.join(game._id, player, function (err, result) {
+                games.getBy(game2.date, game2.date, place, function (err, result) {
+                    expect(result[0].players.length).to.be.equal(1);
+                    expect(result[0].players[0].name).to.be.equal("Monsieur michue");
+                    done();
+                });
+            });
+        });
+    });
+
     it("update a game should only update the wanted properties", function (done) {
         var place = "begles";
         games.getBy(game2.date, game2.date, place, function (err, result) {

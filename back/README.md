@@ -71,7 +71,10 @@ Exemple avec tous les filtres:
         "level" : "expert", 
         "maxMissingPlayers" : NumberInt(4), 
         "message" : "toto", 
-        "players" : [], 
+        "players" : [{
+            "_id" : "456197527977624", 
+            "name" : "Madame michue"
+        }], 
         "place" : {
             "fronton_id" : NumberInt(184), 
             "type" : "place_libre", 
@@ -133,7 +136,7 @@ Content-Type: application/json
 }
 ```
 
-### PUT
+### PUT /games/id/:id
 
 Met à jour les informations d'une partie. Seul le créateur de la partie peut effectuer cette action.
 
@@ -170,6 +173,30 @@ Content-Type: application/json
     "maxMissingPlayers": 3,
     "message": "toto",
     "players": []
+}
+```
+
+### PUT /games/join/id/:id
+
+Permet à un joueur de rejoindre une partie. 
+
+L'id dans l'appel correspond à l'id de la partie que le joueur souhaite rejoindre.
+
+#### Headers
+
+<b>Content-Type (obligatoire)</b>: format du body de la requête
+```js
+Content-Type: application/json
+```
+
+#### Body
+
+Le body correspond au joueur qui souhaite rejoindre la partie.
+
+```js
+{
+    "_id": "5698e3b6a09e5410e4f5e1b8", 
+    "name": "Madame michue"
 }
 ```
 

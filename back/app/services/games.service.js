@@ -28,20 +28,33 @@ module.exports = {
         });
     },
 
+    //Join a game
+    join: function (gameId, player, callback) {
+        var query = {
+            "$push": {
+                "players": player
+            }
+        };
+
+        Game.findByIdAndUpdate(gameId, query, function (err) {
+            callback(err);
+        });
+    },
+
     //Update a game
     update: function (game, callback) {
         game.place.location.search_key = game.place.location.address.noAccents();
 
         var query = {
-            $set: {
-                place: game.place,
-                date: game.date,
-                players: game.players,
-                message: game.message
+            "$set": {
+                "place":   game.place,
+                "date":    game.date,
+                "players": game.players,
+                "message": game.message
             }
         };
 
-        Game.update({ _id: game._id }, query, function (err) {
+        Game.findByIdAndUpdate(game._id, query, function (err) {
             callback(err);
         });
     },
@@ -68,8 +81,6 @@ module.exports = {
 };
 
 var buildDateFilter = function (query, startDate, endDate) {
-    //TODO verif start date >= now => put now then
-    //TODO verif startDate <= endDate => put same day then
     if (startDate) {
         query["$and"].push({ "date": { "$gte": new Date(startDate) }});
     } else {

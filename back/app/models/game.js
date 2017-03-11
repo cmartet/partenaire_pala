@@ -23,7 +23,10 @@ var gameSchema = mongoose.Schema({
     date:               { type: Date,   required: true },
     level:              { type: String, required: true },
     maxMissingPlayers:  { type: Number, min: 1, required: true },
-    players:            [String], //players names
+    players: [{
+        _id:            String,
+        name:           String
+    }],
     message:            String
 });
 

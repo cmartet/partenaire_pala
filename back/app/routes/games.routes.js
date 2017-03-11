@@ -18,6 +18,12 @@ module.exports = function (app, passport) {
         gamesService.create(newGame, handleServiceCallback(req, res, next));
     });
 
+    app.put('/games/join/id/:id', isLoggedIn(passport), function (req, res, next) {
+        var gameId = req.params.id;
+        var player = req.body;
+        gamesService.join(gameId, player, handleServiceCallback(req, res, next));
+    });
+
     app.put('/games/id/:id', isLoggedIn(passport), checkGameRights, function (req, res, next) {
         var newGame = req.body;
         gamesService.update(newGame, handleServiceCallback(req, res, next));
