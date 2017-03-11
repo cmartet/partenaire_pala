@@ -54,22 +54,25 @@ class SearchScreen extends React.Component {
                            launchReseach={() => this.search()}/>
 
                 <div className="result-games">
-                    { this.props.games.map(game => {
-                        return <GameInfo
-                            key={game._id}
-                            level={game.level}
-                            placePicture={game.place.photo}
-                            place={game.place.name}
-                            maxPlayers={game.maxMissingPlayers}
-                            creator={game.creator.name}
-                            creatorId={game.creator._id}
-                            date={game.date}
-                            players={game.players}
-                            connectedUserId={this.props.auth._id}
-                            gameId={game._id}
-                            deleteGame={this.props.gamesActions.deleteGame}
-                        />
-                    })
+                    {
+                        this.props.games.length > 0 ?
+                            this.props.games.map(game => {
+                                return <GameInfo
+                                    key={game._id}
+                                    level={game.level}
+                                    placePicture={game.place.photo}
+                                    place={game.place.name}
+                                    maxPlayers={game.maxMissingPlayers}
+                                    creator={game.creator.name}
+                                    creatorId={game.creator._id}
+                                    date={game.date}
+                                    players={game.players}
+                                    connectedUserId={this.props.auth._id}
+                                    gameId={game._id}
+                                    deleteGame={this.props.gamesActions.deleteGame}
+                                />
+                            }) :
+                            (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
                     }
                 </div>
             </div>

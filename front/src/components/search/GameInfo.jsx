@@ -166,18 +166,22 @@ class GameInfo extends Component {
                         <div className="time">{this.getFormattedTime()}</div>
                     </div>
 
-                    {this.props.displayMode ? null : (
-                        <div className="players-info">
-                            <div className="players-list">Participants</div>
-                            {this.playersList()}
-                        </div>
+                    {this.props.displayMode ? null :
+                        this.props.players.length > 0 ?
+                            (<div className="players-info">
+                                <div className="players-list">Participants</div>
+                                {this.playersList()}
+                            </div>) :
+                            (<div>Aucun joueur n'a rejoint cette partie pour le moment.</div>)
 
-                    )}
+                    }
                     {this.props.displayMode ? null :
                         this.userIsCreator() ?
+
                             <RaisedButton secondary={true}
                                           label="Supprimer"
                                           onClick={ () => this.props.deleteGame(this.props.gameId)}/> :
+
                             <RaisedButton primary={true}
                                           disabled={this.isGameComplete()}
                                           label="Rejoindre"/>}
