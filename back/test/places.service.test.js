@@ -5,14 +5,21 @@ process.env.NODE_ENV = 'dev';
 
 describe("places service", function () {
 
-    it("getBySearch return the filtered places", function (done) {
+    it("getBySearch returns the filtered places", function (done) {
         places.getBySearch("moga", function (err, result) {
             expect(result.length).to.be.equals(2);
             done();
         });
     }).timeout(5000);
 
-    it("getByLocation return the filtered places", function (done) {
+    it("getBySearch with accent returns the filtered places", function (done) {
+        places.getBySearch("b%C3%A8gles", function (err, result) {
+            expect(result.length).to.be.equals(2);
+            done();
+        });
+    }).timeout(5000);
+
+    it("getByLocation returns the filtered places", function (done) {
         places.getByLocation("43.258128", "-0.881101", "10", function (err, result) {
             expect(result.length).to.be.equals(25);
             done();
