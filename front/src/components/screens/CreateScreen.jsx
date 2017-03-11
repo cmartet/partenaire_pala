@@ -23,13 +23,6 @@ import {
 
 import './CreateScreen.scss';
 
-const propTypes = {};
-
-const defaultProps = {
-    places: []
-};
-
-
 class CreateScreen extends Component {
 
     constructor(props) {
@@ -47,7 +40,8 @@ class CreateScreen extends Component {
             maxMissingPlayers: 4,
             message: '',
             players: 1,
-            error: {}
+            error: {},
+            creationInProgress: false
         };
     };
 
@@ -70,8 +64,13 @@ class CreateScreen extends Component {
         }
     };
 
+    redirectToSearchPage = () => {
+        window.location.href = '/';
+    };
+
     createGame = () => {
         if (this.props.auth.sessionValid) {
+            this.setState({'creationInProgress': true});
             let game = this.buildGameFromState();
             this.props.gamesActions.createGame(game);
         }
@@ -232,7 +231,7 @@ class CreateScreen extends Component {
                             isValid={this.setGameValidationState}
                         />
                         {this.state.error.place ?
-                            (<div>Merci de sélectionner un fronton avant de continuer</div>): null}
+                            (<div>Merci de sélectionner un fronton avant de continuer</div>) : null}
                     </div>);
             case 1:
                 return (
@@ -313,16 +312,30 @@ class CreateScreen extends Component {
                 );
             case 3:
                 return (
-                    <GameInfo
-                        level={this.state.level}
-                        placePicture={this.state.place.photo}
-                        place={this.state.place.name}
-                        maxPlayers={this.state.maxMissingPlayers}
-                        creator={this.props.auth.name}
-                        date={this.state.dateTime}
-                        displayMode={true}
-                        nbPlayers={this.state.players}
-                    />);
+                    <div>
+                        <GameInfo
+                            level={this.state.level}
+                            placePicture={this.state.place.photo}
+                            place={this.state.place.name}
+                            maxPlayers={this.state.maxMissingPlayers}
+                            creator={this.props.auth.name}
+                            date={this.state.dateTime}
+                            displayMode={true}
+                            nbPlayers={this.state.players} />
+
+                        <Popup title="Game On !"
+                               message="La partie est bien enregistrée !"
+                               handleClose={this.redirectToSearchPage}
+                               open={this.props.gameCreation.success}
+                               cancelButton={false}/>
+
+                        <Popup title="Oups ..."
+                               message="Une erreur est survenue. Veuillez ré-essayer, ou contactez-nous !"
+                               open={this.props.gameCreation.error}
+                               handleClose={() => location.reload()}
+                               cancelButton={false}/>
+
+                    </div>);
             default:
                 return 'You\'re a long way from home sonny jim!';
         }
@@ -374,7 +387,7 @@ class CreateScreen extends Component {
                             <div style={{marginTop: 12}}>
                                 <FlatButton
                                     label="Précédent"
-                                    disabled={stepIndex === 0}
+                                    disabled={stepIndex === 0 || this.props.gameCreation.inProgress || this.props.gameCreation.success}
                                     onTouchTap={() => this.handlePrev()}
                                     style={{marginRight: 12}}
                                 />
@@ -383,6 +396,7 @@ class CreateScreen extends Component {
                                     hidden={stepIndex === 2}
                                     primary={true}
                                     onTouchTap={() => this.handleNext()}
+                                    disabled={this.props.gameCreation.inProgress || this.props.gameCreation.success}
                                 />
                             </div>
                         </div>
@@ -391,8 +405,5 @@ class CreateScreen extends Component {
         )
     }
 }
-
-CreateScreen.propTypes = propTypes;
-CreateScreen.defaultProps = defaultProps;
 
 export default withRouter(CreateScreen);

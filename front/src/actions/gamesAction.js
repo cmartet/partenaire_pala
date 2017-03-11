@@ -10,13 +10,6 @@ const receiveGames = data => {
     }
 };
 
-const createdGame = data => {
-    return {
-        type: types.CREATED_GAME,
-        data: data
-    }
-};
-
 const receivePlaces = data => {
     return {
         type: types.RECEIVED_PLACES,
@@ -52,7 +45,7 @@ const formatParametersForFetchingGames = (date, place) => {
 
     if (date !== null) {
         var end = new Date(date.getTime());
-        end.setHours(23,59,59,999);
+        end.setHours(23, 59, 59, 999);
 
         filter.start = date.toString();
         filter.end = end.toString();
@@ -73,13 +66,22 @@ const formatParametersForFetchingGames = (date, place) => {
 
 export const createGame = (game) => {
     return function (dispatch) {
+        dispatch({
+            type: types.CREATION_IN_PROGRESS
+        });
+
         return fetch(urls.CREATE_GAME, postHeaders(game))
             .then(response => {
-                return response.json();
-            }).then(data => {
-                dispatch(createdGame(data));
-            }).catch(err => {
-                console.log(err);
+                if (response.status === 200) {
+                    dispatch({
+                        type: types.CREATED_GAME
+                    });
+                }
+                else {
+                    dispatch({
+                        type: types.CREATION_FAILED
+                    });
+                }
             });
     }
 };
