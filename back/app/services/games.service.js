@@ -105,8 +105,8 @@ var buildDateFilter = function (query, startDate, endDate) {
 
 var buildPlaceFilter = function (query, place) {
     if (place) {
-        var search = utf8.decode(place);
-        search = search.noAccents();
+        //var search = utf8.decode(place);
+        var search = place.noAccents();
         var regex = new RegExp(".*" + search + ".*", "i");
         query["$and"].push({ 'place.location.search_key': regex });
     }

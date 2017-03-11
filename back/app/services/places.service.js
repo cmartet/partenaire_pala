@@ -23,7 +23,8 @@ var buildPlacesApiUrl = function (search, lat, long, radius) {
     var url = config.placesApi;
 
     if (search) {
-        search = utf8.decode(search).noAccents();
+        //search = utf8.decode(search).noAccents();
+        search = search.noAccents();
         url += "&q=" + search;
     }
     if (lat && long && radius) url += "&lat=" + lat + "&lng=" + long + "&radius=" + radius
