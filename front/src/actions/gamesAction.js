@@ -107,12 +107,13 @@ export const deleteGame = gameId => {
 
         return fetch(urls.DELETE_GAME + gameId, deleteHeaders())
             .then(response => {
-                return response.json();
-            }).then(data => {
-                dispatch(receiveGames(data));
-            }).catch(err => {
-                console.log(err);
-            });
+                if (response.status === 200) {
+                    dispatch({type: types.DELETE_GAME})
+                }
+                else {
+                    dispatch({type: types.DELETE_GAME_ERROR})
+                }
+            })
     }
 };
 
@@ -126,5 +127,13 @@ export const fetchPlaces = (searchedPlace) => {
             }).catch(err => {
                 console.log(err);
             });
+    }
+};
+
+export const reinitSuccessFromDeletion = () => {
+    return function (dispatch) {
+        dispatch({
+            type: types.REINIT_PROPS
+        })
     }
 };
