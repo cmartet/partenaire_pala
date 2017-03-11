@@ -1,4 +1,6 @@
 import * as app from '../constants/App.js';
+import * as gameData from '../constants/GameData.js';
+import areIntlLocalesSupported  from 'intl-locales-supported';
 
 export function getAuthCookie() {
     var value = "; " + document.cookie;
@@ -12,13 +14,28 @@ export function removeAuthCookie() {
 
 export function mapPlaceType(type) {
     switch (type) {
-        case 'place_libre':
+        case gameData.FRONTON:
             return 'Place libre';
-        case 'mur_a_gauche':
+        case gameData.MUR_GAUCHE:
             return 'Mur à Gauche';
-        case 'trinquet':
+        case gameData.TRINQUET:
             return 'Trinquet';
         default:
             return 'Type inconnu';
+    }
+}
+
+
+export function getDateTimeFormat() {
+    /**
+     * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+     */
+    if (areIntlLocalesSupported(['fr', 'fa-IR'])) {
+        return global.Intl.DateTimeFormat;
+    } else {
+        const IntlPolyfill = require('intl');
+        require('intl/locale-data/jsonp/fr');
+        require('intl/locale-data/jsonp/fa-IR');
+        return IntlPolyfill.DateTimeFormat;
     }
 }

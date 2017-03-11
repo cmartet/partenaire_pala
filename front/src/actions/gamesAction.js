@@ -49,7 +49,11 @@ const formatParametersForFetchingGames = (date, place) => {
     var isFilterSet = false;
 
     if (date !== null) {
-        filter.date = date.toISOString();
+        var end = new Date(date.getTime());
+        end.setHours(23,59,59,999);
+
+        filter.start = date.toString();
+        filter.end = end.toString();
         isFilterSet = true;
     }
 

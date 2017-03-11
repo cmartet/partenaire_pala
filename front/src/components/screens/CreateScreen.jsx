@@ -1,19 +1,19 @@
 import React, {Component}       from 'react';
 import {withRouter}             from 'react-router'
-import NavBar                   from '../navBar/NavBar';
-import LoginScreen              from './../login/Login'
+import {Row, Col}               from 'react-flexbox-grid';
+import DatePicker               from 'material-ui/DatePicker';
+import FlatButton               from 'material-ui/FlatButton';
 import GameInfo                 from '../search/GameInfo'
+import LoginScreen              from './../login/Login'
+import MenuItem                 from 'material-ui/MenuItem';
+import NavBar                   from '../navBar/NavBar';
 import Popup                    from '../popup/Popup'
 import RaisedButton             from 'material-ui/RaisedButton';
-import FlatButton               from 'material-ui/FlatButton';
+import SelectField              from 'material-ui/SelectField';
 import TextField                from 'material-ui/TextField';
 import TimePicker               from 'material-ui/TimePicker';
-import SelectField              from 'material-ui/SelectField';
-import DatePicker               from 'material-ui/DatePicker';
-import MenuItem                 from 'material-ui/MenuItem';
-import {Row, Col}               from 'react-flexbox-grid';
 import * as util                from '../../utils'
-import areIntlLocalesSupported  from 'intl-locales-supported';
+
 import {
     Card,
     CardActions,
@@ -35,19 +35,6 @@ const defaultProps = {
     places: []
 };
 
-const getDateTimeFormat = () => {
-    /**
-     * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
-     */
-    if (areIntlLocalesSupported(['fr', 'fa-IR'])) {
-        return global.Intl.DateTimeFormat;
-    } else {
-        const IntlPolyfill = require('intl');
-        require('intl/locale-data/jsonp/fr');
-        require('intl/locale-data/jsonp/fa-IR');
-        return IntlPolyfill.DateTimeFormat;
-    }
-};
 
 class CreateScreen extends Component {
 
@@ -318,7 +305,7 @@ class CreateScreen extends Component {
                         <Row>
                             <Col xs={6} md={4}>
                                 <DatePicker hintText="Date *"
-                                            DateTimeFormat={getDateTimeFormat()}
+                                            DateTimeFormat={util.getDateTimeFormat()}
                                             locale="fr"
                                             cancelLabel="Annuler"
                                             defaultDate={this.state.date}

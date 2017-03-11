@@ -1,8 +1,11 @@
 import React, {Component}   from 'react';
-import SelectField          from 'material-ui/SelectField';
+import DatePicker           from 'material-ui/DatePicker';
 import MenuItem             from 'material-ui/MenuItem';
 import RaisedButton         from 'material-ui/RaisedButton';
+import SelectField          from 'material-ui/SelectField';
 import TextField            from 'material-ui/TextField';
+import * as gameData        from '../../constants/GameData.js';
+import * as util            from '../../utils'
 
 import './FilterBar.scss';
 
@@ -13,7 +16,20 @@ const propTypes = {
     launchReseach: React.PropTypes.func
 };
 
-class FilterBar extends Component{
+class FilterBar extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selectedFieldType: null
+        }
+    }
+    
+    onChangeFieldType = (event, index, value) => {
+            this.props.changeFieldType(value);
+            this.setState({'selectedFieldType': value});
+    };
 
     render() {
         return (
@@ -22,10 +38,11 @@ class FilterBar extends Component{
                     <SelectField title="Tout type de terrain"
                                  id="filedType"
                                  floatingLabelText="Type de terrain"
-                                 onChange={this.props.changeFieldType}>
-                        <MenuItem value="2" primaryText="Fronton place libre"/>
-                        <MenuItem value="3" primaryText="Fronton mur à gauche"/>
-                        <MenuItem value="4" primaryText="Trinquet"/>
+                                 value={this.state.selectedFieldType}
+                                 onChange={this.onChangeFieldType}>
+                        <MenuItem value={gameData.FRONTON} primaryText="Fronton place libre"/>
+                        <MenuItem value={gameData.MUR_GAUCHE} primaryText="Fronton mur à gauche"/>
+                        <MenuItem value={gameData.TRINQUET} primaryText="Trinquet"/>
                     </SelectField>
 
                     <TextField
@@ -35,6 +52,14 @@ class FilterBar extends Component{
                         hintText="Ville, nom du terrain ..."
                         onKeyPress={(e) => {if (e.key === 'Enter') this.props.launchReseach()}}
                         onChange={this.props.changePlace}/>
+
+
+                    <DatePicker hintText="Date"
+                                DateTimeFormat={util.getDateTimeFormat()}
+                                locale="fr"
+                                cancelLabel="Annuler"
+                                autoOk={true}
+                                onChange={this.props.changeDateTime}/>
 
                     <RaisedButton
                         className="margin-left-l"

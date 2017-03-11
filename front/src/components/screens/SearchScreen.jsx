@@ -30,18 +30,16 @@ class SearchScreen extends React.Component {
         this.props.gamesActions.fetchGames(this.state.date, this.state.place);
     };
 
-    changeDropdownlistStateValue = (key) => {
-        return (e, index, value) => {
-            this.setState({[key]: value});
-        }
-    };
-
-    changeDateValue = (e) => {
-        this.setState({'date': e._d});
+    changeDateValue = (event, value) => {
+        this.setState({'date': value});
     };
 
     handleChange = (inputName, event) => {
         this.setState({[inputName]: event.target.value});
+    };
+
+    handleSelectChange = (value) => {
+        this.setState({'fieldType': value});
     };
 
     render() {
@@ -50,7 +48,7 @@ class SearchScreen extends React.Component {
                 <NavBar location={this.props.location}
                         logout={this.props.authActions.logout}/>
 
-                <FilterBar changeFieldType={this.changeDropdownlistStateValue('fieldType')}
+                <FilterBar changeFieldType={this.handleSelectChange.bind(this)}
                            changePlace={this.handleChange.bind(this, 'place')}
                            changeDateTime={this.changeDateValue}
                            launchReseach={() => this.search()}/>
