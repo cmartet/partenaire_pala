@@ -1,5 +1,8 @@
-﻿var tools = require('./../helpers/tools');
+﻿var utf8 = require('utf8');
+var tools = require('./../helpers/tools');
 var config = require('./../config/factory');
+
+require('../helpers/extendString')(String);
 
 module.exports = {
 
@@ -19,7 +22,10 @@ module.exports = {
 var buildPlacesApiUrl = function (search, lat, long, radius) {
     var url = config.placesApi;
 
-    if (search) url += "&q=" + search;
+    if (search) {
+        search = utf8.decode(search).noAccents();
+        url += "&q=" + search;
+    }
     if (lat && long && radius) url += "&lat=" + lat + "&lng=" + long + "&radius=" + radius
 
     return url;
