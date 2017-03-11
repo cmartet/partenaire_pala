@@ -21,6 +21,11 @@ export default (state = initialState, action) => {
             return {
                 places: [],
                 games: action.data,
+                gameCreation: {
+                    inProgress: false,
+                    success: false,
+                    error: false
+                },
                 gameDeletion: {
                     inProgress: false,
                     success: false,
