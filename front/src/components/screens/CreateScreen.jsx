@@ -9,17 +9,11 @@ import MenuItem                 from 'material-ui/MenuItem';
 import NavBar                   from '../navBar/NavBar';
 import Popup                    from '../popup/Popup'
 import RaisedButton             from 'material-ui/RaisedButton';
+import SearchPlace              from '../createForm/SearchPlace';
 import SelectField              from 'material-ui/SelectField';
 import TextField                from 'material-ui/TextField';
 import TimePicker               from 'material-ui/TimePicker';
 import * as util                from '../../utils'
-
-import {
-    Card,
-    CardActions,
-    CardMedia,
-    CardTitle, CardText
-} from 'material-ui/Card';
 
 import {
     Step,
@@ -125,15 +119,11 @@ class CreateScreen extends Component {
     };
 
     checkPlaceInfo = () => {
-        if (!this.state.place.fronton_id) {
-            this.setState({'error': {'place': 'Veuillez chercher puis sélectionner un fronton'}});
-            return false;
-        }
-        else {
-            this.resetErrorFor('place');
-            return true;
-        }
+        var isFrontonSelected = !!this.state.place.fronton_id;
+        this.setState({error: {place: !isFrontonSelected}});
+        return isFrontonSelected;
     };
+
 
     checkGameInfo = () => {
         var isFormValid = true;
@@ -218,68 +208,31 @@ class CreateScreen extends Component {
         }
     };
 
-    searchPlaces = () => {
-        if (this.state.searchedPlace.length < 3) {
-            this.setState({'error': {'place': 'Veuillez taper au moins 3 caractères'}});
-        }
-        else {
-            this.resetErrorFor('place');
-            this.props.gamesActions.fetchPlaces(this.state.searchedPlace);
-        }
-    };
-
     handleSelectChange = stateKey => {
         return (event, index, value) => this.setState({[stateKey]: value});
     };
 
+    getSelectedGame = (value) => {
+        this.setState({'place': value})
+    };
+
+    setGameValidationState = (isValid) => {
+        this.setState({placeIsValid: isValid})
+    };
 
     getStepContent(stepIndex) {
         switch (stepIndex) {
             case 0:
                 return (
                     <div>
-                        <Row>
-                            <Col xs={12} sm={8} md={8} lg={8}>
-                                <div className="place-filter-container">
-                                    <TextField
-                                        type="text"
-                                        floatingLabelText="Rechercher un fronton"
-                                        value={this.state.searchedPlace}
-                                        onChange={this.handleChange.bind(this, 'searchedPlace')}
-                                        errorText={this.state.error.place}
-                                        onKeyPress={(e) => {if (e.key === 'Enter') this.searchPlaces()}}
-                                    />
-                                    <RaisedButton
-                                        className="margin-left-l"
-                                        label="Rechercher"
-                                        primary={true}
-                                        onTouchTap={this.searchPlaces.bind(this)}
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <div className="card-container">
-                                {
-                                    this.props.places.map(place => {
-                                        return <Card
-                                            className={"card-place " + (this.state.place.fronton_id === place.fronton_id ? 'selected' : '')}
-                                            key={place.fronton_id}
-                                            onClick={() => this.setState({'place':place})}>
-                                            <CardMedia>
-                                                <img src={place.photo} alt="place_pic"/>
-                                            </CardMedia>
-                                            <CardTitle title={place.name} subtitle={util.mapPlaceType(place.type)}/>
-                                            <CardText>{place.location.address}</CardText>
-                                            <CardActions>
-                                                <FlatButton label="Choisir ce fronton"/>
-                                            </CardActions>
-                                        </Card>;
-                                    })
-                                }
-                            </div>
-
-                        </Row>
+                        <SearchPlace
+                            searchAction={this.props.gamesActions.fetchPlaces}
+                            onSelectPlace={this.getSelectedGame}
+                            places={this.props.places}
+                            isValid={this.setGameValidationState}
+                        />
+                        {this.state.error.place ?
+                            (<div>Merci de sélectionner un fronton avant de continuer</div>): null}
                     </div>);
             case 1:
                 return (
@@ -307,6 +260,7 @@ class CreateScreen extends Component {
                                 <DatePicker hintText="Date *"
                                             DateTimeFormat={util.getDateTimeFormat()}
                                             locale="fr"
+                                            autoOk={true}
                                             cancelLabel="Annuler"
                                             defaultDate={this.state.date}
                                             errorText={this.state.error.date}
