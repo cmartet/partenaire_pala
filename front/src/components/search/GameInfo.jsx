@@ -18,6 +18,7 @@ const propTypes = {
     players: PropTypes.array,
     connectedUserId: PropTypes.string,
     deleteGame: PropTypes.func,
+    joinGame: PropTypes.func,
     displayMode: PropTypes.boolean,
     nbPlayers: PropTypes.number
 };
@@ -136,7 +137,7 @@ class GameInfo extends Component {
     }
 
     userIsCreator() {
-        return this.props.creator
+        return this.props.creatorId === this.props.connectedUserId;
     }
 
     render() {
@@ -180,11 +181,12 @@ class GameInfo extends Component {
 
                             <RaisedButton secondary={true}
                                           label="Supprimer"
-                                          onClick={ () => this.props.deleteGame(this.props.gameId)}/> :
+                                          onClick={() => this.props.deleteGame(this.props.gameId)}/> :
 
                             <RaisedButton primary={true}
                                           disabled={this.isGameComplete()}
-                                          label="Rejoindre"/>}
+                                          label="Rejoindre"
+                                          onClick={() => this.props.joinGame(this.props.gameId)}/>}
 
                 </div>
             </div>

@@ -8,3 +8,5 @@ export const DELETE_GAME = 'http://localhost:8090/games/id/';
 export const FACEBOOK_AUTH = 'http://localhost:8090/auth/facebook/from/1';
 export const LOGOUT = 'http://localhost:8090/logout';
 export const GET_PROFILE = 'http://localhost:8090/profile';
+
+export const JOIN_GAME = 'http://localhost:8090/games/join/id/';

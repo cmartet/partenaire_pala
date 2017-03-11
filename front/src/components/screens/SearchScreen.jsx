@@ -27,7 +27,7 @@ class SearchScreen extends React.Component {
     };
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.gameDeletion.success) {
+        if (nextProps.gameDeletion.success) {
             this.props.gamesActions.reinitSuccessFromDeletion();
             this.setState({'delete': {asking: false, gameId: null, success: true}});
             this.search();
@@ -52,6 +52,14 @@ class SearchScreen extends React.Component {
 
     deleteGame = () => {
         this.props.gamesActions.deleteGame(this.state.delete.gameId);
+    };
+
+    joinGame = gameId => {
+        var body = {
+            _id: this.props.auth.id,
+            name: this.props.auth.name
+        };
+        this.props.gamesActions.joinGame(gameId, body);
     };
 
     setStateForGameDeletion = (gameId) => {
@@ -93,10 +101,10 @@ class SearchScreen extends React.Component {
                                     creatorId={game.creator._id}
                                     date={game.date}
                                     players={game.players}
-                                    connectedUserId={this.props.auth._id}
+                                    connectedUserId={this.props.auth.id}
                                     gameId={game._id}
-                                    deleteGame={() => this.setStateForGameDeletion(game._id)}
-                                />
+                                    joinGame={() => this.joinGame(game._id)}
+                                    deleteGame={() => this.setStateForGameDeletion(game._id)}/>
                             }) :
                             (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
                     }

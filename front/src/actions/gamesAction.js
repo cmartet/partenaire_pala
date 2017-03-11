@@ -137,3 +137,25 @@ export const reinitSuccessFromDeletion = () => {
         })
     }
 };
+
+export const joinGame = (gameId, data) => {
+    return function (dispatch) {
+        dispatch({
+            type: types.JOIN_IN_PROGRESS
+        });
+
+        return fetch(urls.JOIN_GAME + gameId, postHeaders(data))
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: types.JOIN_SUCCESS
+                    });
+                }
+                else {
+                    dispatch({
+                        type: types.JOIN_FAILED
+                    });
+                }
+            });
+    }
+};
