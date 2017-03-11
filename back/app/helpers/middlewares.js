@@ -26,10 +26,28 @@ module.exports = {
 
         //Check if the user has the rights on the game (is the game creator)
         gamesService.isGameCreator(gameId, userId, function (err, isGameCreator) {
+            if (err)
+                return next(err);
+
             if (isGameCreator)
                 return next();
 
             res.sendStatus(403);
+        });
+    },
+
+    checkGameNotFull: function (req, res, next) {
+        var gameId = req.params.id;
+
+        //Check if the game players are not full
+        gamesService.isGameFull(gameId, function (err, isGameFull) {
+            if (err)
+                return next(err);
+
+            if (!isGameFull)
+                return next();
+
+            res.sendStatus(400);
         });
     }
 };

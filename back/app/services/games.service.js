@@ -69,13 +69,24 @@ module.exports = {
     //Check if a user is the game creator
     isGameCreator: function (gameId, userId, callback) {
         Game.findById(gameId, function (err, game) {
-
             if (err) {
                 return callback(err);
             }
 
             var isCreator = (game.creator._id === userId.toString());
-            callback(err, isCreator);
+            callback(null, isCreator);
+        });
+    },
+
+    //Check if the game players are full
+    isGameFull: function (gameId, callback) {
+        Game.findById(gameId, function (err, game) {
+            if (err) {
+                return callback(err);
+            }
+
+            var isFull = game.players.length >= game.maxMissingPlayers;
+            return callback(null, isFull);
         });
     }
 };

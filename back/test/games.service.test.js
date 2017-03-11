@@ -50,12 +50,36 @@ var game2 = {
     "players": []
 };
 
+var game3 = {
+    "creator": { "_id": "5698e3b6a09e5410e4f5e1b8", "name": "Madame michue" },
+    "place": {
+        "fronton_id": 2088,
+        "type": "mur_a_gauche",
+        "photo": "http://static.frontons.net/data/photos/medium/fronton-moga.jpg",
+        "permalink": "http://www.frontons.net/fronton/fronton-moga.html",
+        "name": "Villenave",
+        "location":
+        {
+            "lat": 43.260503,
+            "lng": -0.880155,
+            "address": "Jai alai, Villenave"
+        }
+    },
+    "date": "2099-01-05T14:00:00.000Z",
+    "level": "debutant",
+    "maxMissingPlayers": 1,
+    "message": "toto",
+    "players": [{ "_id": "7898e3b6a09e5410e4f5e1b8", "name": "Monsieur michue" }]
+};
+
 describe("games service", function () {
     //Before all the tests, add test games
     before(function (done) {
         games.create(game1, function (err) {
             games.create(game2, function () {
-                done();
+                games.create(game3, function () {
+                    done();
+                });
             });
         });
     });
@@ -70,7 +94,7 @@ describe("games service", function () {
     it("getBy with start date should return the filtered games", function (done) {
         var startDate = "2099-01-01T14:00:00.000Z";
         games.getBy(startDate, null, null, function(err, result) {
-            expect(result.length).to.be.equals(2);
+            expect(result.length).to.be.equals(3);
             done();
         });
     });
@@ -155,6 +179,26 @@ describe("games service", function () {
         });
     });
 
+    it("isGameFull with a game not full should return false", function (done) {
+        games.getBy(game1.date, game1.date, game1.place, function (err, result) {
+            games.isGameFull(result[0]._id, function (err, isGameFull) {
+                expect(err).to.be.null;
+                expect(isGameFull).to.be.false;
+                done();
+            });
+        });
+    });
+
+    it("isGameFull with a full game should return true", function (done) {
+        games.getBy(game3.date, game3.date, game3.place, function (err, result) {
+            games.isGameFull(result[0]._id, function (err, isGameFull) {
+                expect(err).to.be.null2
+                expect(isGameFull).to.be.true;
+                done();
+            });
+        });
+    });
+
     //After all the tests, delete the added test games
     after(function (done) {
         var start = "2099-01-01T14:00:00.000Z";
@@ -162,7 +206,9 @@ describe("games service", function () {
         games.getBy(start, end, null, function (err, result) {
             games.delete(result[0]._id, function (err) {
                 games.delete(result[1]._id, function (err) {
-                    done();
+                    games.delete(result[2]._id, function (err) {
+                        done();
+                    });
                 });
             });
         });
