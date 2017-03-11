@@ -61,7 +61,7 @@ module.exports = {
                 return callback(err);
             }
 
-            var isCreator = (game.creator._id === userId);
+            var isCreator = (game.creator._id === userId.toString());
             callback(err, isCreator);
         });
     }

@@ -89,7 +89,7 @@ describe("games service", function () {
     it("getBy with place return the filtered games", function (done) {
         var place = "begles";
         games.getBy(null, null, place, function (err, result) {
-            expect(result.length).to.be.equals(1);
+            expect(result.length).to.be.gte(1);
             done();
         });
     });
