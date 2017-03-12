@@ -19,6 +19,7 @@ const propTypes = {
     connectedUserId: PropTypes.string,
     deleteGame: PropTypes.func,
     joinGame: PropTypes.func,
+    leaveGame: PropTypes.func,
     displayMode: PropTypes.boolean,
     nbPlayers: PropTypes.number
 };
@@ -66,14 +67,14 @@ var isSameDay = function (date1, date2) {
 
 class GameInfo extends Component {
 
-    playersList() {
+    playersList = () => {
         const listItems = this.props.players.map((player) =>
             <Chip style={chipsStyle.chip} key={player.name}>{player.name}</Chip>
         );
         return (<div className="players"> {listItems}</div>);
-    }
+    };
 
-    getFormattedDate() {
+    getFormattedDate = () => {
         if (this.gameIsToday()) {
             return "Aujourd'hui";
         }
@@ -89,20 +90,20 @@ class GameInfo extends Component {
         var year = date.getFullYear();
 
         return day + " " + numberInMonth + " " + month + " " + year;
-    }
+    };
 
-    gameIsToday() {
+    gameIsToday = () => {
         var today = new Date();
         return isSameDay(this.props.date, today);
-    }
+    };
 
-    gameIsTomorrow() {
+    gameIsTomorrow = () => {
         var today = new Date();
         var tomorrow = today.setDate(today.getDate() + 1);
         return isSameDay(this.props.date, tomorrow);
-    }
+    };
 
-    getFormattedTime() {
+    getFormattedTime = () => {
         var datetime = new Date(this.props.date);
         var hour = datetime.getHours();
         var minutes = datetime.getMinutes();
@@ -111,21 +112,21 @@ class GameInfo extends Component {
         }
 
         return hour + ":" + minutes;
-    }
+    };
 
-    gameIsOver() {
+    gameIsOver = () => {
         return new Date(this.props.date) < new Date();
-    }
+    };
 
-    gameHasEnoughPlayers() {
+    gameHasEnoughPlayers = () => {
         return !this.props.displayMode && this.props.maxPlayers <= this.props.players.length;
-    }
+    };
 
-    isGameComplete() {
+    isGameComplete = () => {
         return this.gameIsOver() || this.gameHasEnoughPlayers();
-    }
+    };
 
-    getNbPlayersInfo() {
+    getNbPlayersInfo = () => {
         let nbPlayers = this.props.displayMode ? this.props.nbPlayers : this.props.players.length;
         return (
             <div>
@@ -134,11 +135,23 @@ class GameInfo extends Component {
                 </span>
                 <span className="nb-players-max"> / {this.props.maxPlayers}</span>
             </div>);
-    }
+    };
 
-    userIsCreator() {
+    userIsCreator = () => {
         return this.props.creatorId === this.props.connectedUserId;
-    }
+    };
+
+    userAlreadyJoined = () => {
+        var userAlreadyInGame = false;
+        for(var i = 0; i < this.props.players.length; i++) {
+            if(this.props.players[i]._id === this.props.connectedUserId){
+                userAlreadyInGame = true;
+                break;
+            }
+        }
+
+        return userAlreadyInGame;
+   };
 
     render() {
         return (
@@ -183,10 +196,16 @@ class GameInfo extends Component {
                                           label="Supprimer"
                                           onClick={() => this.props.deleteGame(this.props.gameId)}/> :
 
-                            <RaisedButton primary={true}
-                                          disabled={this.isGameComplete()}
-                                          label="Rejoindre"
-                                          onClick={() => this.props.joinGame(this.props.gameId)}/>}
+                            this.userAlreadyJoined() ?
+
+                                <RaisedButton primary={true}
+                                              label="Ne plus participer"
+                                              onClick={() => this.props.leaveGame(this.props.gameId)}/>
+                                :
+                                <RaisedButton primary={true}
+                                              disabled={this.isGameComplete()}
+                                              label="Rejoindre"
+                                              onClick={() => this.props.joinGame(this.props.gameId)}/>}
 
                 </div>
             </div>

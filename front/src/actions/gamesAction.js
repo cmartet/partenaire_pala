@@ -17,15 +17,23 @@ const receivePlaces = data => {
     }
 };
 
-const postHeaders = body => {
+const createHeadersFor = (type, body) => {
     return {
-        'method': http.METHOD_POST,
+        'method': type,
         'headers': {
             'Authorization': 'Bearer ' + util.getAuthCookie(),
             'Content-Type': 'application/json'
         },
         'body': JSON.stringify(body)
     }
+};
+
+const putHeaders = body => {
+    return createHeadersFor(http.METHOD_PUT, body)
+};
+
+const postHeaders = body => {
+    return createHeadersFor(http.METHOD_POST, body)
 };
 
 const deleteHeaders = () => {
@@ -130,7 +138,7 @@ export const fetchPlaces = (searchedPlace) => {
     }
 };
 
-export const reinitSuccessFromDeletion = () => {
+export const reinitState = () => {
     return function (dispatch) {
         dispatch({
             type: types.REINIT_PROPS
@@ -144,7 +152,7 @@ export const joinGame = (gameId, data) => {
             type: types.JOIN_IN_PROGRESS
         });
 
-        return fetch(urls.JOIN_GAME + gameId, postHeaders(data))
+        return fetch(urls.JOIN_GAME + gameId, putHeaders(data))
             .then(response => {
                 if (response.status === 200) {
                     dispatch({

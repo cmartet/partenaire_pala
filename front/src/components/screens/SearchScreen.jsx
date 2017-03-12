@@ -17,7 +17,8 @@ class SearchScreen extends React.Component {
             fieldType: null,
             date: null,
             place: null,
-            delete: {}
+            delete: {},
+            join: {}
         }
     }
 
@@ -28,8 +29,13 @@ class SearchScreen extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.gameDeletion.success) {
-            this.props.gamesActions.reinitSuccessFromDeletion();
+            this.props.gamesActions.reinitState();
             this.setState({'delete': {asking: false, gameId: null, success: true}});
+            this.search();
+        }
+        else if (nextProps.gameJoin.success) {
+            this.props.gamesActions.reinitState();
+            this.setState({'join': {inProgress: false, success: true}});
             this.search();
         }
     };
@@ -55,6 +61,7 @@ class SearchScreen extends React.Component {
     };
 
     joinGame = gameId => {
+        this.setState({join: {inProgress: true, success: false}});
         var body = {
             _id: this.props.auth.id,
             name: this.props.auth.name
@@ -66,8 +73,12 @@ class SearchScreen extends React.Component {
         this.setState({delete: {asking: true, gameId: gameId, success: false}});
     };
 
-    handleSnackBarClose = () => {
+    handleSnackBarDeleteClose = () => {
         this.setState({delete: {asking: false, gameId: null, success: false}});
+    };
+
+    handleSnackBarJoinClose = () => {
+        this.setState({join: {inProgress: false, success: false}});
     };
 
     render() {
@@ -113,8 +124,13 @@ class SearchScreen extends React.Component {
                     open={!!this.state.delete.success}
                     message="La partie a bien été supprimée"
                     autoHideDuration={4000}
-                    onRequestClose={this.handleSnackBarClose}
-                />
+                    onRequestClose={this.handleSnackBarDeleteClose}/>
+
+                <Snackbar
+                    open={!!this.state.join.success}
+                    message="Votre participation a cette partie a bien été enregistrée !"
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleSnackBarJoinClose}/>
             </div>
         )
     }

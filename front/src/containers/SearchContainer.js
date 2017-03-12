@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
     return {
         games: state.games.games,
         gameDeletion: state.games.gameDeletion,
+        gameJoin: state.games.gameJoin,
         auth: state.authentication
     }
 };
