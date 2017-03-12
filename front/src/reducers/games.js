@@ -20,65 +20,43 @@ const initialState = {
     }
 };
 
+const getInitialState = () => {
+    return {
+        places: [],
+        games: [],
+        gameCreation: {
+            inProgress: false,
+            success: false,
+            error: false
+        },
+        gameDeletion: {
+            inProgress: false,
+            success: false,
+            error: false
+        },
+        gameJoin: {
+            inProgress: false,
+            success: false,
+            error: false
+        }
+    }
+};
+
 const handleCreationActions = (type) => {
+    var state = getInitialState();
+
     switch (type) {
         case types.CREATION_IN_PROGRESS:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: true,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameCreation.inProgress = true;
+            return state;
 
         case types.CREATED_GAME:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: true,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameCreation.success = true;
+            return state;
 
         case types.CREATION_FAILED:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: true
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameCreation.error = true;
+            return state;
 
         default:
             return initialState;
@@ -86,69 +64,20 @@ const handleCreationActions = (type) => {
 };
 
 const handleDeletionActions = (type) => {
+    var state = getInitialState();
+
     switch (type) {
         case types.DELETE_GAME:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: true,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameDeletion.success = true;
+            return state;
 
         case types.DELETE_GAME_ERROR:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: true
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameDeletion.error = true;
+            return state;
 
         case types.DELETE_GAME_PROGRESS:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: true,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameDeletion.inProgress = true;
+            return state;
 
         default:
             return initialState;
@@ -156,69 +85,20 @@ const handleDeletionActions = (type) => {
 };
 
 const handleJoinActions = (type) => {
+    var state = getInitialState();
+
     switch (type) {
         case types.JOIN_FAILED:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: true
-                }
-            };
+            state.gameJoin.error = true;
+            return state;
 
         case types.JOIN_SUCCESS:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: true,
-                    error: false
-                }
-            };
+            state.gameJoin.success = true;
+            return state;
 
         case types.JOIN_IN_PROGRESS:
-            return {
-                places: [],
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: true,
-                    success: false,
-                    error: false
-                }
-            };
+            state.gameJoin.inProgress = true;
+            return state;
 
         default:
             return initialState;
@@ -226,48 +106,16 @@ const handleJoinActions = (type) => {
 };
 
 export default (state = initialState, action) => {
+    var stateToUpdate = getInitialState();
+
     switch (action.type) {
         case types.RECEIVED_GAMES:
-            return {
-                places: [],
-                games: action.data,
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            stateToUpdate.games = action.data;
+            return stateToUpdate;
 
         case types.RECEIVED_PLACES:
-            return {
-                places: action.data,
-                games: [],
-                gameCreation: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameDeletion: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                },
-                gameJoin: {
-                    inProgress: false,
-                    success: false,
-                    error: false
-                }
-            };
+            stateToUpdate.places = action.data;
+            return stateToUpdate;
 
         case types.CREATION_FAILED:
         case types.CREATION_IN_PROGRESS:

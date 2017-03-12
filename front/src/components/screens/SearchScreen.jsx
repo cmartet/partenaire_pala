@@ -115,6 +115,7 @@ class SearchScreen extends React.Component {
                                     connectedUserId={this.props.auth.id}
                                     gameId={game._id}
                                     joinGame={() => this.joinGame(game._id)}
+                                    leaveGame={() => {}}
                                     deleteGame={() => this.setStateForGameDeletion(game._id)}/>
                             }) :
                             (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
