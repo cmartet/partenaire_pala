@@ -307,7 +307,7 @@ class CreateScreen extends Component {
                             creator={this.props.auth.name}
                             date={this.state.dateTime}
                             displayMode={true}
-                            nbPlayers={this.state.players} />
+                            nbPlayers={this.state.players}/>
 
                         <Popup title="Game On !"
                                message="La partie est bien enregistrée !"

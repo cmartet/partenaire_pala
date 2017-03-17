@@ -67,6 +67,8 @@ const handlePlacesRetrieval = (type, data) => {
 
         case types.PLACES_RETRIEVAL_PROGRESS:
             state.placesRetrieval.inProgress = true;
+            state.placesRetrieval.data = [];
+
             return state;
 
         default:
@@ -146,6 +148,8 @@ export default (state = initialState, action) => {
             return stateToUpdate;
 
         case types.RECEIVED_PLACES:
+        case types.PLACES_RETRIEVAL_ERROR:
+        case types.PLACES_RETRIEVAL_PROGRESS:
             return handlePlacesRetrieval(action.type, action.data);
 
         case types.CREATION_FAILED:

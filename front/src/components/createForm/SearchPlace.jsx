@@ -1,9 +1,10 @@
-import React        from 'react';
-import FlatButton   from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField    from 'material-ui/TextField';
-import {Row, Col}   from 'react-flexbox-grid';
-import * as util    from '../../utils'
+import React            from 'react';
+import FlatButton       from 'material-ui/FlatButton';
+import CircularProgress from 'material-ui/CircularProgress';
+import RaisedButton     from 'material-ui/RaisedButton';
+import TextField        from 'material-ui/TextField';
+import {Row, Col}       from 'react-flexbox-grid';
+import * as util        from '../../utils'
 
 import {
     Card,
@@ -37,6 +38,12 @@ class SearchPlace extends React.Component {
             error: null,
             selectedPlace: this.props.selectedPlace || {},
             searchedAlready: false
+        }
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSearchInProgress) {
+            console.log(nextProps);
         }
     };
 
@@ -88,7 +95,7 @@ class SearchPlace extends React.Component {
                 <Row>
                     <div className="card-container">
                         {
-                            this.props.places.length > 0 ?
+                            (this.props.places.length > 0 && !this.props.isSearchInProgress) ?
                                 this.props.places.map(place => {
                                     return <Card
                                         className={"card-place " + (this.state.selectedPlace.fronton_id === place.fronton_id ? 'selected' : '')}
@@ -104,8 +111,11 @@ class SearchPlace extends React.Component {
                                         </CardActions>
                                     </Card>;
                                 }) :
-                                (this.props.isSearchInProgress || !this.state.searchedAlready) ? null :
-                                    (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
+                                this.props.isSearchInProgress ?
+                                    <CircularProgress size={80} thickness={5}/> :
+
+                                    this.state.searchedAlready ?
+                                        (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>) : null
                         }
                     </div>
                 </Row>

@@ -10,13 +10,6 @@ const receiveGames = data => {
     }
 };
 
-const receivePlaces = data => {
-    return {
-        type: types.RECEIVED_PLACES,
-        data: data
-    }
-};
-
 const createHeadersFor = (type, body) => {
     return {
         'method': type,
@@ -127,18 +120,18 @@ export const deleteGame = gameId => {
 
 export const fetchPlaces = (searchedPlace) => {
     return function (dispatch) {
-        dispatch({
-            type: types.PLACES_RETRIEVAL_PROGRESS
-        });
+        dispatch({type: types.PLACES_RETRIEVAL_PROGRESS});
+
         return fetch(urls.GET_PLACES + searchedPlace)
             .then(response => {
                 return response.json();
             }).then(data => {
-                dispatch(receivePlaces(data));
-            }).catch(err => {
                 dispatch({
-                    type: types.PLACES_RETRIEVAL_ERROR
+                    type: types.RECEIVED_PLACES,
+                    data: data
                 });
+            }).catch(err => {
+                dispatch({type: types.PLACES_RETRIEVAL_ERROR});
             });
     }
 };
