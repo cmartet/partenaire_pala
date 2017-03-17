@@ -7,7 +7,7 @@ import CreateScreen from '../components/screens/CreateScreen';
 
 const mapStateToProps = (state) => {
     return {
-        places: state.games.places,
+        places: state.games.placesRetrieval,
         gameCreation: state.games.gameCreation,
         auth: state.authentication
     }

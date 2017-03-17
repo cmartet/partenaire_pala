@@ -39,7 +39,6 @@ class CreateScreen extends Component {
             level: '',
             maxMissingPlayers: 4,
             message: '',
-            players: 1,
             error: {},
             creationInProgress: false
         };
@@ -172,14 +171,6 @@ class CreateScreen extends Component {
             this.resetErrorFor('maxMissingPlayers');
         }
 
-        if (!this.state.players) {
-            this.setErrorMessageForKey('players', 'Veuillez indiquer quel le nombre de personnes déjà prévues pour cette partie');
-            isFormValid = false;
-        }
-        else {
-            this.resetErrorFor('players');
-        }
-
         return isFormValid;
     };
 
@@ -227,8 +218,10 @@ class CreateScreen extends Component {
                         <SearchPlace
                             searchAction={this.props.gamesActions.fetchPlaces}
                             onSelectPlace={this.getSelectedGame}
-                            places={this.props.places}
+                            places={this.props.places.data}
+                            selectedPlace={this.state.place}
                             isValid={this.setGameValidationState}
+                            isSearchInProgress={this.props.places.inProgress}
                         />
                         {this.state.error.place ?
                             (<div>Merci de sélectionner un fronton avant de continuer</div>) : null}
@@ -299,13 +292,6 @@ class CreateScreen extends Component {
                                     value={this.state.maxMissingPlayers}
                                     errorText={this.state.error.maxMissingPlayers}
                                     onChange={this.handleChange.bind(this, 'maxMissingPlayers')}/>
-                                <TextField
-                                    className="margin-left-l"
-                                    type="number"
-                                    floatingLabelText="Nombre de participants déjà prévus *"
-                                    value={this.state.players}
-                                    errorText={this.state.error.players}
-                                    onChange={this.handleChange.bind(this, 'players')}/>
                             </div>
                         </Col>
                     </Row>

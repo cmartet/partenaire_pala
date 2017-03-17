@@ -127,13 +127,18 @@ export const deleteGame = gameId => {
 
 export const fetchPlaces = (searchedPlace) => {
     return function (dispatch) {
+        dispatch({
+            type: types.PLACES_RETRIEVAL_PROGRESS
+        });
         return fetch(urls.GET_PLACES + searchedPlace)
             .then(response => {
                 return response.json();
             }).then(data => {
                 dispatch(receivePlaces(data));
             }).catch(err => {
-                console.log(err);
+                dispatch({
+                    type: types.PLACES_RETRIEVAL_ERROR
+                });
             });
     }
 };

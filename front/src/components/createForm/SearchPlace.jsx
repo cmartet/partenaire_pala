@@ -19,7 +19,8 @@ const propTypes = {
     searchAction: React.PropTypes.func,
     onSelectPlace: React.PropTypes.func,
     places: React.PropTypes.array,
-    selectedPlace: React.PropTypes.object
+    selectedPlace: React.PropTypes.object,
+    isSearchInProgress: React.PropTypes.bool
 };
 
 const defaultProps = {
@@ -35,7 +36,7 @@ class SearchPlace extends React.Component {
             searchedPlace: '',
             error: null,
             selectedPlace: this.props.selectedPlace || {},
-            searchLaunched: false
+            searchedAlready: false
         }
     };
 
@@ -48,8 +49,8 @@ class SearchPlace extends React.Component {
             this.setState({'error': 'Veuillez taper au moins 3 caractères'});
         }
         else {
-            this.setState({'searchLaunched': true});
             this.setState({'error': null});
+            this.setState({'searchedAlready': true});
             this.props.searchAction(this.state.searchedPlace);
         }
     };
@@ -103,8 +104,8 @@ class SearchPlace extends React.Component {
                                         </CardActions>
                                     </Card>;
                                 }) :
-                                this.state.searchLaunched ?
-                                    (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>) : null
+                                (this.props.isSearchInProgress || !this.state.searchedAlready) ? null :
+                                    (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
                         }
                     </div>
                 </Row>

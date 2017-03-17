@@ -1,7 +1,12 @@
 import * as types from '../constants/ActionTypes.js';
 
 const initialState = {
-    places: [],
+    placesRetrieval: {
+        data: [],
+        inProgress: false,
+        success: false,
+        error: false
+    },
     games: [],
     gameCreation: {
         inProgress: false,
@@ -22,7 +27,12 @@ const initialState = {
 
 const getInitialState = () => {
     return {
-        places: [],
+        placesRetrieval: {
+            data: [],
+            inProgress: false,
+            success: false,
+            error: false
+        },
         games: [],
         gameCreation: {
             inProgress: false,
@@ -39,6 +49,28 @@ const getInitialState = () => {
             success: false,
             error: false
         }
+    }
+};
+
+const handlePlacesRetrieval = (type, data) => {
+    var state = getInitialState();
+
+    switch (type) {
+        case types.RECEIVED_PLACES:
+            state.placesRetrieval.success = true;
+            state.placesRetrieval.data = data;
+            return state;
+
+        case types.PLACES_RETRIEVAL_ERROR:
+            state.placesRetrieval.error = true;
+            return state;
+
+        case types.PLACES_RETRIEVAL_PROGRESS:
+            state.placesRetrieval.inProgress = true;
+            return state;
+
+        default:
+            return initialState;
     }
 };
 
@@ -114,8 +146,7 @@ export default (state = initialState, action) => {
             return stateToUpdate;
 
         case types.RECEIVED_PLACES:
-            stateToUpdate.places = action.data;
-            return stateToUpdate;
+            return handlePlacesRetrieval(action.type, action.data);
 
         case types.CREATION_FAILED:
         case types.CREATION_IN_PROGRESS:
