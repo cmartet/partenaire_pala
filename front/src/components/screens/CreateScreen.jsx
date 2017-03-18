@@ -1,25 +1,25 @@
-import React, {Component}       from 'react';
-import {withRouter}             from 'react-router'
-import {Row, Col}               from 'react-flexbox-grid';
-import DatePicker               from 'material-ui/DatePicker';
-import FlatButton               from 'material-ui/FlatButton';
-import GameInfo                 from '../search/GameInfo'
-import LoginScreen              from './../login/Login'
-import MenuItem                 from 'material-ui/MenuItem';
-import NavBar                   from '../navBar/NavBar';
-import Popup                    from '../popup/Popup'
-import RaisedButton             from 'material-ui/RaisedButton';
-import SearchPlace              from '../createForm/SearchPlace';
-import SelectField              from 'material-ui/SelectField';
-import TextField                from 'material-ui/TextField';
-import TimePicker               from 'material-ui/TimePicker';
-import * as util                from '../../utils'
-
+import React, {Component}   from 'react';
+import {withRouter}         from 'react-router'
+import {Row, Col}           from 'react-flexbox-grid';
+import CircularProgress     from 'material-ui/CircularProgress';
+import DatePicker           from 'material-ui/DatePicker';
+import FlatButton           from 'material-ui/FlatButton';
+import GameInfo             from '../search/GameInfo'
+import LoginScreen          from './../login/Login'
+import MenuItem             from 'material-ui/MenuItem';
+import NavBar               from '../navBar/NavBar';
+import Popup                from '../popup/Popup'
+import RaisedButton         from 'material-ui/RaisedButton';
+import SearchPlace          from '../createForm/SearchPlace';
+import SelectField          from 'material-ui/SelectField';
+import TextField            from 'material-ui/TextField';
+import TimePicker           from 'material-ui/TimePicker';
+import * as util            from '../../utils'
 import {
     Step,
     Stepper,
     StepLabel,
-} from 'material-ui/Stepper';
+}                           from 'material-ui/Stepper';
 
 import './CreateScreen.scss';
 
@@ -299,16 +299,20 @@ class CreateScreen extends Component {
             case 3:
                 return (
                     <div>
-                        <GameInfo
-                            level={this.state.level}
-                            placePicture={this.state.place.photo}
-                            place={this.state.place.name}
-                            maxPlayers={this.state.maxMissingPlayers}
-                            creator={this.props.auth.name}
-                            date={this.state.dateTime}
-                            displayMode={true}
-                            nbPlayers={this.state.players}/>
+                        {this.props.gameCreation.inProgress ?
+                            <CircularProgress size={60} thickness={7}/> :
 
+                            <GameInfo
+                                level={this.state.level}
+                                placePicture={this.state.place.photo}
+                                place={this.state.place.name}
+                                maxPlayers={this.state.maxMissingPlayers}
+                                creator={this.props.auth.name}
+                                date={this.state.dateTime}
+                                displayMode={true}
+                                nbPlayers={this.state.players}/>
+
+                        }
                         <Popup title="Game On !"
                                message="La partie est bien enregistrée !"
                                handleClose={this.redirectToSearchPage}

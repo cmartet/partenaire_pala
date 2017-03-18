@@ -1,18 +1,16 @@
 import React            from 'react';
-import FlatButton       from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
-import RaisedButton     from 'material-ui/RaisedButton';
-import TextField        from 'material-ui/TextField';
-import {Row, Col}       from 'react-flexbox-grid';
 import * as util        from '../../utils'
-
 import {
     Card,
     CardActions,
     CardMedia,
     CardTitle, CardText
-} from 'material-ui/Card';
-
+}                       from 'material-ui/Card';
+import CircularProgress from 'material-ui/CircularProgress';
+import FlatButton       from 'material-ui/FlatButton';
+import RaisedButton     from 'material-ui/RaisedButton';
+import TextField        from 'material-ui/TextField';
+import {Row, Col}       from 'react-flexbox-grid';
 
 import './SearchPlace.scss';
 
