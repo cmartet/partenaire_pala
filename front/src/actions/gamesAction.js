@@ -31,18 +31,24 @@ const deleteHeaders = () => {
     }
 };
 
-const formatParametersForFetchingGames = (date, place) => {
+const formatParametersForFetchingGames = (place, beginDate, allDay) => {
     var url = urls.GET_GAMES;
 
     var filter = {};
     var isFilterSet = false;
 
-    if (date !== null) {
-        var end = new Date(date.getTime());
-        end.setHours(23, 59, 59, 999);
-
-        filter.start = date.toString();
-        filter.end = end.toString();
+    if (beginDate !== null) {
+        var end = new Date(beginDate.getTime());
+        if (allDay) {
+            end.setHours(23, 59, 59, 999);
+            filter.start = beginDate.toString();
+            filter.end = end.toString();
+        }
+        else {
+            end.setTime(end.getTime() + (59 * 60 * 1000));
+            filter.start = beginDate.toString();
+            filter.end = end.toString();
+        }
         isFilterSet = true;
     }
 
@@ -79,26 +85,6 @@ export const createGame = (game) => {
             });
     }
 };
-
-export const fetchGames = (date, place) => {
-    return function (dispatch) {
-        dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
-        var url = formatParametersForFetchingGames(date, place);
-
-        return fetch(url)
-            .then(response => {
-                return response.json();
-            }).then(data => {
-                dispatch({
-                    type: types.GAMES_RETRIEVED,
-                    data: data
-                });
-            }).catch(err => {
-                dispatch({type: types.GAMES_RETRIEVAL_ERROR});
-            });
-    }
-};
-
 export const deleteGame = gameId => {
     return function (dispatch) {
 
@@ -142,4 +128,32 @@ export const joinGame = (gameId, data) => {
                 }
             });
     }
+};
+
+const retrieveGames = (url) => {
+    return function (dispatch) {
+        dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
+
+        return fetch(url)
+            .then(response => {
+                return response.json();
+            }).then(data => {
+                dispatch({
+                    type: types.GAMES_RETRIEVED,
+                    data: data
+                });
+            }).catch(err => {
+                dispatch({type: types.GAMES_RETRIEVAL_ERROR});
+            });
+    }
+};
+
+export const fetchGames = (date, place) => {
+    var url = formatParametersForFetchingGames(place, date, true);
+    return retrieveGames(url);
+};
+
+export const getGameWithinHourAndPlace = (dateTime, place) => {
+    var url = formatParametersForFetchingGames(place, dateTime, false);
+    return retrieveGames(url);
 };

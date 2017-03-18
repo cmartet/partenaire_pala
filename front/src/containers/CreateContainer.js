@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
     return {
         auth: state.authentication,
         gameCreation: state.games.gameCreation,
+        games: state.games.gamesRetrieval,
         places: state.places.placesRetrieval
     }
 };

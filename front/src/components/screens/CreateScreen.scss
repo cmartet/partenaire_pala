@@ -1,9 +1,16 @@
 @import "../../common";
 
-
 .CreateScreen {
 
   .step-nav-container {
     margin: 0 16px;
+  }
+
+  .warning-already-exists {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
   }
 }

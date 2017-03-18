@@ -8,6 +8,7 @@ import GameInfo             from '../search/GameInfo'
 import LoginScreen          from './../login/Login'
 import MenuItem             from 'material-ui/MenuItem';
 import NavBar               from '../navBar/NavBar';
+import Paper                from 'material-ui/Paper';
 import Popup                from '../popup/Popup'
 import RaisedButton         from 'material-ui/RaisedButton';
 import SearchPlace          from '../createForm/SearchPlace';
@@ -22,6 +23,8 @@ import {
 }                           from 'material-ui/Stepper';
 
 import './CreateScreen.scss';
+
+const STEP_MAX = 3;
 
 class CreateScreen extends Component {
 
@@ -94,13 +97,22 @@ class CreateScreen extends Component {
 
     handleNext = () => {
         const {stepIndex} = this.state;
-        if (stepIndex < 3) {
+
+        if (stepIndex < STEP_MAX) {
+            if (stepIndex === STEP_MAX - 1) {
+                this.getSameGamesAsTheOneToBeCreated();
+            }
+
             if (this.areInfoOK(stepIndex))
                 this.setState({stepIndex: stepIndex + 1});
         }
         else {
             this.createGame();
         }
+    };
+
+    getSameGamesAsTheOneToBeCreated = () => {
+        this.props.gamesActions.getGameWithinHourAndPlace(this.state.dateTime, this.state.place.name);
     };
 
     areInfoOK = stepIndex => {
@@ -188,7 +200,7 @@ class CreateScreen extends Component {
 
     getNextButtonLabel = () => {
         const {stepIndex} = this.state;
-        return stepIndex < 3 ? 'Suivant' : 'C\'est tout bon, créer cette partie';
+        return stepIndex < STEP_MAX ? 'Suivant' : 'C\'est tout bon, créer cette partie';
     };
 
     handlePrev = () => {
@@ -203,11 +215,11 @@ class CreateScreen extends Component {
     };
 
     getSelectedGame = (value) => {
-        this.setState({'place': value})
+        this.setState({'place': value}, this.handleNext);
     };
 
     setGameValidationState = (isValid) => {
-        this.setState({placeIsValid: isValid})
+        this.setState({placeIsValid: isValid});
     };
 
     getStepContent(stepIndex) {
@@ -299,6 +311,11 @@ class CreateScreen extends Component {
             case 3:
                 return (
                     <div>
+                        {this.props.games.data.length > 0 ?
+                            (<Paper className="warning-already-exists" zDepth={2}>
+                                Une partie pour le même lieu et la même heure a déjà été planifiée !
+                            </Paper>)
+                            : null}
                         {this.props.gameCreation.inProgress ?
                             <CircularProgress size={60} thickness={7}/> :
 
@@ -310,7 +327,7 @@ class CreateScreen extends Component {
                                 creator={this.props.auth.name}
                                 date={this.state.dateTime}
                                 displayMode={true}
-                                nbPlayers={this.state.players}/>
+                                nbPlayers={0}/>
 
                         }
                         <Popup title="Game On !"
