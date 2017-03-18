@@ -1,10 +1,11 @@
-import React        from 'react';
-import {withRouter} from 'react-router';
-import FilterBar    from '../search/FilterBar';
-import GameInfo     from '../search/GameInfo';
-import NavBar       from '../navBar/NavBar';
-import Popup        from '../popup/Popup';
-import Snackbar     from 'material-ui/Snackbar';
+import React            from 'react';
+import {withRouter}     from 'react-router';
+import CircularProgress from 'material-ui/CircularProgress';
+import FilterBar        from '../search/FilterBar';
+import GameInfo         from '../search/GameInfo';
+import NavBar           from '../navBar/NavBar';
+import Popup            from '../popup/Popup';
+import Snackbar         from 'material-ui/Snackbar';
 
 
 import './SearchScreen.scss';
@@ -100,8 +101,8 @@ class SearchScreen extends React.Component {
 
                 <div className="result-games">
                     {
-                        this.props.games.length > 0 ?
-                            this.props.games.map(game => {
+                        (this.props.games.data.length > 0 && !this.props.games.inProgress) ?
+                            this.props.games.data.map(game => {
                                 return <GameInfo
                                     key={game._id}
                                     level={game.level}
@@ -118,6 +119,8 @@ class SearchScreen extends React.Component {
                                     leaveGame={() => {}}
                                     deleteGame={() => this.setStateForGameDeletion(game._id)}/>
                             }) :
+                            this.props.games.inProgress ?
+                                <CircularProgress size={80} thickness={5} /> :
                             (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
                     }
                 </div>

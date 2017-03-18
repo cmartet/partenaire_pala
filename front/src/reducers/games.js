@@ -1,30 +1,5 @@
 import * as types from '../constants/ActionTypes.js';
 
-const initialState = {
-    placesRetrieval: {
-        data: [],
-        inProgress: false,
-        success: false,
-        error: false
-    },
-    games: [],
-    gameCreation: {
-        inProgress: false,
-        success: false,
-        error: false
-    },
-    gameDeletion: {
-        inProgress: false,
-        success: false,
-        error: false
-    },
-    gameJoin: {
-        inProgress: false,
-        success: false,
-        error: false
-    }
-};
-
 const getInitialState = () => {
     return {
         placesRetrieval: {
@@ -33,7 +8,12 @@ const getInitialState = () => {
             success: false,
             error: false
         },
-        games: [],
+        gamesRetrieval: {
+            data: [],
+            inProgress: false,
+            success: false,
+            error: false
+        },
         gameCreation: {
             inProgress: false,
             success: false,
@@ -56,7 +36,7 @@ const handlePlacesRetrieval = (type, data) => {
     var state = getInitialState();
 
     switch (type) {
-        case types.RECEIVED_PLACES:
+        case types.PLACES_RETRIEVED:
             state.placesRetrieval.success = true;
             state.placesRetrieval.data = data;
             return state;
@@ -67,12 +47,32 @@ const handlePlacesRetrieval = (type, data) => {
 
         case types.PLACES_RETRIEVAL_PROGRESS:
             state.placesRetrieval.inProgress = true;
-            state.placesRetrieval.data = [];
-
             return state;
 
         default:
-            return initialState;
+            return state;
+    }
+};
+
+const handleGamesRetrieval = (type, data) => {
+    var state = getInitialState();
+
+    switch (type) {
+        case types.GAMES_RETRIEVED:
+            state.gamesRetrieval.success = true;
+            state.gamesRetrieval.data = data;
+            return state;
+
+        case types.GAMES_RETRIEVAL_ERROR:
+            state.gamesRetrieval.error = true;
+            return state;
+
+        case types.GAMES_RETRIEVAL_IN_PROGRESS:
+            state.gamesRetrieval.inProgress = true;
+            return state;
+
+        default:
+            return state;
     }
 };
 
@@ -93,7 +93,7 @@ const handleCreationActions = (type) => {
             return state;
 
         default:
-            return initialState;
+            return state;
     }
 };
 
@@ -114,7 +114,7 @@ const handleDeletionActions = (type) => {
             return state;
 
         default:
-            return initialState;
+            return state;
     }
 };
 
@@ -135,19 +135,18 @@ const handleJoinActions = (type) => {
             return state;
 
         default:
-            return initialState;
+            return state;
     }
 };
 
-export default (state = initialState, action) => {
-    var stateToUpdate = getInitialState();
-
+export default (state = getInitialState(), action) => {
     switch (action.type) {
-        case types.RECEIVED_GAMES:
-            stateToUpdate.games = action.data;
-            return stateToUpdate;
+        case types.GAMES_RETRIEVED:
+        case types.GAMES_RETRIEVAL_IN_PROGRESS:
+        case types.GAMES_RETRIEVAL_ERROR:
+            return handleGamesRetrieval(action.type, action.data);
 
-        case types.RECEIVED_PLACES:
+        case types.PLACES_RETRIEVED:
         case types.PLACES_RETRIEVAL_ERROR:
         case types.PLACES_RETRIEVAL_PROGRESS:
             return handlePlacesRetrieval(action.type, action.data);

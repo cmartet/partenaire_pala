@@ -6,7 +6,7 @@ import SearchScreen             from '../components/screens/SearchScreen';
 
 const mapStateToProps = (state) => {
     return {
-        games: state.games.games,
+        games: state.games.gamesRetrieval,
         gameDeletion: state.games.gameDeletion,
         gameJoin: state.games.gameJoin,
         auth: state.authentication

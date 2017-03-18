@@ -3,13 +3,6 @@ import * as urls    from '../constants/Urls';
 import * as http    from '../constants/Http';
 import * as util    from '../utils';
 
-const receiveGames = data => {
-    return {
-        type: types.RECEIVED_GAMES,
-        data: data
-    }
-};
-
 const createHeadersFor = (type, body) => {
     return {
         'method': type,
@@ -89,16 +82,19 @@ export const createGame = (game) => {
 
 export const fetchGames = (date, place) => {
     return function (dispatch) {
-
+        dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
         var url = formatParametersForFetchingGames(date, place);
 
         return fetch(url)
             .then(response => {
                 return response.json();
             }).then(data => {
-                dispatch(receiveGames(data));
+                dispatch({
+                    type: types.GAMES_RETRIEVED,
+                    data: data
+                });
             }).catch(err => {
-                console.log(err);
+                dispatch({type: types.GAMES_RETRIEVAL_ERROR});
             });
     }
 };
@@ -127,7 +123,7 @@ export const fetchPlaces = (searchedPlace) => {
                 return response.json();
             }).then(data => {
                 dispatch({
-                    type: types.RECEIVED_PLACES,
+                    type: types.PLACES_RETRIEVED,
                     data: data
                 });
             }).catch(err => {
