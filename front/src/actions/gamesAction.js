@@ -4,14 +4,19 @@ import * as http    from '../constants/Http';
 import * as util    from '../utils';
 
 const createHeadersFor = (type, body) => {
-    return {
+    var headers = {
         'method': type,
         'headers': {
             'Authorization': 'Bearer ' + util.getAuthCookie(),
             'Content-Type': 'application/json'
-        },
-        'body': JSON.stringify(body)
+        }
+    };
+
+    if(type  === http.METHOD_POST){
+        headers.body = JSON.stringify(body)
     }
+
+    return headers;
 };
 
 const putHeaders = body => {
@@ -108,27 +113,38 @@ export const reinitState = () => {
     }
 };
 
-export const joinGame = (gameId, data) => {
+const launchPutRequest = (url, body, eventProgress, eventSuccess, eventError) => {
     return function (dispatch) {
-        dispatch({
-            type: types.JOIN_IN_PROGRESS
-        });
+        dispatch({type: eventProgress});
 
-        return fetch(urls.JOIN_GAME + gameId, putHeaders(data))
+        return fetch(url, putHeaders(body))
             .then(response => {
                 if (response.status === 200) {
-                    dispatch({
-                        type: types.JOIN_SUCCESS
-                    });
+                    dispatch({type: eventSuccess});
                 }
                 else {
-                    dispatch({
-                        type: types.JOIN_FAILED
-                    });
+                    dispatch({type: eventError});
                 }
             });
-    }
+    };
 };
+
+export const joinGame = (gameId) => {
+    return launchPutRequest(urls.JOIN_GAME + gameId,
+        null,
+        types.JOIN_IN_PROGRESS,
+        types.JOIN_SUCCESS,
+        types.JOIN_FAILED);
+};
+
+export const unjoinGame = (gameId) => {
+    return launchPutRequest(urls.UNJOIN_GAME + gameId,
+        null,
+        types.UNJOIN_IN_PROGRESS,
+        types.UNJOIN_SUCCESS,
+        types.UNJOIN_FAILED);
+};
+
 
 const retrieveGames = (url) => {
     return function (dispatch) {

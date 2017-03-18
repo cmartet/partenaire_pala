@@ -10,3 +10,4 @@ export const LOGOUT = 'http://localhost:8090/logout';
 export const GET_PROFILE = 'http://localhost:8090/profile';
 
 export const JOIN_GAME = 'http://localhost:8090/games/join/id/';
+export const UNJOIN_GAME = 'http://localhost:8090/games/unjoin/id/';

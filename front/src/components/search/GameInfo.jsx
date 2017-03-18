@@ -74,15 +74,15 @@ class GameInfo extends Component {
 
     userAlreadyJoined = () => {
         var userAlreadyInGame = false;
-        for(var i = 0; i < this.props.players.length; i++) {
-            if(this.props.players[i]._id === this.props.connectedUserId){
+        for (var i = 0; i < this.props.players.length; i++) {
+            if (this.props.players[i]._id === this.props.connectedUserId) {
                 userAlreadyInGame = true;
                 break;
             }
         }
 
         return userAlreadyInGame;
-   };
+    };
 
     render() {
         return (

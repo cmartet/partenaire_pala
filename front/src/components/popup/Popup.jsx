@@ -7,7 +7,8 @@ const propTypes = {
     message: React.PropTypes.string,
     open: React.PropTypes.bool,
     handleClose: React.PropTypes.func,
-    cancelButton: React.PropTypes.bool
+    cancelButton: React.PropTypes.bool,
+    handleCancel: React.PropTypes.func
 };
 
 const defaultProps = {
@@ -22,7 +23,7 @@ class Popup extends React.Component {
             <FlatButton
                 label="Annuler"
                 primary={true}
-                onTouchTap={this.props.handleClose}
+                onTouchTap={() => this.props.handleClose(true, true)}
             />);
 
         const OkButton = (
@@ -30,7 +31,7 @@ class Popup extends React.Component {
                 label="OK"
                 primary={true}
                 keyboardFocused={true}
-                onTouchTap={this.props.handleClose}
+                onTouchTap={() => this.props.handleClose(true, false)}
             />
         );
 

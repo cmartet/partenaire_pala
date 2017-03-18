@@ -95,14 +95,17 @@ const handleJoinActions = (type) => {
 
     switch (type) {
         case types.JOIN_FAILED:
+        case types.UNJOIN_FAILED:
             state.gameJoin.error = true;
             return state;
 
         case types.JOIN_SUCCESS:
+        case types.UNJOIN_SUCCESS:
             state.gameJoin.success = true;
             return state;
 
         case types.JOIN_IN_PROGRESS:
+        case types.UNJOIN_IN_PROGRESS:
             state.gameJoin.inProgress = true;
             return state;
 
@@ -131,6 +134,9 @@ export default (state = getInitialState(), action) => {
         case types.JOIN_SUCCESS:
         case types.JOIN_IN_PROGRESS:
         case types.JOIN_FAILED:
+        case types.UNJOIN_SUCCESS:
+        case types.UNJOIN_IN_PROGRESS:
+        case types.UNJOIN_FAILED:
             return handleJoinActions(action.type);
 
         default:

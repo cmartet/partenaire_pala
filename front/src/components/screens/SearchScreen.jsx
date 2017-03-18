@@ -7,7 +7,6 @@ import NavBar           from '../navBar/NavBar';
 import Popup            from '../popup/Popup';
 import Snackbar         from 'material-ui/Snackbar';
 
-
 import './SearchScreen.scss';
 
 class SearchScreen extends React.Component {
@@ -57,17 +56,23 @@ class SearchScreen extends React.Component {
         this.setState({'fieldType': value});
     };
 
-    deleteGame = () => {
-        this.props.gamesActions.deleteGame(this.state.delete.gameId);
+    deleteGame = (buttonClicked, cancelButtonClicked) => {
+        if (!buttonClicked || cancelButtonClicked) {
+            this.setState({'delete': {asking: false, gameId: null, success: false}});
+        }
+        else {
+            this.props.gamesActions.deleteGame(this.state.delete.gameId);
+        }
     };
 
     joinGame = gameId => {
-        this.setState({join: {inProgress: true, success: false}});
-        var body = {
-            _id: this.props.auth.id,
-            name: this.props.auth.name
-        };
-        this.props.gamesActions.joinGame(gameId, body);
+        this.setState({join: {inProgress: true, success: false, gameId: gameId}});
+        this.props.gamesActions.joinGame(gameId);
+    };
+
+    unjoinGame = gameId => {
+        this.setState({unjoin: {inProgress: true, success: false, gameId: gameId}});
+        this.props.gamesActions.unjoinGame(gameId);
     };
 
     setStateForGameDeletion = (gameId) => {
@@ -96,8 +101,9 @@ class SearchScreen extends React.Component {
                 <Popup title="Supprimer une partie"
                        message="Êtes-vous certain de vouloir supprimer cette partie ? Sûr Sûr ?"
                        open={this.state.delete.asking || this.props.gameDeletion.inProgress}
-                       cancelButton={false}
-                       handleClose={() => this.deleteGame()}/>
+                       cancelButton={true}
+                       handleCancel={() => this.setState({'delete': {asking: false, gameId: null, success: false}})}
+                       handleClose={this.deleteGame}/>
 
                 <div className="result-games">
                     {
@@ -114,14 +120,15 @@ class SearchScreen extends React.Component {
                                     date={game.date}
                                     players={game.players}
                                     connectedUserId={this.props.auth.id}
+                                    connectedUserName={this.props.auth.name}
                                     gameId={game._id}
                                     joinGame={() => this.joinGame(game._id)}
-                                    leaveGame={() => {}}
+                                    leaveGame={() => this.unjoinGame(game._id)}
                                     deleteGame={() => this.setStateForGameDeletion(game._id)}/>
                             }) :
                             this.props.games.inProgress ?
-                                <CircularProgress size={80} thickness={5} /> :
-                            (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
+                                <CircularProgress size={80} thickness={5}/> :
+                                (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
                     }
                 </div>
                 <Snackbar
@@ -132,7 +139,7 @@ class SearchScreen extends React.Component {
 
                 <Snackbar
                     open={!!this.state.join.success}
-                    message="Votre participation a cette partie a bien été enregistrée !"
+                    message="La modification a bien été enregistrée :)"
                     autoHideDuration={4000}
                     onRequestClose={this.handleSnackBarJoinClose}/>
             </div>
