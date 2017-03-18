@@ -313,7 +313,21 @@ class CreateScreen extends Component {
                     <div>
                         {this.props.games.data.length > 0 ?
                             (<Paper className="warning-already-exists" zDepth={2}>
-                                Une partie pour le même lieu et la même heure a déjà été planifiée !
+                                {this.props.games.data.length === 1 ?
+                                    <div>
+                                        <div>Une partie pour le même lieu et la même heure a déjà été planifiée !</div>
+                                        <div>Créée par {this.props.games.data[0].creator.name},
+                                            pour un début à {util.getFormattedTime(this.props.games.data[0].date)}</div>
+                                    </div>
+                                    :
+                                    <div>Plusieurs parties pour le même lieu et la même heure ont déjà été planifiées !
+                                        <ul>
+                                            {this.props.games.data.map(game => {
+                                               return <li>Créée par {game.creator.name}
+                                                    pour un début à {util.getFormattedTime(game.date)}</li>
+                                            })}
+                                        </ul>
+                                    </div>}
                             </Paper>)
                             : null}
                         {this.props.gameCreation.inProgress ?

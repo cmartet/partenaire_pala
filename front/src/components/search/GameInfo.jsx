@@ -1,6 +1,7 @@
 import React, {Component, PropTypes}    from 'react';
 import Chip                             from 'material-ui/Chip';
 import RaisedButton                     from 'material-ui/RaisedButton';
+import * as utils                       from '../../utils';
 
 var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 
@@ -35,36 +36,6 @@ const chipsStyle = {
     }
 };
 
-const translateDay = [
-    "Dimanche",
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi"];
-
-const translateMonth = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre"];
-
-var isSameDay = function (date1, date2) {
-    var firstDate = new Date(date1);
-    var secondDate = new Date(date2);
-
-    return firstDate.setHours(0, 0, 0, 0) === secondDate.setHours(0, 0, 0, 0);
-};
-
 class GameInfo extends Component {
 
     playersList = () => {
@@ -72,46 +43,6 @@ class GameInfo extends Component {
             <Chip style={chipsStyle.chip} key={player.name}>{player.name}</Chip>
         );
         return (<div className="players"> {listItems}</div>);
-    };
-
-    getFormattedDate = () => {
-        if (this.gameIsToday()) {
-            return "Aujourd'hui";
-        }
-
-        if (this.gameIsTomorrow()) {
-            return "Demain";
-        }
-
-        var date = new Date(this.props.date);
-        var day = translateDay[date.getDay()];
-        var numberInMonth = date.getDate();
-        var month = translateMonth[date.getMonth()];
-        var year = date.getFullYear();
-
-        return day + " " + numberInMonth + " " + month + " " + year;
-    };
-
-    gameIsToday = () => {
-        var today = new Date();
-        return isSameDay(this.props.date, today);
-    };
-
-    gameIsTomorrow = () => {
-        var today = new Date();
-        var tomorrow = today.setDate(today.getDate() + 1);
-        return isSameDay(this.props.date, tomorrow);
-    };
-
-    getFormattedTime = () => {
-        var datetime = new Date(this.props.date);
-        var hour = datetime.getHours();
-        var minutes = datetime.getMinutes();
-        if (minutes.toString().length < 2) {
-            minutes = "0" + minutes;
-        }
-
-        return hour + ":" + minutes;
     };
 
     gameIsOver = () => {
@@ -176,8 +107,8 @@ class GameInfo extends Component {
                         <img src={this.props.placePicture} alt={this.props.place + " Picture"}/>
                         : null}
                     <div className="game-datetime">
-                        <div className="date">{this.getFormattedDate()}</div>
-                        <div className="time">{this.getFormattedTime()}</div>
+                        <div className="date">{utils.getFormattedDate(this.props.date)}</div>
+                        <div className="time">{utils.getFormattedTime(this.props.date)}</div>
                     </div>
 
                     {this.props.displayMode ? null :

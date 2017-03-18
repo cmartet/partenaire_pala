@@ -2,6 +2,29 @@ import * as app from '../constants/App.js';
 import * as gameData from '../constants/GameData.js';
 import areIntlLocalesSupported  from 'intl-locales-supported';
 
+const translateDay = [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"];
+
+const translateMonth = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre"];
+
 export function getAuthCookie() {
     var value = "; " + document.cookie;
     var parts = value.split("; " + app.AUTHORIZATION_COOKIE_KEY + '=');
@@ -38,4 +61,51 @@ export function getDateTimeFormat() {
         require('intl/locale-data/jsonp/fa-IR');
         return IntlPolyfill.DateTimeFormat;
     }
+}
+
+export function getFormattedTime(dateTime) {
+    var datetime = new Date(dateTime);
+    var hour = datetime.getHours();
+    var minutes = datetime.getMinutes();
+    if (minutes.toString().length < 2) {
+        minutes = "0" + minutes;
+    }
+
+    return hour + ":" + minutes;
+}
+
+const isSameDay = (date1, date2) => {
+    var firstDate = new Date(date1);
+    var secondDate = new Date(date2);
+
+    return firstDate.setHours(0, 0, 0, 0) === secondDate.setHours(0, 0, 0, 0);
+};
+
+const gameIsToday = (date) => {
+    var today = new Date();
+    return isSameDay(date, today);
+};
+
+const gameIsTomorrow = (date) => {
+    var today = new Date();
+    var tomorrow = today.setDate(today.getDate() + 1);
+    return isSameDay(date, tomorrow);
+};
+
+export function getFormattedDate(dateTime) {
+    if (gameIsToday(dateTime)) {
+        return "Aujourd'hui";
+    }
+
+    if (gameIsTomorrow(dateTime)) {
+        return "Demain";
+    }
+
+    var date = new Date(dateTime);
+    var day = translateDay[date.getDay()];
+    var numberInMonth = date.getDate();
+    var month = translateMonth[date.getMonth()];
+    var year = date.getFullYear();
+
+    return day + " " + numberInMonth + " " + month + " " + year;
 }
