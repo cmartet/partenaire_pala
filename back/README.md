@@ -108,6 +108,11 @@ Créé une nouvelle partie
 Content-Type: application/json
 ```
 
+<b>Authorization (obligatoire)</b>: token d'authentification
+```js
+Authorization: Bearer abcd1234
+```
+
 #### Body
 ```js
 {
@@ -145,6 +150,10 @@ Met à jour les informations d'une partie. Seul le créateur de la partie peut eff
 <b>Content-Type (obligatoire)</b>: format du body de la requête
 ```js
 Content-Type: application/json
+```
+<b>Authorization (obligatoire)</b>: token d'authentification
+```js
+Authorization: Bearer abcd1234
 ```
 
 #### Body
@@ -184,26 +193,35 @@ L'id dans l'appel correspond à l'id de la partie que le joueur souhaite rejoindr
 
 #### Headers
 
-<b>Content-Type (obligatoire)</b>: format du body de la requête
+<b>Authorization (obligatoire)</b>: token d'authentification
 ```js
-Content-Type: application/json
+Authorization: Bearer abcd1234
 ```
 
-#### Body
+### PUT /games/unjoin/id/:id
 
-Le body correspond au joueur qui souhaite rejoindre la partie.
+Permet à un joueur de sortir d'une partie. 
 
+L'id dans l'appel correspond à l'id de la partie que le joueur souhaite quitter.
+
+#### Headers
+
+<b>Authorization (obligatoire)</b>: token d'authentification
 ```js
-{
-    "_id": "5698e3b6a09e5410e4f5e1b8", 
-    "name": "Madame michue"
-}
+Authorization: Bearer abcd1234
 ```
 
 ### DELETE /games/id/:id
 
 Supprime une partie à partir de son _id. 
 Seul le créateur de la partie peut effectuer cette action.
+
+#### Headers
+
+<b>Authorization (obligatoire)</b>: token d'authentification
+```js
+Authorization: Bearer abcd1234
+```
 
 ## /places
 ### GET /places/search/\<search>

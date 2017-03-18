@@ -25,7 +25,7 @@ var game1 = {
     "level": "debutant",
     "maxMissingPlayers": 3,
     "message": "toto",
-    "players": []
+    "players": [{ "_id": "7898e3b6a09e5410e4f5e1b8", "name": "Monsieur michue" }]
 };
 
 var game2 = {
@@ -137,6 +137,24 @@ describe("games service", function () {
         });
     });
 
+    it("unjoin a game should remove a player in the game players array", function (done) {
+        var player = {
+            "_id": "7898e3b6a09e5410e4f5e1b8",
+            "name": "Monsieur michue"
+        };
+
+        var place = "viodos";
+        games.getBy(game1.date, game1.date, place, function (err, result) {
+            var game = result[0];
+            games.unjoin(game._id, player, function (err, result) {
+                games.getBy(game1.date, game1.date, place, function (err, result) {
+                    expect(result[0].players.length).to.be.equal(0);
+                    done();
+                });
+            });
+        });
+    });
+
     it("update a game should only update the wanted properties", function (done) {
         var place = "begles";
         games.getBy(game2.date, game2.date, place, function (err, result) {
@@ -160,7 +178,8 @@ describe("games service", function () {
     });
 
     it("isGameCreator with the good creator should return true", function (done) {
-        games.getBy(game1.date, game1.date, game1.place, function (err, result) {
+        var place = "viodos";
+        games.getBy(game1.date, game1.date, place, function (err, result) {
             games.isGameCreator(result[0]._id, game1.creator._id, function (err, isCreator) {
                 expect(err).to.be.null;
                 expect(isCreator).to.be.true;
@@ -170,7 +189,8 @@ describe("games service", function () {
     });
 
     it("isGameCreator with the bad creator should return false", function (done) {
-        games.getBy(game1.date, game1.date, game1.place, function (err, result) {
+        var place = "viodos";
+        games.getBy(game1.date, game1.date, place, function (err, result) {
             games.isGameCreator(result[0]._id, "1234", function (err, isCreator) {
                 expect(err).to.be.null;
                 expect(isCreator).to.be.false;
@@ -180,7 +200,8 @@ describe("games service", function () {
     });
 
     it("isGameFull with a game not full should return false", function (done) {
-        games.getBy(game1.date, game1.date, game1.place, function (err, result) {
+        var place = "viodos";
+        games.getBy(game1.date, game1.date, place, function (err, result) {
             games.isGameFull(result[0]._id, function (err, isGameFull) {
                 expect(err).to.be.null;
                 expect(isGameFull).to.be.false;
@@ -190,7 +211,8 @@ describe("games service", function () {
     });
 
     it("isGameFull with a full game should return true", function (done) {
-        games.getBy(game3.date, game3.date, game3.place, function (err, result) {
+        var place = "villenave";
+        games.getBy(game3.date, game3.date, place, function (err, result) {
             games.isGameFull(result[0]._id, function (err, isGameFull) {
                 expect(err).to.be.null2
                 expect(isGameFull).to.be.true;

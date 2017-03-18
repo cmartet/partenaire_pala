@@ -41,6 +41,22 @@ module.exports = {
         });
     },
 
+    //Unjoin a game
+    unjoin: function (gameId, player, callback) {
+        if (!player)
+            callback(new Error("no player"));
+
+        var query = {
+            "$pull": {
+                "players": { _id: player._id }
+            }
+        };
+
+        Game.findByIdAndUpdate(gameId, query, function (err) {
+            callback(err);
+        });
+    },
+
     //Update a game
     update: function (game, callback) {
         game.place.location.search_key = game.place.location.address.noAccents();

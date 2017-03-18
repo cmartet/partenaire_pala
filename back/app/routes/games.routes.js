@@ -29,8 +29,17 @@ module.exports = function (app, passport) {
         checkGameNotFull,
         function (req, res, next) {
             var gameId = req.params.id;
-            var player = req.body;
+            var player = { "_id": req.user._id, "name": req.user.bearer.name };
             gamesService.join(gameId, player, handleServiceCallback(req, res, next));
+        }
+    );
+
+    app.put('/games/unjoin/id/:id',
+        isLoggedIn(passport),
+        function (req, res, next) {
+            var gameId = req.params.id;
+            var player = { "_id": req.user._id, "name": req.user.bearer.name };
+            gamesService.unjoin(gameId, player, handleServiceCallback(req, res, next));
         }
     );
 
