@@ -1,24 +1,24 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as gamesActions from '../actions/gamesAction';
+import {bindActionCreators}       from 'redux';
+import {connect}                  from 'react-redux';
+import * as gamesActions          from '../actions/gamesAction';
 import * as authenticationActions from '../actions/authenticationAction';
-
-import CreateScreen from '../components/screens/CreateScreen';
+import * as placesActions         from '../actions/placesAction';
+import CreateScreen               from '../components/screens/CreateScreen';
 
 const mapStateToProps = (state) => {
     return {
-        places: state.games.placesRetrieval,
+        auth: state.authentication,
         gameCreation: state.games.gameCreation,
-        auth: state.authentication
+        places: state.places.placesRetrieval
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        authActions: bindActionCreators(authenticationActions, dispatch),
         gamesActions: bindActionCreators(gamesActions, dispatch),
-        authActions: bindActionCreators(authenticationActions, dispatch)
+        placesActions: bindActionCreators(placesActions, dispatch)
     }
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateScreen);

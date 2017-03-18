@@ -216,7 +216,7 @@ class CreateScreen extends Component {
                 return (
                     <div>
                         <SearchPlace
-                            searchAction={this.props.gamesActions.fetchPlaces}
+                            searchAction={this.props.placesActions.fetchPlaces}
                             onSelectPlace={this.getSelectedGame}
                             places={this.props.places.data}
                             selectedPlace={this.state.place}

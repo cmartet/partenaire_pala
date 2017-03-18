@@ -41,12 +41,6 @@ class SearchPlace extends React.Component {
         }
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isSearchInProgress) {
-            console.log(nextProps);
-        }
-    };
-
     handleChange = (inputName, event) => {
         this.setState({[inputName]: event.target.value});
     };
