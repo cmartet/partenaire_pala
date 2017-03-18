@@ -11,7 +11,8 @@ module.exports = {
     },
 
     manageError: function (err, req, res, next) {
-        res.status(500).send(err.message);
+        var statusCode = err.statusCode || 500;
+        res.status(statusCode).send(err.message);
     },
 
     isLoggedIn: function (passport) {
@@ -29,10 +30,11 @@ module.exports = {
             if (err)
                 return next(err);
 
-            if (isGameCreator)
-                return next();
+            if (!isGameCreator) {
+                return next({ 'statusCode': 403, 'message': "You are not authorized to do this" });
+            }
 
-            res.sendStatus(403);
+            return next();
         });
     },
 
@@ -44,10 +46,26 @@ module.exports = {
             if (err)
                 return next(err);
 
-            if (!isGameFull)
-                return next();
+            if (isGameFull)
+                return next({ 'statusCode': 400, 'message': "The game is already full" });
 
-            res.sendStatus(400);
+            return next();
+        });
+    },
+
+    checkPlayerNotInGame: function (req, res, next) {
+        var gameId = req.params.id;
+        var userId = req.user._id;
+
+        //Check if the game players are not full
+        gamesService.isPlayerInGame(gameId, userId, function (err, isPlayerInGame) {
+            if (err)
+                return next(err);
+
+            if (isPlayerInGame)
+                return next({ 'statusCode': 400, 'message': "You are already in the game players" });
+
+            return next();
         });
     }
 };

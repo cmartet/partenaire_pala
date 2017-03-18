@@ -2,6 +2,7 @@
 var checkGameRights = require('./../helpers/middlewares').checkGameRights;
 var isLoggedIn = require('./../helpers/middlewares').isLoggedIn;
 var checkGameNotFull = require('./../helpers/middlewares').checkGameNotFull;
+var checkPlayerNotInGame = require('./../helpers/middlewares').checkPlayerNotInGame;
 var handleServiceCallback = require('./../helpers/tools').handleServiceCallback;
 
 module.exports = function (app, passport) {
@@ -27,6 +28,7 @@ module.exports = function (app, passport) {
     app.put('/games/join/id/:id',
         isLoggedIn(passport),
         checkGameNotFull,
+        checkPlayerNotInGame,
         function (req, res, next) {
             var gameId = req.params.id;
             var player = { "_id": req.user._id, "name": req.user.bearer.name };

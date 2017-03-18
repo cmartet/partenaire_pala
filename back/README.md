@@ -189,6 +189,8 @@ Authorization: Bearer abcd1234
 
 Permet à un joueur de rejoindre une partie. 
 
+Un joueur ne peut pas rejoindre une partie si il a déjà rejoint cette partie ou si la partie est complète.
+
 L'id dans l'appel correspond à l'id de la partie que le joueur souhaite rejoindre.
 
 #### Headers

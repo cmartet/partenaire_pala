@@ -1,4 +1,5 @@
 ﻿var utf8 = require('utf8');
+var _ = require('lodash');
 var Game = require('../models/game');
 
 require('../helpers/extendString')(String);
@@ -103,6 +104,18 @@ module.exports = {
 
             var isFull = game.players.length >= game.maxMissingPlayers;
             return callback(null, isFull);
+        });
+    },
+
+    //Check if a user is in a game players
+    isPlayerInGame: function (gameId, userId, callback) {
+        Game.findById(gameId, function (err, game) {
+            if (err) {
+                return callback(err);
+            }
+
+            var isPlayerInGame = _.filter(game.players, { '_id': userId.toString() }).length > 0;
+            callback(null, isPlayerInGame);
         });
     }
 };

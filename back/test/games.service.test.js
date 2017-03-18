@@ -214,8 +214,32 @@ describe("games service", function () {
         var place = "villenave";
         games.getBy(game3.date, game3.date, place, function (err, result) {
             games.isGameFull(result[0]._id, function (err, isGameFull) {
-                expect(err).to.be.null2
+                expect(err).to.be.null;
                 expect(isGameFull).to.be.true;
+                done();
+            });
+        });
+    });
+
+    it("isPlayerInGame with the player not in game should return false", function (done) {
+        var place = "villenave";
+        var userId = "7898e3b6a09e5410e4f54568";
+        games.getBy(game3.date, game3.date, place, function (err, result) {
+            games.isPlayerInGame(result[0]._id, userId, function (err, isPlayerInGame) {
+                expect(err).to.be.null;
+                expect(isPlayerInGame).to.be.false;
+                done();
+            });
+        });
+    });
+
+    it("isPlayerInGame with the player in game should return true", function (done) {
+        var place = "villenave";
+        var userId = "7898e3b6a09e5410e4f5e1b8";
+        games.getBy(game3.date, game3.date, place, function (err, result) {
+            games.isPlayerInGame(result[0]._id, userId, function (err, isPlayerInGame) {
+                expect(err).to.be.null;
+                expect(isPlayerInGame).to.be.true;
                 done();
             });
         });
