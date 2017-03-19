@@ -41,14 +41,24 @@ class CreateScreen extends Component {
             date: new Date(),
             level: '',
             maxMissingPlayers: 4,
+            nbPlayers: 1,
             message: '',
             error: {},
-            creationInProgress: false
+            creationInProgress: false,
+            players: []
         };
     };
 
     componentDidMount = () => {
         this.props.authActions.getProfile();
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.auth.name) {
+            var players = this.state.players.slice();
+            players[0] = {name: this.props.auth.name};
+            this.setState({'players': players});
+        }
     };
 
     buildGameFromState = () => {
@@ -62,7 +72,7 @@ class CreateScreen extends Component {
                 _id: this.props.auth.id,
                 name: this.props.auth.name
             },
-            players: []
+            players: this.state.players
         }
     };
 
@@ -134,7 +144,6 @@ class CreateScreen extends Component {
         return isFrontonSelected;
     };
 
-
     checkGameInfo = () => {
         var isFormValid = true;
 
@@ -183,6 +192,16 @@ class CreateScreen extends Component {
             this.resetErrorFor('maxMissingPlayers');
         }
 
+        if (!this.state.nbPlayers ||
+            this.state.nbPlayers > this.state.maxMissingPlayers ||
+            this.state.nbPlayers < 0) {
+            this.setErrorMessageForKey('nbPlayers', 'saisir un nombre valide de participants');
+            isFormValid = false;
+        }
+        else {
+            this.resetErrorFor('nbPlayers');
+        }
+
         return isFormValid;
     };
 
@@ -220,6 +239,36 @@ class CreateScreen extends Component {
 
     setGameValidationState = (isValid) => {
         this.setState({placeIsValid: isValid});
+    };
+
+    onChangeNbPlayers = (event, value) => {
+        var intValue = parseInt(value, 10);
+
+        if (intValue >= 0 && intValue <= this.state.maxMissingPlayers) {
+            var players = this.state.players.slice();
+            var newPlayersArray = [];
+
+            for (var i = 0; i < intValue; i++) {
+                if (!players[i]) {
+                    newPlayersArray[i] = {name: 'Joueur n°' + i};
+                }
+                else {
+                    newPlayersArray[i] = {name: players[i].name};
+                }
+            }
+
+            this.setState({'players': newPlayersArray});
+        }
+
+        this.setState({'nbPlayers': value});
+    };
+
+    onChangePlayerName = (index) => {
+        return (event, value) => {
+            var players = this.state.players.slice();
+            players[index] = {name: value};
+            this.setState({'players': players});
+        };
     };
 
     getStepContent(stepIndex) {
@@ -304,7 +353,28 @@ class CreateScreen extends Component {
                                     value={this.state.maxMissingPlayers}
                                     errorText={this.state.error.maxMissingPlayers}
                                     onChange={this.handleChange.bind(this, 'maxMissingPlayers')}/>
+
+                                <TextField
+                                    floatingLabelText="Nombre de participants déjà prévus *"
+                                    type="number"
+                                    value={this.state.nbPlayers}
+                                    errorText={this.state.error.nbPlayers}
+                                    onChange={this.onChangeNbPlayers.bind(this)}
+                                    max={this.state.maxMissingPlayers}
+                                    min={0}
+                                />
+
                             </div>
+
+                            {this.state.players.map((player, i) => {
+                                return <div key={"player_" + i}>
+                                    <TextField
+                                        floatingLabelText={"Nom du joueur n°" + i}
+                                        type="text"
+                                        value={player.name}
+                                        onChange={this.onChangePlayerName(i)}/>
+                                </div>
+                            })}
                         </Col>
                     </Row>
                 );
@@ -323,7 +393,7 @@ class CreateScreen extends Component {
                                     <div>Plusieurs parties pour le même lieu et la même heure ont déjà été planifiées !
                                         <ul>
                                             {this.props.games.data.map(game => {
-                                               return <li>Créée par {game.creator.name}
+                                                return <li>Créée par {game.creator.name}
                                                     pour un début à {util.getFormattedTime(game.date)}</li>
                                             })}
                                         </ul>
@@ -341,7 +411,7 @@ class CreateScreen extends Component {
                                 creator={this.props.auth.name}
                                 date={this.state.dateTime}
                                 displayMode={true}
-                                nbPlayers={0}/>
+                                players={this.state.players}/>
 
                         }
                         <Popup title="Game On !"

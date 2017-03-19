@@ -21,8 +21,7 @@ const propTypes = {
     deleteGame: PropTypes.func,
     joinGame: PropTypes.func,
     leaveGame: PropTypes.func,
-    displayMode: PropTypes.boolean,
-    nbPlayers: PropTypes.number
+    displayMode: PropTypes.boolean
 };
 
 const defaultProps = {
@@ -58,7 +57,7 @@ class GameInfo extends Component {
     };
 
     getNbPlayersInfo = () => {
-        let nbPlayers = this.props.displayMode ? this.props.nbPlayers : this.props.players.length;
+        let nbPlayers = this.props.players.length;
         return (
             <div>
                 <span className="nb-players-present">
@@ -111,14 +110,13 @@ class GameInfo extends Component {
                         <div className="time">{utils.getFormattedTime(this.props.date)}</div>
                     </div>
 
-                    {this.props.displayMode ? null :
+                    {this.props.displayMode && this.props.players.length === 0 ? null :
                         this.props.players.length > 0 ?
                             (<div className="players-info">
                                 <div className="players-list">Participants</div>
                                 {this.playersList()}
                             </div>) :
                             (<div>Aucun joueur n'a rejoint cette partie pour le moment.</div>)
-
                     }
                     {this.props.displayMode ? null :
                         this.userIsCreator() ?
