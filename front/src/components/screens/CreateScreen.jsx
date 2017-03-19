@@ -1,14 +1,11 @@
 import React, {Component}   from 'react';
 import {withRouter}         from 'react-router'
 import {Row, Col}           from 'react-flexbox-grid';
-import CircularProgress     from 'material-ui/CircularProgress';
 import DatePicker           from 'material-ui/DatePicker';
 import FlatButton           from 'material-ui/FlatButton';
-import GameInfo             from '../search/GameInfo'
 import LoginScreen          from './../login/Login'
 import MenuItem             from 'material-ui/MenuItem';
 import NavBar               from '../navBar/NavBar';
-import Paper                from 'material-ui/Paper';
 import Popup                from '../popup/Popup'
 import RaisedButton         from 'material-ui/RaisedButton';
 import SearchPlace          from '../createForm/SearchPlace';
@@ -21,6 +18,7 @@ import {
     Stepper,
     StepLabel,
 }                           from 'material-ui/Stepper';
+import CheckAndCreate       from '../createForm/CheckAndCreate';
 
 import './CreateScreen.scss';
 
@@ -33,6 +31,7 @@ class CreateScreen extends Component {
         this.state = {
             searchedPlace: '',
             stepIndex: 0,
+            allGameInfo: {},
             validation: {
                 maxMissingPlayers: null,
                 players: null
@@ -81,15 +80,10 @@ class CreateScreen extends Component {
         }
     };
 
-    redirectToSearchPage = () => {
-        window.location.href = '/';
-    };
-
     createGame = () => {
         if (this.props.auth.sessionValid) {
             this.setState({'creationInProgress': true});
-            let game = this.buildGameFromState();
-            this.props.gamesActions.createGame(game);
+            this.props.gamesActions.createGame(this.state.allGameInfo);
         }
         else {
             this.setState({openPopup: true});
@@ -116,6 +110,7 @@ class CreateScreen extends Component {
         if (stepIndex < STEP_MAX) {
             if (stepIndex === STEP_MAX - 1) {
                 this.getSameGamesAsTheOneToBeCreated();
+                this.setState({'allGameInfo': this.buildGameFromState()});
             }
 
             if (this.areInfoOK(stepIndex))
@@ -391,62 +386,12 @@ class CreateScreen extends Component {
                 );
             case 3:
                 return (
-                    <div>
-                        {this.props.games.data.length > 0 ?
-                            (<Paper className="warning-already-exists" zDepth={2}>
-                                {this.props.games.data.length === 1 ?
-                                    <div>
-                                        <div>Une partie pour le même lieu et la même heure a déjà été planifiée !</div>
-                                        <div>Créée par {this.props.games.data[0].creator.name},
-                                            pour un début à {util.getFormattedTime(this.props.games.data[0].date)}</div>
-                                    </div>
-                                    :
-                                    <div>Plusieurs parties pour le même lieu et la même heure ont déjà été planifiées !
-                                        <ul>
-                                            {this.props.games.data.map(game => {
-                                                return <li>Créée par {game.creator.name}
-                                                    pour un début à {util.getFormattedTime(game.date)}</li>
-                                            })}
-                                        </ul>
-                                    </div>}
-                            </Paper>)
-                            : null}
-
-                        {this.props.auth.name ? null :
-                            <Paper className="warning-already-exists" zDepth={2}>
-                                <div>
-                                    <span>Vous devez vous connecter pour continuer !</span>
-                                    <RaisedButton label="Connexion" fullWidth={true} onClick={this.login}/>
-                                </div>
-                            </Paper>
-                        }
-                        {this.props.gameCreation.inProgress ?
-                            <CircularProgress size={60} thickness={7}/> :
-
-                            <GameInfo
-                                level={this.state.level}
-                                placePicture={this.state.place.photo}
-                                place={this.state.place.name}
-                                maxPlayers={this.state.maxMissingPlayers}
-                                creator={this.props.auth.name || 'Vous'}
-                                date={this.state.dateTime}
-                                displayMode={true}
-                                players={this.state.players}/>
-
-                        }
-                        <Popup title="Game On !"
-                               message="La partie est bien enregistrée !"
-                               handleClose={this.redirectToSearchPage}
-                               open={this.props.gameCreation.success}
-                               cancelButton={false}/>
-
-                        <Popup title="Oups ..."
-                               message="Une erreur est survenue. Veuillez ré-essayer, ou contactez-nous !"
-                               open={this.props.gameCreation.error}
-                               handleClose={() => location.reload()}
-                               cancelButton={false}/>
-
-                    </div>);
+                    <CheckAndCreate
+                        gameInfo={this.state.allGameInfo}
+                        games={this.props.games.data}
+                        connectedUserName={this.props.auth.name}
+                        gameCreation={this.props.gameCreation}
+                    />);
             default:
                 return 'You\'re a long way from home sonny jim!';
         }
