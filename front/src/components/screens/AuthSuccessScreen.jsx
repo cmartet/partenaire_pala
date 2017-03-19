@@ -1,13 +1,17 @@
-import React from 'react';
+import React        from 'react';
 import {withRouter} from 'react-router'
 
 const AuthSuccessScreen = React.createClass({
 
     componentDidMount() {
-        const url = '/private';
-        window.opener.open(url, '_self');
-        window.opener.focus();
-        window.close();
+        this.props.authActions.getProfile();
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.auth.name) {
+            window.opener.focus();
+            window.close();
+        }
     },
 
     render () {

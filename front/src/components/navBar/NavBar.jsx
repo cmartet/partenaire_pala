@@ -1,23 +1,14 @@
 import React, {PropTypes}   from 'react';
-import * as urls            from '../../constants/Urls'
 import * as utils           from '../../utils';
-
 
 import './NavBar.scss';
 
 const propTypes = {
     location: PropTypes.object,
-    logout: PropTypes.func
+    logout:   PropTypes.func
 };
 
 const NavBar = React.createClass({
-
-    loginFB() {
-        const url = urls.FACEBOOK_AUTH;
-        const name = 'facebook_login';
-        const specs = 'width=500,height=500';
-        window.open(url, name, specs);
-    },
 
     isSearchScreen() {
         return this.props.location.pathname === '/' ? " active" : "";
@@ -41,7 +32,7 @@ const NavBar = React.createClass({
                     <div className="login">
                         {utils.getAuthCookie() ?
                             <span onClick={() => this.props.logout()} className="logout">Déconnexion</span> :
-                            <span onClick={this.loginFB}>Connexion</span>}
+                            <span onClick={utils.loginFB}>Connexion</span>}
                     </div>
                 </div>
             </div>

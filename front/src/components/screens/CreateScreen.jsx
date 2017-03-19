@@ -51,14 +51,19 @@ class CreateScreen extends Component {
 
     componentDidMount = () => {
         this.props.authActions.getProfile();
+        this.changeFirstPlayerInParticipants('Vous !');
     };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.name) {
-            var players = this.state.players.slice();
-            players[0] = {name: this.props.auth.name};
-            this.setState({'players': players});
+            this.changeFirstPlayerInParticipants(this.props.auth.name);
         }
+    };
+
+    changeFirstPlayerInParticipants = (playersName) => {
+        var players = this.state.players.slice();
+        players[0] = {name: playersName};
+        this.setState({'players': players});
     };
 
     buildGameFromState = () => {
@@ -244,22 +249,24 @@ class CreateScreen extends Component {
     onChangeNbPlayers = (event, value) => {
         var intValue = parseInt(value, 10);
 
-        if (intValue >= 0 && intValue <= this.state.maxMissingPlayers) {
-            var players = this.state.players.slice();
-            var newPlayersArray = [];
-
-            for (var i = 0; i < intValue; i++) {
-                if (!players[i]) {
-                    newPlayersArray[i] = {name: 'Joueur n°' + i};
-                }
-                else {
-                    newPlayersArray[i] = {name: players[i].name};
-                }
-            }
-
-            this.setState({'players': newPlayersArray});
+        if (intValue < 0 || intValue > this.state.maxMissingPlayers) {
+            this.setState({'nbPlayers': value});
+            return;
         }
 
+        var players = this.state.players.slice();
+        var newPlayersArray = [];
+
+        for (var i = 0; i < intValue; i++) {
+            if (!players[i]) {
+                newPlayersArray[i] = {name: 'Joueur n°' + i};
+            }
+            else {
+                newPlayersArray[i] = {name: players[i].name};
+            }
+        }
+
+        this.setState({'players': newPlayersArray});
         this.setState({'nbPlayers': value});
     };
 
@@ -269,6 +276,10 @@ class CreateScreen extends Component {
             players[index] = {name: value};
             this.setState({'players': players});
         };
+    };
+
+    login = () => {
+        util.loginFB();
     };
 
     getStepContent(stepIndex) {
@@ -400,6 +411,15 @@ class CreateScreen extends Component {
                                     </div>}
                             </Paper>)
                             : null}
+
+                        {this.props.auth.name ? null :
+                            <Paper className="warning-already-exists" zDepth={2}>
+                                <div>
+                                    <span>Vous devez vous connecter pour continuer !</span>
+                                    <RaisedButton label="Connexion" fullWidth={true} onClick={this.login}/>
+                                </div>
+                            </Paper>
+                        }
                         {this.props.gameCreation.inProgress ?
                             <CircularProgress size={60} thickness={7}/> :
 
@@ -408,7 +428,7 @@ class CreateScreen extends Component {
                                 placePicture={this.state.place.photo}
                                 place={this.state.place.name}
                                 maxPlayers={this.state.maxMissingPlayers}
-                                creator={this.props.auth.name}
+                                creator={this.props.auth.name || 'Vous'}
                                 date={this.state.dateTime}
                                 displayMode={true}
                                 players={this.state.players}/>

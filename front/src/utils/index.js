@@ -1,5 +1,6 @@
-import * as app from '../constants/App.js';
-import * as gameData from '../constants/GameData.js';
+import * as app         from '../constants/App.js';
+import * as gameData    from '../constants/GameData.js';
+import * as urls        from '../constants/Urls'
 import areIntlLocalesSupported  from 'intl-locales-supported';
 
 const translateDay = [
@@ -108,4 +109,11 @@ export function getFormattedDate(dateTime) {
     var year = date.getFullYear();
 
     return day + " " + numberInMonth + " " + month + " " + year;
+}
+
+export function loginFB() {
+    const url = urls.FACEBOOK_AUTH;
+    const name = 'facebook_login';
+    const specs = 'width=500,height=500';
+    window.open(url, name, specs);
 }
