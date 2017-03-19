@@ -200,7 +200,7 @@ class CreateScreen extends Component {
     onChangeNbPlayers = (event, value) => {
         var intValue = parseInt(value, 10);
 
-        if (intValue < 0 || intValue > this.state.maxMissingPlayers) {
+        if (!value || intValue < 0 || intValue > this.state.maxMissingPlayers) {
             this.setState({'nbPlayers': value});
             return;
         }
