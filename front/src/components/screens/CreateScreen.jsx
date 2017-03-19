@@ -2,27 +2,17 @@ import React, {Component}   from 'react';
 import {withRouter}         from 'react-router'
 import {Row, Col}           from 'react-flexbox-grid';
 import DatePicker           from 'material-ui/DatePicker';
-import FlatButton           from 'material-ui/FlatButton';
-import LoginScreen          from './../login/Login'
 import MenuItem             from 'material-ui/MenuItem';
 import NavBar               from '../navBar/NavBar';
-import Popup                from '../popup/Popup'
-import RaisedButton         from 'material-ui/RaisedButton';
 import SearchPlace          from '../createForm/SearchPlace';
 import SelectField          from 'material-ui/SelectField';
 import TextField            from 'material-ui/TextField';
 import TimePicker           from 'material-ui/TimePicker';
 import * as util            from '../../utils'
-import {
-    Step,
-    Stepper,
-    StepLabel,
-}                           from 'material-ui/Stepper';
 import CheckAndCreate       from '../createForm/CheckAndCreate';
+import CreateStepper       from '../createForm/CreateStepper';
 
 import './CreateScreen.scss';
-
-const STEP_MAX = 3;
 
 class CreateScreen extends Component {
 
@@ -30,7 +20,6 @@ class CreateScreen extends Component {
         super(props);
         this.state = {
             searchedPlace: '',
-            stepIndex: 0,
             allGameInfo: {},
             validation: {
                 maxMissingPlayers: null,
@@ -100,32 +89,11 @@ class CreateScreen extends Component {
         };
     };
 
-    closePopup = () => {
-        this.setState({openPopup: false});
-    };
-
-    handleNext = () => {
-        const {stepIndex} = this.state;
-
-        if (stepIndex < STEP_MAX) {
-            if (stepIndex === STEP_MAX - 1) {
-                this.getSameGamesAsTheOneToBeCreated();
-                this.setState({'allGameInfo': this.buildGameFromState()});
-            }
-
-            if (this.areInfoOK(stepIndex))
-                this.setState({stepIndex: stepIndex + 1});
-        }
-        else {
-            this.createGame();
-        }
-    };
-
     getSameGamesAsTheOneToBeCreated = () => {
         this.props.gamesActions.getGameWithinHourAndPlace(this.state.dateTime, this.state.place.name);
     };
 
-    areInfoOK = stepIndex => {
+    areInfoOK(stepIndex) {
         switch (stepIndex) {
             case 0:
                 return this.checkPlaceInfo();
@@ -217,24 +185,12 @@ class CreateScreen extends Component {
         this.setState({'error': allErrors});
     };
 
-    getNextButtonLabel = () => {
-        const {stepIndex} = this.state;
-        return stepIndex < STEP_MAX ? 'Suivant' : 'C\'est tout bon, créer cette partie';
-    };
-
-    handlePrev = () => {
-        const {stepIndex} = this.state;
-        if (stepIndex > 0) {
-            this.setState({stepIndex: stepIndex - 1});
-        }
-    };
-
     handleSelectChange = stateKey => {
         return (event, index, value) => this.setState({[stateKey]: value});
     };
 
     getSelectedGame = (value) => {
-        this.setState({'place': value}, this.handleNext);
+        this.setState({'place': value}, this.refs.stepper.handleNext);
     };
 
     setGameValidationState = (isValid) => {
@@ -273,8 +229,13 @@ class CreateScreen extends Component {
         };
     };
 
-    login = () => {
-        util.loginFB();
+    handleLastStep = () => {
+        this.getSameGamesAsTheOneToBeCreated();
+        this.setState({'allGameInfo': this.buildGameFromState()});
+    };
+
+    closePopup = () => {
+        this.setState({openPopup: false});
     };
 
     getStepContent(stepIndex) {
@@ -398,65 +359,22 @@ class CreateScreen extends Component {
     }
 
     render() {
-        const {stepIndex} = this.state;
-
         return (
             <div className="CreateScreen">
                 <NavBar location={this.props.location}
-                        logout={this.props.authActions.logout}/>
+                        logout={this.props.authActions.logout}
+                />
 
-                {this.props.id === null ?
-                    (<LoginScreen/>)
-                    :
-                    ( <div style={{width: '100%', maxWidth: 1000, margin: 'auto'}}>
-                        <Stepper linear={false} activeStep={stepIndex}>
-                            <Step>
-                                <StepLabel>
-                                    Sélection du terrain
-                                </StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel >
-                                    Informations sur la partie
-                                </StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>
-                                    Qui joue ?
-                                </StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>
-                                    Vérification des informations
-                                </StepLabel>
-                            </Step>
-                        </Stepper>
-
-                        <Popup title="Connexion obligatoire"
-                               message="Il faut vous connecter pour continuer !"
-                               open={this.state.openPopup}
-                               cancelButton={false}
-                               handleClose={() => this.closePopup()}/>
-
-                        <div className="step-nav-container">
-                            <div>{this.getStepContent(stepIndex)}</div>
-                            <div style={{marginTop: 12}}>
-                                <FlatButton
-                                    label="Précédent"
-                                    disabled={stepIndex === 0 || this.props.gameCreation.inProgress || this.props.gameCreation.success}
-                                    onTouchTap={() => this.handlePrev()}
-                                    style={{marginRight: 12}}
-                                />
-                                <RaisedButton
-                                    label={this.getNextButtonLabel()}
-                                    hidden={stepIndex === 2}
-                                    primary={true}
-                                    onTouchTap={() => this.handleNext()}
-                                    disabled={this.props.gameCreation.inProgress || this.props.gameCreation.success}
-                                />
-                            </div>
-                        </div>
-                    </div>)}
+                <CreateStepper
+                    ref="stepper"
+                    createGame={this.createGame.bind(this)}
+                    getStepContent={this.getStepContent.bind(this)}
+                    areInfoOK={this.areInfoOK.bind(this)}
+                    handleLastStep={this.handleLastStep.bind(this)}
+                    openPopup={this.state.openPopup}
+                    closePopup={this.closePopup.bind(this)}
+                    gameCreation={this.props.gameCreation}
+                />
             </div>
         )
     }

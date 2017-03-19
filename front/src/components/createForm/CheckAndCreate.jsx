@@ -6,7 +6,7 @@ import Paper                from 'material-ui/Paper';
 import RaisedButton     from 'material-ui/RaisedButton';
 import Popup                from '../popup/Popup'
 
-import './SearchPlace.scss';
+import './CheckAndCreate.scss';
 
 const propTypes = {
     gameInfo: React.PropTypes.object,
