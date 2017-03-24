@@ -44,13 +44,13 @@ class CreateScreen extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.name) {
-            this.changeFirstPlayerInParticipants(this.props.auth.name);
+            this.changeFirstPlayerInParticipants(this.props.auth.id, this.props.auth.name);
         }
     };
 
-    changeFirstPlayerInParticipants = (playersName) => {
+    changeFirstPlayerInParticipants = (playerId, playerName) => {
         var players = this.state.players.slice();
-        players[0] = {name: playersName};
+        players[0] = { _id: playerId, name: playerName};
         this.setState({'players': players});
     };
 
@@ -61,10 +61,6 @@ class CreateScreen extends Component {
             level: this.state.level,
             maxMissingPlayers: this.state.maxMissingPlayers,
             message: this.state.message,
-            creator: {
-                _id: this.props.auth.id,
-                name: this.props.auth.name
-            },
             players: this.state.players
         }
     };
@@ -213,7 +209,7 @@ class CreateScreen extends Component {
                 newPlayersArray[i] = {name: 'Joueur n°' + i};
             }
             else {
-                newPlayersArray[i] = {name: players[i].name};
+                newPlayersArray[i] = { _id: players[i]._id, name: players[i].name };
             }
         }
 
