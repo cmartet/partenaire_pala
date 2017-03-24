@@ -21,7 +21,8 @@ module.exports = function (app, passport) {
         isLoggedIn(passport),
         function (req, res, next) {
             var newGame = req.body;
-            gamesService.create(newGame, handleServiceCallback(req, res, next));
+            var creator = { _id: req.user._id, name: req.user.bearer.name };
+            gamesService.create(newGame, creator, handleServiceCallback(req, res, next));
         }
     );
 
@@ -50,7 +51,7 @@ module.exports = function (app, passport) {
         checkGameRights,
         function (req, res, next) {
             var newGame = req.body;
-         gamesService.update(newGame, handleServiceCallback(req, res, next));
+            gamesService.update(newGame, handleServiceCallback(req, res, next));
         }
     );
 

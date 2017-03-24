@@ -7,7 +7,6 @@ process.env.NODE_ENV = 'dev';
 mongoose.connect(config.dbUrl);
 
 var game1 = {
-    "creator": { "_id": "5698e3b6a09e5410e4f5e1b8", "name": "Madame michue" },
     "place": {
         "fronton_id": 2087,
         "type": "place_libre",
@@ -29,7 +28,6 @@ var game1 = {
 };
 
 var game2 = {
-    "creator": { "_id": "5698e3b6a09e5410e4f5e1b8", "name": "Madame michue" },
     "place": {
         "fronton_id": 2088,
         "type": "mur_a_gauche",
@@ -51,7 +49,6 @@ var game2 = {
 };
 
 var game3 = {
-    "creator": { "_id": "5698e3b6a09e5410e4f5e1b8", "name": "Madame michue" },
     "place": {
         "fronton_id": 2088,
         "type": "mur_a_gauche",
@@ -72,12 +69,14 @@ var game3 = {
     "players": [{ "_id": "7898e3b6a09e5410e4f5e1b8", "name": "Monsieur michue" }]
 };
 
+var creator = { "_id": "5698e3b6a09e5410e4f5e1b8", "name": "Madame michue" };
+
 describe("games service", function () {
     //Before all the tests, add test games
     before(function (done) {
-        games.create(game1, function (err) {
-            games.create(game2, function () {
-                games.create(game3, function () {
+        games.create(game1, creator, function (err) {
+            games.create(game2, creator, function () {
+                games.create(game3, creator, function () {
                     done();
                 });
             });

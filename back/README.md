@@ -71,10 +71,15 @@ Exemple avec tous les filtres:
         "level" : "expert", 
         "maxMissingPlayers" : NumberInt(4), 
         "message" : "toto", 
-        "players" : [{
-            "_id" : "456197527977624", 
-            "name" : "Madame michue"
-        }], 
+        "players" : [
+            {
+                "_id" : "456197527977624", 
+                "name" : "Madame michue"
+            },
+            {
+                "name" : "Joueur n°1"
+            }
+        ], 
         "place" : {
             "fronton_id" : NumberInt(184), 
             "type" : "place_libre", 
@@ -116,10 +121,6 @@ Authorization: Bearer abcd1234
 #### Body
 ```js
 {
-    "creator": { 
-        "_id": "5698e3b6a09e5410e4f5e1b8", 
-        "name": "Madame michue" 
-    },
     "place": {
         "fronton_id": 2087,
         "type": "place_libre",

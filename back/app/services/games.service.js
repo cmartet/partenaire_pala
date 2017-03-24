@@ -20,8 +20,9 @@ module.exports = {
     },
 
     //Create a game
-    create: function (game, callback) {
+    create: function (game, creator, callback) {
         game.place.location.search_key = game.place.location.address.noAccents();
+        game.creator = creator;
 
         var newGame = new Game(game);
         newGame.save(function (err) {
