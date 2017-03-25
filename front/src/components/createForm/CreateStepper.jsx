@@ -13,13 +13,13 @@ import './CreateStepper.scss';
 const STEP_MAX = 3;
 
 const propTypes = {
-    getStepContent: React.PropTypes.func,
-    createGame: React.PropTypes.func,
     areInfoOK: React.PropTypes.func,
-    handleLastStep: React.PropTypes.func,
+    createGame: React.PropTypes.func,
+    closePopup: React.PropTypes.func,
     gameCreation: React.PropTypes.object,
-    openPopup: React.PropTypes.bool,
-    closePopup: React.PropTypes.func
+    getStepContent: React.PropTypes.func,
+    handleLastStep: React.PropTypes.func,
+    openPopup: React.PropTypes.bool
 };
 
 class CreateStepper extends React.Component {

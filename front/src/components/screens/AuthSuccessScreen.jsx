@@ -4,14 +4,8 @@ import {withRouter} from 'react-router'
 const AuthSuccessScreen = React.createClass({
 
     componentDidMount() {
-        this.props.authActions.getProfile();
-    },
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.auth.name) {
-            window.opener.focus();
-            window.close();
-        }
+        window.opener.focus();
+        window.close();
     },
 
     render () {

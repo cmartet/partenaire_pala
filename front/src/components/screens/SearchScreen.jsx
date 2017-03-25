@@ -10,7 +10,7 @@ import Snackbar         from 'material-ui/Snackbar';
 import './SearchScreen.scss';
 
 class SearchScreen extends React.Component {
-
+ 
     constructor(props) {
         super(props);
         this.state = {

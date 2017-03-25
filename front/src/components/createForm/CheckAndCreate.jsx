@@ -1,18 +1,18 @@
 import React            from 'react';
 import * as util        from '../../utils'
 import CircularProgress from 'material-ui/CircularProgress';
-import GameInfo             from '../search/GameInfo';
-import Paper                from 'material-ui/Paper';
+import GameInfo         from '../search/GameInfo';
+import Paper            from 'material-ui/Paper';
 import RaisedButton     from 'material-ui/RaisedButton';
-import Popup                from '../popup/Popup'
+import Popup            from '../popup/Popup'
 
 import './CheckAndCreate.scss';
 
 const propTypes = {
-    gameInfo: React.PropTypes.object,
-    games: React.PropTypes.array,
     connectedUserName: React.PropTypes.string,
-    gameCreation: React.PropTypes.object
+    gameCreation: React.PropTypes.object,
+    gameInfo: React.PropTypes.object,
+    games: React.PropTypes.array
 };
 
 class CheckAndCreate extends React.Component {
@@ -55,6 +55,7 @@ class CheckAndCreate extends React.Component {
                         </div>
                     </Paper>
                 }
+
                 {this.props.gameCreation.inProgress ?
                     <CircularProgress size={60} thickness={7}/> :
 
@@ -67,8 +68,8 @@ class CheckAndCreate extends React.Component {
                         date={this.props.gameInfo.date}
                         displayMode={true}
                         players={this.props.gameInfo.players}/>
-
                 }
+
                 <Popup title="Game On !"
                        message="La partie est bien enregistrée !"
                        handleClose={this.redirectToSearchPage}

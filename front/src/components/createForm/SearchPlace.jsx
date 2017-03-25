@@ -15,15 +15,16 @@ import {Row, Col}       from 'react-flexbox-grid';
 import './SearchPlace.scss';
 
 const propTypes = {
-    searchAction: React.PropTypes.func,
+    isSearchInProgress: React.PropTypes.bool,
     onSelectPlace: React.PropTypes.func,
     places: React.PropTypes.array,
-    selectedPlace: React.PropTypes.object,
-    isSearchInProgress: React.PropTypes.bool
+    searchAction: React.PropTypes.func,
+    selectedPlace: React.PropTypes.object
 };
 
 const defaultProps = {
-    places: []
+    places: [],
+    selectedPlace: {}
 };
 
 class SearchPlace extends React.Component {
