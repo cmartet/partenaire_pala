@@ -18,7 +18,13 @@
         }
 
         return str;
-    }
+    };
+
+    stringConstructor.prototype.format = function() {
+        var str = this;
+        var args = arguments;
+        return str.replace(/{[0-9]}/g, (matched) => args[parseInt(matched.replace(/[{}]/g, ''))]);
+    };
 };
 
 module.exports = extendString;

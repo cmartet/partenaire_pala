@@ -27,7 +27,7 @@ var buildPlacesApiUrl = function (search, lat, long, radius) {
         search = search.noAccents();
         url += "&q=" + search;
     }
-    if (lat && long && radius) url += "&lat=" + lat + "&lng=" + long + "&radius=" + radius
+    if (lat && long && radius) url += "&lat=" + lat + "&lng=" + long + "&radius=" + radius;
 
     return url;
 };

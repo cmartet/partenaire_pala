@@ -67,5 +67,21 @@ module.exports = {
 
             return next();
         });
+    },
+
+    checkPlayerInGame: function (req, res, next) {
+        var gameId = req.params.id;
+        var userId = req.user._id;
+
+        //Check if the game players are not full
+        gamesService.isPlayerInGame(gameId, userId, function (err, isPlayerInGame) {
+            if (err)
+                return next(err);
+
+            if (!isPlayerInGame)
+                return next({ 'statusCode': 400, 'message': "You are not in this game" });
+
+            return next();
+        });
     }
 };
