@@ -5,10 +5,11 @@ var userSchema = mongoose.Schema({
 
     bearer         : {
         id           : String,
-        token        : String,
-        nickname     : String,
         email        : String,
-        name         : String
+        name         : String,
+        nickname     : String,
+        provider     : String,
+        token        : String
     }
 });
 

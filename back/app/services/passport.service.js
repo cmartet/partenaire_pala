@@ -2,7 +2,7 @@
 var BearerStrategy = require('passport-http-bearer').Strategy;
 
 var User = require('../models/user');
-var config = require("../config/factory");
+var config = require('../config/factory');
 
 module.exports = function (passport) {
 
@@ -39,6 +39,7 @@ module.exports = function (passport) {
                             newUser.bearer.id = profile.id;
                             newUser.bearer.token = token;
                             newUser.bearer.nickname = profile.displayName;
+                            newUser.bearer.provider = "facebook";
                             newUser.bearer.name = profile.name.givenName + ' ' + profile.name.familyName;
                             if(profile.emails)
                                 newUser.bearer.email = (profile.emails[0].value || '').toLowerCase();
