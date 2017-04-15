@@ -359,6 +359,8 @@ class CreateScreen extends Component {
             <div className="CreateScreen">
                 <NavBar location={this.props.location}
                         logout={this.props.authActions.logout}
+                        profilePic={this.props.auth.profilePic}
+                        username={this.props.auth.name}
                 />
 
                 <CreateStepper

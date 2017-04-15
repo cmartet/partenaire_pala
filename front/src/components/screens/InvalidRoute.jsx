@@ -3,11 +3,11 @@ import {browserHistory, withRouter} from 'react-router'
 
 const propTypes = {};
 
-const InvalidRoute = React.createClass({
+class InvalidRoute extends React.Component{
 
     redirectHome(){
         browserHistory.push('/');
-    },
+    }
 
     render () {
         return (-
@@ -17,7 +17,7 @@ const InvalidRoute = React.createClass({
             </div>
         )
     }
-});
+}
 
 InvalidRoute.propTypes = propTypes;
 

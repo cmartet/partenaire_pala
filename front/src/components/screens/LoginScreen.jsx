@@ -3,7 +3,7 @@ import {withRouter} from 'react-router'
 import NavBar from '../navBar/NavBar';
 import Login from './../login/Login'
 
-const LoginScreen = React.createClass({
+class LoginScreen extends React.Component{
 
     render () {
         return (
@@ -13,7 +13,7 @@ const LoginScreen = React.createClass({
             </div>
         )
     }
-});
+};
 
 
 export default withRouter(LoginScreen);

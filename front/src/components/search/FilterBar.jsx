@@ -1,6 +1,7 @@
 import React, {Component}   from 'react';
 import DatePicker           from 'material-ui/DatePicker';
 import MenuItem             from 'material-ui/MenuItem';
+import PropTypes            from 'prop-types';
 import RaisedButton         from 'material-ui/RaisedButton';
 import SelectField          from 'material-ui/SelectField';
 import TextField            from 'material-ui/TextField';
@@ -10,10 +11,10 @@ import * as util            from '../../utils'
 import './FilterBar.scss';
 
 const propTypes = {
-    changeFieldType: React.PropTypes.func,
-    changePlace: React.PropTypes.func,
-    changeDateTime: React.PropTypes.func,
-    launchReseach: React.PropTypes.func
+    changeFieldType: PropTypes.func,
+    changePlace: PropTypes.func,
+    changeDateTime: PropTypes.func,
+    launchReseach: PropTypes.func
 };
 
 class FilterBar extends Component {

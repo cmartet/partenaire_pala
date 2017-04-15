@@ -3,23 +3,20 @@ import * as util        from '../../utils'
 import CircularProgress from 'material-ui/CircularProgress';
 import GameInfo         from '../search/GameInfo';
 import Paper            from 'material-ui/Paper';
-import RaisedButton     from 'material-ui/RaisedButton';
 import Popup            from '../popup/Popup'
+import PropTypes        from 'prop-types';
+import RaisedButton     from 'material-ui/RaisedButton';
 
 import './CheckAndCreate.scss';
 
 const propTypes = {
-    connectedUserName: React.PropTypes.string,
-    gameCreation: React.PropTypes.object,
-    gameInfo: React.PropTypes.object,
-    games: React.PropTypes.array
+    connectedUserName: PropTypes.string,
+    gameCreation: PropTypes.object,
+    gameInfo: PropTypes.object,
+    games: PropTypes.array
 };
 
 class CheckAndCreate extends React.Component {
-
-    constructor(props) {
-        super(props);
-    };
 
     redirectToSearchPage = () => {
         window.location.href = '/';

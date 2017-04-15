@@ -5,6 +5,7 @@ import * as utils from '../utils';
 const invalidState = {
     id: null,
     name: null,
+    profilePic: null,
     sessionValid: false,
     errorMessage: appConstants.ERROR_MESSAGE,
     pending: false
@@ -24,6 +25,7 @@ export default function authentication(state = initialState, action) {
             return {
                 id: action.data._id,
                 name: action.data.bearer.name,
+                profilePic: action.data.bearer.profilePic,
                 sessionValid: true,
                 errorMessage: null,
                 pending: false

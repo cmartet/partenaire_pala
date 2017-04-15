@@ -52,6 +52,15 @@ $color-header-shadow: #C0C0C0;
       }
     }
 
+    .profile-info {
+      display: flex;
+      justify-content: center;
+
+      .profile-name {
+        display: flex;
+      }
+
+    }
     .logout {
       cursor: pointer;
 

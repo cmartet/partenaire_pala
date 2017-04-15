@@ -1,7 +1,8 @@
-import React, {Component, PropTypes}    from 'react';
-import Chip                             from 'material-ui/Chip';
-import RaisedButton                     from 'material-ui/RaisedButton';
-import * as utils                       from '../../utils';
+import React, {Component}   from 'react';
+import Chip                 from 'material-ui/Chip';
+import PropTypes            from 'prop-types';
+import RaisedButton         from 'material-ui/RaisedButton';
+import * as utils           from '../../utils';
 
 var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 
@@ -41,7 +42,7 @@ class GameInfo extends Component {
         const listItems = this.props.players.map((player) =>
             <Chip style={chipsStyle.chip} key={player.name}>{player.name}</Chip>
         );
-        return (<div className="players"> {listItems}</div>);
+        return (<div className="players">{listItems}</div>);
     };
 
     gameIsOver = () => {

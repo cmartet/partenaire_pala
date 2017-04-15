@@ -1,14 +1,15 @@
-import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Dialog       from 'material-ui/Dialog';
+import FlatButton   from 'material-ui/FlatButton';
+import PropTypes    from 'prop-types';
+import React        from 'react';
 
 const propTypes = {
-    title: React.PropTypes.string,
-    message: React.PropTypes.string,
-    open: React.PropTypes.bool,
-    handleClose: React.PropTypes.func,
-    cancelButton: React.PropTypes.bool,
-    handleCancel: React.PropTypes.func
+    title: PropTypes.string,
+    message: PropTypes.string,
+    open: PropTypes.bool,
+    handleClose: PropTypes.func,
+    cancelButton: PropTypes.bool,
+    handleCancel: PropTypes.func
 };
 
 const defaultProps = {

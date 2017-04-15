@@ -8,6 +8,7 @@ import {
 }                       from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton       from 'material-ui/FlatButton';
+import PropTypes        from 'prop-types';
 import RaisedButton     from 'material-ui/RaisedButton';
 import TextField        from 'material-ui/TextField';
 import {Row, Col}       from 'react-flexbox-grid';
@@ -15,11 +16,11 @@ import {Row, Col}       from 'react-flexbox-grid';
 import './SearchPlace.scss';
 
 const propTypes = {
-    isSearchInProgress: React.PropTypes.bool,
-    onSelectPlace: React.PropTypes.func,
-    places: React.PropTypes.array,
-    searchAction: React.PropTypes.func,
-    selectedPlace: React.PropTypes.object
+    isSearchInProgress: PropTypes.bool,
+    onSelectPlace: PropTypes.func,
+    places: PropTypes.array,
+    searchAction: PropTypes.func,
+    selectedPlace: PropTypes.object
 };
 
 const defaultProps = {

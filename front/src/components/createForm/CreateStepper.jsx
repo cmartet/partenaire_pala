@@ -1,5 +1,6 @@
 import React            from 'react';
 import Popup            from '../popup/Popup'
+import PropTypes        from 'prop-types';
 import RaisedButton     from 'material-ui/RaisedButton';
 import FlatButton       from 'material-ui/FlatButton';
 import {
@@ -13,13 +14,13 @@ import './CreateStepper.scss';
 const STEP_MAX = 3;
 
 const propTypes = {
-    areInfoOK: React.PropTypes.func,
-    createGame: React.PropTypes.func,
-    closePopup: React.PropTypes.func,
-    gameCreation: React.PropTypes.object,
-    getStepContent: React.PropTypes.func,
-    handleLastStep: React.PropTypes.func,
-    openPopup: React.PropTypes.bool
+    areInfoOK: PropTypes.func,
+    createGame: PropTypes.func,
+    closePopup: PropTypes.func,
+    gameCreation: PropTypes.object,
+    getStepContent: PropTypes.func,
+    handleLastStep: PropTypes.func,
+    openPopup: PropTypes.bool
 };
 
 class CreateStepper extends React.Component {

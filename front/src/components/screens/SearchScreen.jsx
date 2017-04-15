@@ -91,7 +91,9 @@ class SearchScreen extends React.Component {
         return (
             <div>
                 <NavBar location={this.props.location}
-                        logout={this.props.authActions.logout}/>
+                        logout={this.props.authActions.logout}
+                        profilePic={this.props.auth.profilePic}
+                        username={this.props.auth.name}/>
 
                 <FilterBar changeFieldType={this.handleSelectChange.bind(this)}
                            changePlace={this.handleChange.bind(this, 'place')}

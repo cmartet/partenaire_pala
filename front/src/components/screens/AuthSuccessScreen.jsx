@@ -1,19 +1,19 @@
 import React        from 'react';
 import {withRouter} from 'react-router'
 
-const AuthSuccessScreen = React.createClass({
+class AuthSuccessScreen extends React.Component{
 
     componentDidMount() {
         window.opener.focus();
         window.close();
-    },
+    }
 
     render () {
         return (
             <div className="AuthSuccessScreen"></div>
         )
     }
-});
+}
 
 
 export default withRouter(AuthSuccessScreen);
