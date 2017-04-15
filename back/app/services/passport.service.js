@@ -40,6 +40,8 @@ module.exports = function (passport) {
                             newUser.bearer.token = token;
                             newUser.bearer.nickname = profile.displayName;
                             newUser.bearer.provider = "facebook";
+                            if(profile.photos)
+                            newUser.bearer.profilePic = profile.photos[0].value;
                             newUser.bearer.name = profile.name.givenName + ' ' + profile.name.familyName;
                             if(profile.emails)
                                 newUser.bearer.email = (profile.emails[0].value || '').toLowerCase();
