@@ -1,13 +1,14 @@
-export const DOMAIN_NAME = 'http://195.154.71.242:8090/';
+export const DOMAIN_NAME = process.env.API_URL;
+// export const DOMAIN_NAME = 'http://localhost:8090/';
 
-export const GET_GAMES = 'http://localhost:8090/games';
-export const GET_PLACES = 'http://localhost:8090/places/search/';
-export const CREATE_GAME = 'http://localhost:8090/games';
-export const DELETE_GAME = 'http://localhost:8090/games/id/';
+export const GET_GAMES = DOMAIN_NAME + 'games';
+export const GET_PLACES = DOMAIN_NAME + 'places/search/';
+export const CREATE_GAME = DOMAIN_NAME + 'games';
+export const DELETE_GAME = DOMAIN_NAME + 'games/id/';
 
-export const FACEBOOK_AUTH = 'http://localhost:8090/auth/facebook/from/1';
-export const LOGOUT = 'http://localhost:8090/logout';
-export const GET_PROFILE = 'http://localhost:8090/profile';
+export const FACEBOOK_AUTH = DOMAIN_NAME + 'auth/facebook/from/1';
+export const LOGOUT = DOMAIN_NAME + 'logout';
+export const GET_PROFILE = DOMAIN_NAME + 'profile';
 
-export const JOIN_GAME = 'http://localhost:8090/games/join/id/';
-export const UNJOIN_GAME = 'http://localhost:8090/games/unjoin/id/';
+export const JOIN_GAME = DOMAIN_NAME + 'games/join/id/';
+export const UNJOIN_GAME = DOMAIN_NAME + 'games/unjoin/id/';
