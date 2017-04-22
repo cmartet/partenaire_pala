@@ -1,5 +1,6 @@
 import * as types   from '../constants/ActionTypes.js';
 import * as urls    from '../constants/Urls.js';
+import * as http    from '../constants/Http.js';
 import * as utils   from '../utils';
 
 const buildAuthUrl = url => {
@@ -23,11 +24,21 @@ export function getProfile() {
     };
 
     return dispatch => {
+        if(utils.getAuthCookie() === undefined) {
+            dispatch({type: types.GET_PROFILE_ERROR});
+            return;
+        }
+
         fetch(urls.GET_PROFILE, init)
             .then(response => {
-                response.json().then(dataJson => {
-                    dispatch({type: types.GET_PROFILE_SUCCESS, data: dataJson});
-                });
+                if (response.status === http.STATUS_CODE_OK) {
+                    response.json().then(dataJson => {
+                        dispatch({type: types.GET_PROFILE_SUCCESS, data: dataJson});
+                    });
+                }
+                else {
+                    dispatch({type: types.GET_PROFILE_ERROR});
+                }
             }).catch(() => {
             dispatch({type: types.GET_PROFILE_ERROR});
         });

@@ -77,7 +77,7 @@ export const createGame = (game) => {
 
         return fetch(urls.CREATE_GAME, postHeaders(game))
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === http.STATUS_CODE_OK) {
                     dispatch({
                         type: types.CREATED_GAME
                     });
@@ -95,7 +95,7 @@ export const deleteGame = gameId => {
 
         return fetch(urls.DELETE_GAME + gameId, deleteHeaders())
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === http.STATUS_CODE_OK) {
                     dispatch({type: types.DELETE_GAME})
                 }
                 else {
@@ -119,7 +119,7 @@ const launchPutRequest = (url, body, eventProgress, eventSuccess, eventError) =>
 
         return fetch(url, putHeaders(body))
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === http.STATUS_CODE_OK) {
                     dispatch({type: eventSuccess});
                 }
                 else {

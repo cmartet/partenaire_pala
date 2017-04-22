@@ -1,5 +1,5 @@
 import React            from 'react';
-import * as util        from '../../utils'
+import * as utils       from '../../utils'
 import CircularProgress from 'material-ui/CircularProgress';
 import GameInfo         from '../search/GameInfo';
 import Paper            from 'material-ui/Paper';
@@ -30,14 +30,14 @@ class CheckAndCreate extends React.Component {
                             <div>
                                 <div>Une partie pour le même lieu et la même heure a déjà été planifiée !</div>
                                 <div>Créée par {this.props.games[0].creator.name},
-                                    pour un début à {util.getFormattedTime(this.props.games[0].date)}</div>
+                                    pour un début à {utils.getFormattedTime(this.props.games[0].date)}</div>
                             </div>
                             :
                             <div>Plusieurs parties pour le même lieu et la même heure ont déjà été planifiées !
                                 <ul>
                                     {this.props.games.map(game => {
                                         return <li>Créée par {game.creator.name}
-                                            pour un début à {util.getFormattedTime(game.date)}</li>
+                                            pour un début à {utils.getFormattedTime(game.date)}</li>
                                     })}
                                 </ul>
                             </div>}
@@ -48,7 +48,7 @@ class CheckAndCreate extends React.Component {
                     <Paper className="warning-already-exists" zDepth={2}>
                         <div>
                             <span>Vous devez vous connecter pour continuer !</span>
-                            <RaisedButton label="Connexion" fullWidth={true} onClick={this.login}/>
+                            <RaisedButton label="Connexion" fullWidth={true} onClick={utils.loginFB}/>
                         </div>
                     </Paper>
                 }

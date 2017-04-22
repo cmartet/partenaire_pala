@@ -1,7 +1,7 @@
 import {bindActionCreators}       from 'redux';
 import {connect}                  from 'react-redux';
-import * as gamesActions          from '../actions/gamesAction';
 import * as authenticationActions from '../actions/authenticationAction';
+import * as gamesActions          from '../actions/gamesAction';
 import * as placesActions         from '../actions/placesAction';
 import CreateScreen               from '../components/screens/CreateScreen';
 
