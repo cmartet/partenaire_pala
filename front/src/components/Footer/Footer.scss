@@ -1,0 +1,28 @@
+@import '../../common.scss';
+
+.Footer {
+  background-color: #e0e0e0;
+
+  .links-container {
+    display: flex;
+    justify-content: space-around;
+    height: 100px;
+
+    .links {
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+    }
+  }
+
+  .author {
+    height: 20px;
+    padding: $margin-m $margin-xl;
+    background-color: #bbbbbb;
+
+    .heart {
+      color: red;
+      font-size: 1.3em;
+    }
+  }
+}
