@@ -8,5 +8,5 @@
         "profileFields": ["displayName", "email", "name", "photos"]
     },
     "placesApi": "http://www.frontons.net/api/frontons/search?key=754991f3c59c2cd722aa600ff6d349b32b172ee3&l=fr",
-    "frontUrl": "http://www.partenaire-pala-dev.fr"
+    "frontUrl": "http://www.partenaire-pala-dev.fr/#"
 };
