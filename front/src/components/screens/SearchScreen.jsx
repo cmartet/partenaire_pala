@@ -10,15 +10,16 @@ import Snackbar         from 'material-ui/Snackbar';
 import './SearchScreen.scss';
 
 class SearchScreen extends React.Component {
- 
+
     constructor(props) {
         super(props);
         this.state = {
-            fieldType: null,
             date: null,
-            place: null,
             delete: {},
-            join: {}
+            editGame: false,
+            join: {},
+            fieldType: null,
+            place: null
         }
     }
 
@@ -113,26 +114,28 @@ class SearchScreen extends React.Component {
                             this.props.games.data.map(game => {
                                 return <GameInfo
                                     key={game._id}
-                                    level={game.level}
-                                    placePicture={game.place.photo}
-                                    place={game.place.name}
-                                    maxPlayers={game.maxMissingPlayers}
                                     creator={game.creator.name}
                                     creatorId={game.creator._id}
-                                    date={game.date}
-                                    players={game.players}
                                     connectedUserId={this.props.auth.id}
-                                    connectedUserName={this.props.auth.name}
+                                    date={game.date}
+                                    deleteGame={() => this.setStateForGameDeletion(game._id)}
+                                    editGame={() => this.editGame(game)}
                                     gameId={game._id}
                                     joinGame={() => this.joinGame(game._id)}
                                     leaveGame={() => this.unjoinGame(game._id)}
-                                    deleteGame={() => this.setStateForGameDeletion(game._id)}/>
+                                    level={game.level}
+                                    maxPlayers={game.maxMissingPlayers}
+                                    place={game.place.name}
+                                    placePicture={game.place.photo}
+                                    players={game.players}
+                                />
                             }) :
                             this.props.games.inProgress ?
                                 <CircularProgress size={80} thickness={5}/> :
                                 (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
                     }
                 </div>
+
                 <Snackbar
                     open={!!this.state.delete.success}
                     message="La partie a bien été supprimée"

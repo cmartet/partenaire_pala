@@ -13,6 +13,11 @@ const getInitialState = () => {
             success: false,
             error: false
         },
+        gameUpdate: {
+            inProgress: false,
+            success: false,
+            error: false
+        },
         gameDeletion: {
             inProgress: false,
             success: false,
@@ -62,6 +67,27 @@ const handleCreationActions = (type) => {
 
         case types.CREATION_FAILED:
             state.gameCreation.error = true;
+            return state;
+
+        default:
+            return state;
+    }
+};
+
+const handleUpdateActions = (type) => {
+    var state = getInitialState();
+
+    switch (type) {
+        case types.CREATION_IN_PROGRESS:
+            state.gameUpdate.inProgress = true;
+            return state;
+
+        case types.CREATED_GAME:
+            state.gameUpdate.success = true;
+            return state;
+
+        case types.CREATION_FAILED:
+            state.gameUpdate.error = true;
             return state;
 
         default:
@@ -125,6 +151,11 @@ export default (state = getInitialState(), action) => {
         case types.CREATION_IN_PROGRESS:
         case types.CREATED_GAME:
             return handleCreationActions(action.type);
+
+        case types.UPDATE_FAILED:
+        case types.UPDATE_IN_PROGRESS:
+        case types.UPDATE_GAME:
+            return handleUpdateActions(action.type);
 
         case types.DELETE_GAME:
         case types.DELETE_GAME_ERROR:

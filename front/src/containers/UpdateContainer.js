@@ -3,12 +3,12 @@ import {connect}            from 'react-redux';
 import * as authActions     from '../actions/authenticationAction';
 import * as gamesActions    from '../actions/gamesAction';
 import * as placesActions   from '../actions/placesAction';
-import CreateScreen         from '../components/screens/CreateScreen';
+import UpdateScreen         from '../components/screens/UpdateScreen.jsx';
 
 const mapStateToProps = (state) => {
     return {
         auth: state.authentication,
-        gameCreation: state.games.gameCreation,
+        gameUpdate: state.games.gameUpdate,
         games: state.games.gamesRetrieval,
         places: state.places.placesRetrieval
     }
@@ -22,4 +22,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateScreen);

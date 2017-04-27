@@ -1,9 +1,11 @@
 export const DOMAIN_NAME = process.env.API_URL;
 
 export const GET_GAMES = DOMAIN_NAME + '/games';
+export const GET_GAME = DOMAIN_NAME + '/games/id/';
 export const GET_PLACES = DOMAIN_NAME + '/places/search/';
 export const CREATE_GAME = DOMAIN_NAME + '/games';
 export const DELETE_GAME = DOMAIN_NAME + '/games/id/';
+export const UPDATE_GAME = DOMAIN_NAME + '/games/id/';
 
 export const FACEBOOK_AUTH = DOMAIN_NAME + '/auth/facebook/from/1';
 export const LOGOUT = DOMAIN_NAME + '/logout';

@@ -21,6 +21,13 @@ module.exports = {
             callback(err, games);
         });
     },
+    
+    //Get by gameId
+    getById: function (gameId) {
+        Game.findById(gameId, function (err, games) {
+            callback(err, games);
+        });
+    },
 
     //Create a game
     create: function (game, creator, callback) {

@@ -18,33 +18,45 @@ const propTypes = {
     createGame: PropTypes.func,
     gameAtSameTime: PropTypes.func,
     gameCreationStatus: PropTypes.object,
+    gameIdToUpdate: PropTypes.string,
     places: PropTypes.array,
     searchPlaces: PropTypes.func,
     searchPlacesInProgress: PropTypes.bool
+};
+
+const defaultProps = {
+    gameIdToUpdate: undefined
 };
 
 class CreateForm extends Component {
 
     constructor(props) {
         super(props);
+        if(this.props.gameIdToUpdate !== undefined) {
+            this.getGameToUpdate(this.props.gameIdToUpdate);
+        }
+
         this.state = {
-            searchedPlace: '',
             allGameInfo: {},
+            creationInProgress: false,
+            date: new Date(),
+            error: {},
+            level: '',
+            maxMissingPlayers: 4,
+            message: '',
+            nbPlayers: 1,
+            place: {},
+            players: [],
             validation: {
                 maxMissingPlayers: null,
                 players: null
-            },
-            place: {},
-            date: new Date(),
-            level: '',
-            maxMissingPlayers: 4,
-            nbPlayers: 1,
-            message: '',
-            error: {},
-            creationInProgress: false,
-            players: []
+            }
         };
     };
+
+    getGameToUpdate(gameId){
+        console.log("retrieve game from id ", gameId);
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.name) {
@@ -244,12 +256,13 @@ class CreateForm extends Component {
                 return (
                     <div>
                         <SearchPlace
-                            searchAction={this.props.searchPlaces}
+                            initSearch={this.state.place.name}
+                            isSearchInProgress={this.props.searchPlacesInProgress}
+                            isValid={this.setGameValidationState}
                             onSelectPlace={this.getSelectedGame}
                             places={this.props.places}
+                            searchAction={this.props.searchPlaces}
                             selectedPlace={this.state.place}
-                            isValid={this.setGameValidationState}
-                            isSearchInProgress={this.props.searchPlacesInProgress}
                         />
                         {this.state.error.place ?
                             (<div>Merci de sélectionner un fronton avant de continuer</div>) : null}
@@ -290,6 +303,7 @@ class CreateForm extends Component {
                                     format="24hr"
                                     hintText="Heure *"
                                     cancelLabel="Annuler"
+                                    defaultTime={this.state.date}
                                     value={this.state.time}
                                     errorText={this.state.error.time}
                                     onChange={this.handleDateTimeChange('time')}/>
@@ -377,5 +391,6 @@ class CreateForm extends Component {
 }
 
 CreateForm.propTypes = propTypes;
+CreateForm.defaultProps = defaultProps;
 
 export default CreateForm;

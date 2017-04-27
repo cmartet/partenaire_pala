@@ -16,6 +16,7 @@ import {Row, Col}       from 'react-flexbox-grid';
 import './SearchPlace.scss';
 
 const propTypes = {
+    initSearch: PropTypes.string,
     isSearchInProgress: PropTypes.bool,
     onSelectPlace: PropTypes.func,
     places: PropTypes.array,
@@ -24,6 +25,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+    initSearch: undefined,
     places: [],
     selectedPlace: {}
 };
@@ -34,11 +36,18 @@ class SearchPlace extends React.Component {
         super(props);
 
         this.state = {
-            searchedPlace: '',
+            searchedPlace: this.props.initSearch,
             error: null,
             selectedPlace: this.props.selectedPlace || {},
             searchedAlready: false
         }
+    };
+
+    componentDidMount = () => {
+      if(this.state.searchedPlace !== undefined) {
+          this.setState({'searchedAlready': true});
+          this.props.searchAction(this.state.searchedPlace);
+      }
     };
 
     handleChange = (inputName, event) => {
