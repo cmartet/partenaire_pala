@@ -6,5 +6,6 @@
         "callbackURL": "http://localhost:8090/auth/facebook/callback",
         "profileFields": ["name", "email"],
         "passReqToCallback": true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-    }
+    },
+    "frontUrl": "http://www.partenaire-pala.fr"
 };
