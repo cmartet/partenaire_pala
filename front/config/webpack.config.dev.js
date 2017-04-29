@@ -15,7 +15,7 @@ var publicPath = '/';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
-var publicUrl = 'http://partenaire-pala-dev.fr';
+var publicUrl = 'http://www.partenaire-pala-dev.fr';
 
 var apiUrl = 'http://api.partenaire-pala-dev.fr';
 
