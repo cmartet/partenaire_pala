@@ -25,8 +25,7 @@ module.exports = function (app, passport) {
         function(req, res) {
             res.statusCode = 302;
             res.setHeader('Location', config.frontUrl + '/authSuccess');
-            res.setHeader('Domain', config.domainName);
-            res.cookie('Authorization', req.user.bearer.token);
+            res.cookie('Authorization', req.user.bearer.token, {domain: config.domainName});
             res.send();
         }
     );
