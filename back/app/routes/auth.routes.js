@@ -1,4 +1,5 @@
 ﻿var isLoggedIn = require('./../helpers/middlewares').isLoggedIn;
+var config = require('./../config/factory.js');
 
 module.exports = function (app, passport) {
 
@@ -23,8 +24,8 @@ module.exports = function (app, passport) {
         }),
         function(req, res) {
             res.statusCode = 302;
-            res.setHeader('Location', 'http://localhost:3000/#/authSuccess');
-            res.cookie('Authorization', req.user.bearer.token);
+            res.setHeader('Location', config.frontUrl + '/authSuccess');
+            res.cookie('Authorization', req.user.bearer.token, {domain: config.domainName});
             res.send();
         }
     );
