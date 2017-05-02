@@ -35,7 +35,7 @@ var publicPath = ensureSlash(homepagePathname, true);
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 var publicUrl = ensureSlash(homepagePathname, false);
-var apiUrl = 'http://localhost:8090';
+var apiUrl = 'http://api.partenaire-pala.fr';
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl, apiUrl);
 

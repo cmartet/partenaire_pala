@@ -25,6 +25,11 @@ class SearchScreen extends React.Component {
     componentDidMount = () => {
         this.search();
         this.props.authActions.getProfile();
+
+        window.addEventListener('message', event => {
+            if (event.origin !== process.env.PUBLIC_URL) return;
+            this.props.authActions.getProfile();
+        }, false);
     };
 
     componentWillReceiveProps(nextProps) {
