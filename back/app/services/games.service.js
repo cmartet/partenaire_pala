@@ -2,13 +2,14 @@
 var Game = require('../models/game');
 var User = require('../models/user');
 
-const facebookService = require('../services/facebook.service');
-const messages = require('../constants/messages');
-
 require('../helpers/extendString')(String);
-require('../helpers/extendDatetime')(Date);
 
 module.exports = {
+
+    //Get by ID
+    getById: function (gameId, callback) {
+        Game.findById(gameId, callback);
+    },
 
     //Get by date and place
     getBy: function (startDate, endDate, place, callback) {
@@ -17,51 +18,31 @@ module.exports = {
         buildDateFilter(query, startDate, endDate);
         buildPlaceFilter(query, place);
 
-        Game.find(query, function (err, games) {
-            callback(err, games);
-        });
+        Game.find(query, callback);
     },
 
     //Create a game
     create: function (game, creator, callback) {
-        const _this = this;
-
         game.place.location.search_key = game.place.location.address.noAccents();
         game.creator = creator;
 
         var newGame = new Game(game);
-        newGame.save(function (err) {
-            callback(err);
-
-            const message = messages.game_created.format(new Date(game.date).format(), game.place.name);
-            _this.sendNotification(game.creator._id, message, callback)
-        });
+        newGame.save(callback);
     },
 
     //Join a game
     join: function (gameId, player, callback) {
-        const _this = this;
-
         var query = {
             "$push": {
                 "players": player
             }
         };
 
-        Game.findByIdAndUpdate(gameId, query, function (err, game) {
-            if (err) {
-                return callback(err);
-            }
-
-            const message = messages.game_join.format(player.name, game.place.name, game.date.format());
-            _this.sendNotification(game.creator._id, message, callback)
-        });
+        Game.findByIdAndUpdate(gameId, query, callback);
     },
 
     //Unjoin a game
     unjoin: function (gameId, player, callback) {
-        const _this = this;
-
         if (!player)
             callback(new Error("no player"));
 
@@ -71,14 +52,7 @@ module.exports = {
             }
         };
 
-        Game.findByIdAndUpdate(gameId, query, function (err, game) {
-            if (err) {
-                return callback(err);
-            }
-
-            const message = messages.game_unjoin.format(player.name, game.place.name, game.date.format());
-            _this.sendNotification(game.creator._id, message, callback)
-        });
+        Game.findByIdAndUpdate(gameId, query, callback);
 
     },
 
@@ -95,14 +69,7 @@ module.exports = {
             }
         };
 
-        Game.findByIdAndUpdate(game._id, query, function (err, game) {
-            if (err) {
-                return callback(err);
-            }
-
-            // const message = String.format(messages.game_updated.format, new Date(game.date).format(), game.place.name);
-            // this.sendNotification(game.creator._id, message, callback)
-        });
+        Game.findByIdAndUpdate(game._id, query, callback);
     },
 
     //Delete a game
@@ -145,16 +112,6 @@ module.exports = {
 
             var isPlayerInGame = _.filter(game.players, {'_id': userId.toString()}).length > 0;
             callback(null, isPlayerInGame);
-        });
-    },
-
-    sendNotification: function (creatorId, message, callback) {
-        User.findById(creatorId, function (err, user) {
-            if (user) {
-                facebookService.sendNotification(user.bearer.id, message);
-            }
-
-            return callback(err);
         });
     }
 };

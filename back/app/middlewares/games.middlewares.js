@@ -3,24 +3,6 @@ var gamesService = require('./../services/games.service');
 var config = require('./../config/factory.js');
 
 module.exports = {
-    manageData: function (req, res, next) {
-        if (req.data)
-            res.json(req.data);
-        else
-            res.sendStatus(200);
-    },
-
-    manageError: function (err, req, res, next) {
-        var statusCode = err.statusCode || 500;
-        res.status(statusCode).send(err.message);
-    },
-
-    isLoggedIn: function (passport) {
-        return function (req, res, next) {
-            return passport.authenticate('bearer', { session: false })(req, res, next);
-        };
-    },
-
     checkGameRights: function (req, res, next) {
         var gameId = req.params.id;
         var userId = req.user._id;
@@ -57,7 +39,7 @@ module.exports = {
         var gameId = req.params.id;
         var userId = req.user._id;
 
-        //Check if the game players are not full
+        //Check if the player is not already in game
         gamesService.isPlayerInGame(gameId, userId, function (err, isPlayerInGame) {
             if (err)
                 return next(err);
@@ -73,7 +55,7 @@ module.exports = {
         var gameId = req.params.id;
         var userId = req.user._id;
 
-        //Check if the game players are not full
+        //Check if the player is in the game
         gamesService.isPlayerInGame(gameId, userId, function (err, isPlayerInGame) {
             if (err)
                 return next(err);

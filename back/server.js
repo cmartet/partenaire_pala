@@ -10,7 +10,7 @@ var session = require('express-session');
 var cors = require('cors');
 
 var config = require('./app/config/factory.js');
-var middlewares = require('./app/helpers/middlewares.js');
+var middlewares = require('./app/middlewares/common.middlewares.js');
 require('./app/services/passport.service')(passport); // pass passport for configuration
 
 var app = express();

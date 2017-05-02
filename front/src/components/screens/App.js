@@ -1,6 +1,6 @@
 import React, {Component}   from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Footer               from '../footer/Footer';
+//import Footer               from '../footer/Footer';
 import MuiThemeProvider     from 'material-ui/styles/MuiThemeProvider';
 
 injectTapEventPlugin();
@@ -16,7 +16,6 @@ class App extends Component {
                 <MuiThemeProvider>
                     {this.props.children}
                 </MuiThemeProvider>
-                <Footer/>
             </div>
         );
     }

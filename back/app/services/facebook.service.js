@@ -4,7 +4,7 @@ var tools = require('./../helpers/tools');
 
 module.exports = {
 
-    sendNotification: (userId, message, callback) => {
+    sendNotification: (userId, message) => {
         var url = 'https://graph.facebook.com/oauth/access_token?client_id=' + config.facebookAuth.clientID
             + '&client_secret=' + config.facebookAuth.clientSecret
             + '&grant_type=client_credentials';
