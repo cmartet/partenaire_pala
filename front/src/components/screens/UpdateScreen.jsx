@@ -8,39 +8,38 @@ class UpdateScreen extends Component {
 
     componentDidMount = () => {
         this.props.authActions.getProfile();
-        console.log();
-    };
-    
-    getGameToUpdate = () => {
-        this.props.games.fetchGame(this.props.params.id);
+        this.props.gamesActions.fetchGame(this.props.params.id);
     };
 
     render() {
         return (
-            <div className="CreateScreen">
+            <div className="UpdateScreen">
                 <NavBar location={this.props.location}
                         logout={this.props.authActions.logout}
                         profilePic={this.props.auth.profilePic}
                         username={this.props.auth.name}
                 />
                 {this.props.games.inProgress ?
-                <CircularProgress size={80} thickness={5}/> :
-                <CreateForm
-                    auth={this.props.auth}
-                    createGame={this.props.gamesActions.updateGame}
-                    games={this.props.games.data}
-                    gameToUpdate={this.props.game.data}
-                    gameAtSameTime={this.props.gamesActions.getGameWithinHourAndPlace}
-                    gameCreationStatus={this.props.gameUpdate}
-                    places={this.props.places.data}
-                    searchPlaces={this.props.placesActions.fetchPlaces}
-                    searchPlacesInProgress={this.props.places.inProgress}
-                    update={true}
-                />}
+                    <CircularProgress size={80} thickness={5}/> :
+                    <CreateForm
+                        auth={this.props.auth}
+                        createGame={this.props.gamesActions.updateGame}
+                        games={this.props.games.data}
+                        gameToUpdate={this.props.game.data}
+                        gameAtSameTime={this.props.gamesActions.getGameWithinHourAndPlace}
+                        gameCreationStatus={this.props.gameUpdate}
+                        places={this.props.places.data}
+                        searchPlaces={this.props.placesActions.fetchPlaces}
+                        searchPlacesInProgress={this.props.places.inProgress}
+                        update={true}
+                    />}
 
             </div>
         )
     }
 }
 
-export default withRouter(UpdateScreen);
+export
+default
+
+withRouter(UpdateScreen);

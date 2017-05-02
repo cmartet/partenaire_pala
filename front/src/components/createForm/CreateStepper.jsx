@@ -20,7 +20,8 @@ const propTypes = {
     gameCreation: PropTypes.object,
     getStepContent: PropTypes.func,
     handleLastStep: PropTypes.func,
-    openPopup: PropTypes.bool
+    openPopup: PropTypes.bool,
+    update: PropTypes.bool
 };
 
 class CreateStepper extends React.Component {
@@ -41,7 +42,10 @@ class CreateStepper extends React.Component {
 
     getNextButtonLabel = () => {
         const {stepIndex} = this.state;
-        return stepIndex < STEP_MAX ? 'Suivant' : 'C\'est tout bon, créer cette partie';
+        if(stepIndex < STEP_MAX) {
+            return 'Suivant'
+        }
+        return this.props.update ? 'Mettre à jour cette partie !' : 'C\'est tout bon, créer cette partie';
     };
 
     handleNext = () => {

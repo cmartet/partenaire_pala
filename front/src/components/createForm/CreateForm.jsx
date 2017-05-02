@@ -18,23 +18,20 @@ const propTypes = {
     createGame: PropTypes.func,
     gameAtSameTime: PropTypes.func,
     gameCreationStatus: PropTypes.object,
-    gameIdToUpdate: PropTypes.string,
+    gameToUpdate: PropTypes.object,
     places: PropTypes.array,
     searchPlaces: PropTypes.func,
     searchPlacesInProgress: PropTypes.bool
 };
 
 const defaultProps = {
-    gameIdToUpdate: undefined
+    gameToUpdate: undefined
 };
 
 class CreateForm extends Component {
 
     constructor(props) {
         super(props);
-        if(this.props.gameIdToUpdate !== undefined) {
-            this.getGameToUpdate(this.props.gameIdToUpdate);
-        }
 
         this.state = {
             allGameInfo: {},
@@ -54,13 +51,20 @@ class CreateForm extends Component {
         };
     };
 
-    getGameToUpdate(gameId){
-        console.log("retrieve game from id ", gameId);
-    }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.gameToUpdate) {
+            this.setState({'date': new Date(nextProps.gameToUpdate.date)});
+            this.setState({'time': new Date(nextProps.gameToUpdate.date)});
+            this.setState({'level': nextProps.gameToUpdate.level});
+            this.setState({'maxMissingPlayers': nextProps.gameToUpdate.maxMissingPlayers});
+            this.setState({'message': nextProps.gameToUpdate.message});
+            this.setState({'nbPlayers': nextProps.gameToUpdate.players.length});
+            this.setState({'place': nextProps.gameToUpdate.place});
+            this.setState({'players': nextProps.gameToUpdate.players});
+        }
         if (nextProps.auth.name) {
-            this.changeFirstPlayerInParticipants(this.props.auth.id, this.props.auth.name);
+            this.changeFirstPlayerInParticipants(nextProps.auth.id, nextProps.auth.name);
         }
     };
 
@@ -71,14 +75,20 @@ class CreateForm extends Component {
     };
 
     buildGameFromState = () => {
-        return {
+        let gameInfo =  {
             place: this.state.place,
             date: this.state.dateTime,
             level: this.state.level,
             maxMissingPlayers: this.state.maxMissingPlayers,
             message: this.state.message,
             players: this.state.players
+        };
+
+        if(this.props.gameToUpdate) {
+            gameInfo._id = this.props.gameToUpdate._id;
         }
+
+        return gameInfo;
     };
 
     createGame = () => {
@@ -377,6 +387,7 @@ class CreateForm extends Component {
             <div className="CreateForm">
                 <CreateStepper
                     ref="stepper"
+                    update={this.props.update}
                     areInfoOK={this.areInfoOK.bind(this)}
                     closePopup={this.closePopup.bind(this)}
                     createGame={this.createGame.bind(this)}

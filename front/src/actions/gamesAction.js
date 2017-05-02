@@ -28,13 +28,32 @@ const postHeaders = body => {
 };
 
 const deleteHeaders = () => {
-    return {
-        'method': http.METHOD_DELETE,
-        'headers': {
-            'Authorization': 'Bearer ' + util.getAuthCookie()
-        }
-    }
+    return createHeadersFor(http.METHOD_DELETE)
 };
+
+const getHeaders = () => {
+    return createHeadersFor(http.METHOD_GET)
+};
+
+
+// const retrieveGames = (url) => {
+//
+//     return function (dispatch) {
+//         dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
+//
+//         return fetch(url)
+//             .then(response => {
+//                 return response.json();
+//             }).then(data => {
+//                 dispatch({
+//                     type: types.GAMES_RETRIEVED,
+//                     data: data
+//                 });
+//             }).catch(err => {
+//                 dispatch({type: types.GAMES_RETRIEVAL_ERROR});
+//             });
+//     }
+// };
 
 const launchRequest = (url, headers, eventProgress, eventSuccess, eventError) => {
     return function (dispatch) {
@@ -43,8 +62,8 @@ const launchRequest = (url, headers, eventProgress, eventSuccess, eventError) =>
         return fetch(url, headers)
             .then(response => {
                 if (response.status === http.STATUS_CODE_OK) {
-                    if (response.data) {
-                        dispatch({type: eventSuccess, data: response.json().data});
+                    if (response.body) {
+                        dispatch({type: eventSuccess, data: response.body.json()});
                     }
                     else {
                         dispatch({type: eventSuccess});
@@ -53,6 +72,24 @@ const launchRequest = (url, headers, eventProgress, eventSuccess, eventError) =>
                 else {
                     dispatch({type: eventError});
                 }
+            });
+    };
+};
+
+const launchGetRequest = (url, headers, eventProgress, eventSuccess, eventError) => {
+    return function (dispatch) {
+        dispatch({type: eventProgress});
+
+        return fetch(url, headers || {})
+            .then(response => {
+                return response.json();
+            }).then(data => {
+                dispatch({
+                    type: eventSuccess,
+                    data: data
+                });
+            }).catch(() => {
+                dispatch({type: eventError});
             });
     };
 };
@@ -159,31 +196,11 @@ export const unjoinGame = (gameId) => {
         types.UNJOIN_FAILED);
 };
 
-
-// const retrieveGames = (url) => {
-//
-//     return function (dispatch) {
-//         dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
-//
-//         return fetch(url)
-//             .then(response => {
-//                 return response.json();
-//             }).then(data => {
-//                 dispatch({
-//                     type: types.GAMES_RETRIEVED,
-//                     data: data
-//                 });
-//             }).catch(err => {
-//                 dispatch({type: types.GAMES_RETRIEVAL_ERROR});
-//             });
-//     }
-// };
-
 export const fetchGames = (date, place) => {
     var url = formatParametersForFetchingGames(place, date, true);
     // return retrieveGames(url);
 
-    return launchRequest(url,
+    return launchGetRequest(url,
         null,
         types.GAMES_RETRIEVAL_IN_PROGRESS,
         types.GAMES_RETRIEVED,
@@ -194,13 +211,12 @@ export const fetchGames = (date, place) => {
 export const fetchGame = (gameId) => {
     var url = urls.GET_GAME + gameId;
 
-    return launchRequest(url,
-        null,
+    return launchGetRequest(url,
+        getHeaders(),
         types.GAME_RETRIEVAL_IN_PROGRESS,
         types.GAME_RETRIEVED,
         types.GAME_RETRIEVAL_ERROR);
 
-    // return retrieveGames(url);
 };
 
 export const getGameWithinHourAndPlace = (dateTime, place) => {

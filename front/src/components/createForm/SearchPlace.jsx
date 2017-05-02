@@ -27,7 +27,7 @@ const propTypes = {
 const defaultProps = {
     initSearch: undefined,
     places: [],
-    selectedPlace: {}
+    selectedPlace: undefined
 };
 
 class SearchPlace extends React.Component {
@@ -36,18 +36,22 @@ class SearchPlace extends React.Component {
         super(props);
 
         this.state = {
-            searchedPlace: this.props.initSearch,
+            searchedPlace: props.initSearch,
             error: null,
-            selectedPlace: this.props.selectedPlace || {},
+            selectedPlace: props.selectedPlace,
             searchedAlready: false
         }
     };
 
-    componentDidMount = () => {
-      if(this.state.searchedPlace !== undefined) {
-          this.setState({'searchedAlready': true});
-          this.props.searchAction(this.state.searchedPlace);
-      }
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps.selectedPlace.name && this.state.searchedPlace === undefined) {
+            this.setState({'selectedPlace': nextProps.selectedPlace});
+            if(nextProps.selectedPlace.name.indexOf(',')) {
+                this.setState({'searchedPlace': nextProps.selectedPlace.name.split(',')[0]}, () => {
+                    this.props.searchAction(this.state.searchedPlace);
+                });
+            }
+        }
     };
 
     handleChange = (inputName, event) => {
@@ -81,7 +85,7 @@ class SearchPlace extends React.Component {
                             <TextField
                                 type="text"
                                 floatingLabelText="Rechercher un fronton"
-                                value={this.state.searchedPlace}
+                                value={this.state.searchedPlace || ''}
                                 onChange={this.handleChange.bind(this, 'searchedPlace')}
                                 errorText={this.state.error}
                                 onKeyPress={(e) => {if (e.key === 'Enter') this.searchPlaces()}}

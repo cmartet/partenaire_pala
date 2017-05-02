@@ -23,9 +23,9 @@ module.exports = {
     },
     
     //Get by gameId
-    getById: function (gameId) {
-        Game.findById(gameId, function (err, games) {
-            callback(err, games);
+    getById: function (gameId, callback) {
+        Game.findById(gameId, function (err, game) {
+            callback(err, game);
         });
     },
 
