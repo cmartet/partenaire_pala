@@ -1,6 +1,5 @@
 ﻿var _ = require('lodash');
 var Game = require('../models/game');
-var User = require('../models/user');
 
 require('../helpers/extendString')(String);
 
@@ -74,9 +73,7 @@ module.exports = {
 
     //Delete a game
     delete: function (gameId, callback) {
-        Game.remove({_id: gameId}, function (err) {
-            callback(err);
-        });
+        Game.findOneAndRemove(gameId, callback);
     },
 
     //Check if a user is the game creator

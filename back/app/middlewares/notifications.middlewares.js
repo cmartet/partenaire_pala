@@ -1,6 +1,7 @@
 ﻿const _ = require('lodash');
 const facebookService = require('../services/facebook.service');
 const gamesService = require('../services/games.service');
+const usersService = require('../services/users.service');
 const messages = require('../constants/messages');
 
 require('../helpers/extendDatetime')(Date);
@@ -8,11 +9,9 @@ require('../helpers/extendDatetime')(Date);
 module.exports = {
 
     sendNotificationGameCreated: function (req, res, next) {
-        /*var creatorFbId = req.user.bearer.id;
-        var message = messages.game_created.format(game.place.name, game.date.format());
-
-        facebookService.sendNotification(creatorFbId, message);*/
-
+        var creatorFbId = req.user.bearer.id;
+        var message = messages.game_created.format(req.data.date.format(), req.data.place.name);
+        facebookService.sendNotification(creatorFbId, message);
         return next();
     },
 
@@ -38,31 +37,20 @@ module.exports = {
 };
 
 var sendNotificationToCreator = function (req, message) {
-    var gameId = req.params.id;
-    var playerName = req.user.bearer.name;
+    var message = message.format(req.user.bearer.name, req.data.place.name, req.data.date.format());
 
-    gamesService.getById(gameId, function (err, game) {
+    usersService.getById(req.data.creator._id, function (err, user) {
         if (!err) {
-            var creatorId = game.creator._id;
-            var newMessage = message.format(playerName, game.place.name, game.date.format());
-
-            facebookService.sendNotification(creatorId, newMessage);
+            facebookService.sendNotification(user.bearer.id, message);
         }
     });
 };
 
 var sendNotificationToPlayers = function (req, message) {
-    var gameId = req.params.id;
+    var playersId = _.map(req.data.players, '_id');
 
-    gamesService.getById(gameId, function (err, game) {
-        if (!err) {
-            var playersId = _.map(game.players, '_id');
-
-            playersId.forEach(function (playerId) {
-                var message = messages.game_updated.format(game.place.name, game.date.format());
-                facebookService.sendNotification(playerId, message);
-            });
-        }
+    playersId.forEach(function (playerId) {
+        message = message.format(req.data.place.name, req.data.date.format());
+        facebookService.sendNotification(playerId, message);
     });
-
 };
