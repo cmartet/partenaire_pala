@@ -8,12 +8,6 @@ const getInitialState = () => {
             success: false,
             error: false
         },
-        gameRetrieval: {
-            data: undefined,
-            inProgress: false,
-            success: false,
-            error: false
-        },
         gameCreation: {
             inProgress: false,
             success: false,
@@ -60,28 +54,6 @@ const handleGamesRetrieval = (type, data) => {
     }
 };
 
-const handleGameRetrieval = (type, data) => {
-    var state = getInitialState();
-
-    switch (type) {
-        case types.GAME_RETRIEVED:
-            state.gameRetrieval.success = true;
-            state.gameRetrieval.data = data;
-            return state;
-
-        case types.GAME_RETRIEVAL_ERROR:
-            state.gameRetrieval.error = true;
-            return state;
-
-        case types.GAME_RETRIEVAL_IN_PROGRESS:
-            state.gameRetrieval.inProgress = true;
-            return state;
-
-        default:
-            return state;
-    }
-};
-
 const handleCreationActions = (type) => {
     var state = getInitialState();
 
@@ -107,15 +79,15 @@ const handleUpdateActions = (type) => {
     var state = getInitialState();
 
     switch (type) {
-        case types.CREATION_IN_PROGRESS:
+        case types.UPDATE_IN_PROGRESS:
             state.gameUpdate.inProgress = true;
             return state;
 
-        case types.CREATED_GAME:
+        case types.UPDATED_GAME:
             state.gameUpdate.success = true;
             return state;
 
-        case types.CREATION_FAILED:
+        case types.UPDATE_FAILED:
             state.gameUpdate.error = true;
             return state;
 
@@ -176,11 +148,6 @@ export default (state = getInitialState(), action) => {
         case types.GAMES_RETRIEVAL_ERROR:
             return handleGamesRetrieval(action.type, action.data);
 
-        case types.GAME_RETRIEVED:
-        case types.GAME_RETRIEVAL_IN_PROGRESS:
-        case types.GAME_RETRIEVAL_ERROR:
-            return handleGameRetrieval(action.type, action.data);
-
         case types.CREATION_FAILED:
         case types.CREATION_IN_PROGRESS:
         case types.CREATED_GAME:
@@ -188,7 +155,7 @@ export default (state = getInitialState(), action) => {
 
         case types.UPDATE_FAILED:
         case types.UPDATE_IN_PROGRESS:
-        case types.UPDATE_GAME:
+        case types.UPDATED_GAME:
             return handleUpdateActions(action.type);
 
         case types.DELETE_GAME:

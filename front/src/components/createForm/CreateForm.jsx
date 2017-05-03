@@ -33,22 +33,43 @@ class CreateForm extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            allGameInfo: {},
-            creationInProgress: false,
-            date: new Date(),
-            error: {},
-            level: '',
-            maxMissingPlayers: 4,
-            message: '',
-            nbPlayers: 1,
-            place: {},
-            players: [],
-            validation: {
-                maxMissingPlayers: null,
-                players: null
-            }
-        };
+        if(props.gameToUpdate !== undefined) {
+            this.state = {
+                allGameInfo: {},
+                creationInProgress: false,
+                date: new Date(props.gameToUpdate.date),
+                time: new Date(props.gameToUpdate.date),
+                error: {},
+                level: props.gameToUpdate.level,
+                maxMissingPlayers: props.gameToUpdate.maxMissingPlayers,
+                message: props.gameToUpdate.message,
+                nbPlayers: props.gameToUpdate.players.length,
+                place: props.gameToUpdate.place,
+                players: props.gameToUpdate.players,
+                validation: {
+                    maxMissingPlayers: null,
+                    players: null
+                }
+            };
+        }
+        else {
+            this.state = {
+                allGameInfo: {},
+                creationInProgress: false,
+                date: new Date(),
+                error: {},
+                level: '',
+                maxMissingPlayers: 4,
+                message: '',
+                nbPlayers: 1,
+                place: {},
+                players: [],
+                validation: {
+                    maxMissingPlayers: null,
+                    players: null
+                }
+            };
+        }
     };
 
 
@@ -63,7 +84,7 @@ class CreateForm extends Component {
             this.setState({'place': nextProps.gameToUpdate.place});
             this.setState({'players': nextProps.gameToUpdate.players});
         }
-        if (nextProps.auth.name) {
+        if (nextProps.auth.name && (this.state.players.length > 0 && !this.state.players[0].name)) {
             this.changeFirstPlayerInParticipants(nextProps.auth.id, nextProps.auth.name);
         }
     };
@@ -376,6 +397,7 @@ class CreateForm extends Component {
                         games={this.props.games}
                         connectedUserName={this.props.auth.name}
                         gameCreation={this.props.gameCreationStatus}
+                        gameToUpdate={this.props.gameToUpdate}
                     />);
             default:
                 return 'You\'re a long way from home sonny jim!';

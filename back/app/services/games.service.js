@@ -95,17 +95,17 @@ module.exports = {
 
         var query = {
             "$set": {
-                "place":   game.place,
-                "date":    game.date,
-                "players": game.players,
-                "message": game.message
+                "date":              game.date,
+                "level":             game.level,
+                "maxMissingPlayers": game.maxMissingPlayers,
+                "message":           game.message,
+                "place":             game.place,
+                "players":           game.players
             }
         };
 
         Game.findByIdAndUpdate(game._id, query, function (err, game) {
-            if (err) {
-                return callback(err);
-            }
+            callback(err);
 
             // const message = String.format(messages.game_updated.format, new Date(game.date).format(), game.place.name);
             // this.sendNotification(game.creator._id, message, callback)

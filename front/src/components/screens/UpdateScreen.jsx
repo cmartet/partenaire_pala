@@ -19,7 +19,7 @@ class UpdateScreen extends Component {
                         profilePic={this.props.auth.profilePic}
                         username={this.props.auth.name}
                 />
-                {this.props.games.inProgress ?
+                {this.props.game.inProgress ?
                     <CircularProgress size={80} thickness={5}/> :
                     <CreateForm
                         auth={this.props.auth}
@@ -39,7 +39,4 @@ class UpdateScreen extends Component {
     }
 }
 
-export
-default
-
-withRouter(UpdateScreen);
+export default withRouter(UpdateScreen);

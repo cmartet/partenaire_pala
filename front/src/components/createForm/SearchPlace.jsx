@@ -35,24 +35,34 @@ class SearchPlace extends React.Component {
     constructor(props) {
         super(props);
 
+        let initSearch = props.initSearch;
+        if(props.selectedPlace && props.selectedPlace.name) {
+            initSearch = props.selectedPlace.name.split(',')[0];
+        }
+
         this.state = {
-            searchedPlace: props.initSearch,
+            searchedPlace: initSearch,
             error: null,
             selectedPlace: props.selectedPlace,
             searchedAlready: false
         }
     };
 
-    componentWillReceiveProps = (nextProps) => {
-        if (nextProps.selectedPlace.name && this.state.searchedPlace === undefined) {
-            this.setState({'selectedPlace': nextProps.selectedPlace});
-            if(nextProps.selectedPlace.name.indexOf(',')) {
-                this.setState({'searchedPlace': nextProps.selectedPlace.name.split(',')[0]}, () => {
-                    this.props.searchAction(this.state.searchedPlace);
-                });
-            }
-        }
+    componentDidMount = () => {
+        if(this.state.searchedPlace !== undefined)
+            this.props.searchAction(this.state.searchedPlace);
     };
+
+    // componentWillReceiveProps = (nextProps) => {
+    //     if (nextProps.selectedPlace.name && this.state.searchedPlace === undefined) {
+    //         this.setState({'selectedPlace': nextProps.selectedPlace});
+    //         if(nextProps.selectedPlace.name.indexOf(',')) {
+    //             this.setState({'searchedPlace': nextProps.selectedPlace.name.split(',')[0]}, () => {
+    //                 this.props.searchAction(this.state.searchedPlace);
+    //             });
+    //         }
+    //     }
+    // };
 
     handleChange = (inputName, event) => {
         this.setState({[inputName]: event.target.value});

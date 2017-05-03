@@ -35,43 +35,16 @@ const getHeaders = () => {
     return createHeadersFor(http.METHOD_GET)
 };
 
-
-// const retrieveGames = (url) => {
-//
-//     return function (dispatch) {
-//         dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
-//
-//         return fetch(url)
-//             .then(response => {
-//                 return response.json();
-//             }).then(data => {
-//                 dispatch({
-//                     type: types.GAMES_RETRIEVED,
-//                     data: data
-//                 });
-//             }).catch(err => {
-//                 dispatch({type: types.GAMES_RETRIEVAL_ERROR});
-//             });
-//     }
-// };
-
 const launchRequest = (url, headers, eventProgress, eventSuccess, eventError) => {
     return function (dispatch) {
         dispatch({type: eventProgress});
 
         return fetch(url, headers)
             .then(response => {
-                if (response.status === http.STATUS_CODE_OK) {
-                    if (response.body) {
-                        dispatch({type: eventSuccess, data: response.body.json()});
-                    }
-                    else {
-                        dispatch({type: eventSuccess});
-                    }
-                }
-                else {
-                    dispatch({type: eventError});
-                }
+                // response.status === http.STATUS_CODE_OK ?
+                    dispatch({type: eventSuccess})
+            }).catch(() => {
+                dispatch({type: eventError});
             });
     };
 };
@@ -198,7 +171,6 @@ export const unjoinGame = (gameId) => {
 
 export const fetchGames = (date, place) => {
     var url = formatParametersForFetchingGames(place, date, true);
-    // return retrieveGames(url);
 
     return launchGetRequest(url,
         null,
@@ -222,11 +194,9 @@ export const fetchGame = (gameId) => {
 export const getGameWithinHourAndPlace = (dateTime, place) => {
     var url = formatParametersForFetchingGames(place, dateTime, false);
 
-    return launchRequest(url,
+    return launchGetRequest(url,
         null,
-        types.GAME_RETRIEVAL_IN_PROGRESS,
-        types.GAME_RETRIEVED,
-        types.GAME_RETRIEVAL_ERROR);
-
-    // return retrieveGames(url);
+        types.GAMES_RETRIEVAL_IN_PROGRESS,
+        types.GAMES_RETRIEVED,
+        types.GAMES_RETRIEVAL_ERROR);
 };
