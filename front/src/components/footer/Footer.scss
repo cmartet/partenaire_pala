@@ -8,6 +8,11 @@
     justify-content: space-around;
     height: 100px;
 
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
     .links {
       display: flex;
       justify-content: space-around;
@@ -17,12 +22,13 @@
 
   .author {
     height: 20px;
-    padding: $margin-m $margin-xl;
+    padding: $margin-xs $margin-xl;
     background-color: #bbbbbb;
 
     .heart {
       color: red;
       font-size: 1.3em;
+      padding: 0 $margin-xs;
     }
   }
 }

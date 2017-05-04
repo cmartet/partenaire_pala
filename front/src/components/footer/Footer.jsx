@@ -12,12 +12,12 @@ class Footer extends React.Component {
                 <div className="brand">Partenaire Pala</div>
                 <div className="links-container">
                     <div className="links">
-                        <div>Créer une partie</div>
-                        <div>Rechercher une partie</div>
+                        <div><a href={process.env.PUBLIC_URL + '/#/create'}>Créer une partie</a></div>
+                        <div><a href={process.env.PUBLIC_URL}>Rechercher une partie</a></div>
                     </div>
                     <div className="links">
-                        <div>Partenaire - Fronton.net</div>
-                        <div>Nous contacter</div>
+                        <div><a href="http://www.frontons.net/">Partenaire - Frontons.net</a></div>
+                        <div><a href={"mailto:pike.app.team@gmail.com"}>Nous contacter</a></div>
                     </div>
                 </div>
                 <div className="author">
