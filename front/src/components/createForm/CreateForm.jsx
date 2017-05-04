@@ -1,8 +1,8 @@
 import React, {Component}   from 'react';
 import PropTypes            from 'prop-types';
 import {Row, Col}           from 'react-flexbox-grid';
-import CheckAndCreate       from '../createForm/CheckAndCreate';
-import CreateStepper        from '../createForm/CreateStepper';
+import LastStepCheck        from '../createForm/LastStepCheck';
+import CreateUpdateStepper  from '../createForm/CreateUpdateStepper';
 import DatePicker           from 'material-ui/DatePicker';
 import MenuItem             from 'material-ui/MenuItem';
 import SearchPlace          from '../createForm/SearchPlace';
@@ -15,7 +15,7 @@ import './CreateForm.scss';
 
 const propTypes = {
     auth: PropTypes.object,
-    createGame: PropTypes.func,
+    createOrUpdateGame: PropTypes.func,
     gameAtSameTime: PropTypes.func,
     gameCreationStatus: PropTypes.object,
     gameToUpdate: PropTypes.object,
@@ -57,6 +57,7 @@ class CreateForm extends Component {
                 allGameInfo: {},
                 creationInProgress: false,
                 date: new Date(),
+                time: new Date(),
                 error: {},
                 level: '',
                 maxMissingPlayers: 4,
@@ -84,7 +85,7 @@ class CreateForm extends Component {
             this.setState({'place': nextProps.gameToUpdate.place});
             this.setState({'players': nextProps.gameToUpdate.players});
         }
-        if (nextProps.auth.name && (this.state.players.length > 0 && !this.state.players[0].name)) {
+        if (nextProps.auth.name && this.state.players.length === 0) {
             this.changeFirstPlayerInParticipants(nextProps.auth.id, nextProps.auth.name);
         }
     };
@@ -112,10 +113,10 @@ class CreateForm extends Component {
         return gameInfo;
     };
 
-    createGame = () => {
+    createOrUpdateGame = () => {
         if (this.props.auth.sessionValid) {
             this.setState({'creationInProgress': true});
-            this.props.createGame(this.state.allGameInfo)
+            this.props.createOrUpdateGame(this.state.allGameInfo)
         }
         else {
             this.setState({openPopup: true});
@@ -132,7 +133,7 @@ class CreateForm extends Component {
         };
     };
 
-    getSameGamesAsTheOneToBeCreated = () => {
+    getGamesAtSamePlaceAndTime = () => {
         this.props.gameAtSameTime(this.state.dateTime, this.state.place.name);
     };
 
@@ -273,7 +274,7 @@ class CreateForm extends Component {
     };
 
     handleLastStep = () => {
-        this.getSameGamesAsTheOneToBeCreated();
+        this.getGamesAtSamePlaceAndTime();
         this.setState({'allGameInfo': this.buildGameFromState()});
     };
 
@@ -392,7 +393,7 @@ class CreateForm extends Component {
                 );
             case 3:
                 return (
-                    <CheckAndCreate
+                    <LastStepCheck
                         gameInfo={this.state.allGameInfo}
                         games={this.props.games}
                         connectedUserName={this.props.auth.name}
@@ -407,12 +408,12 @@ class CreateForm extends Component {
     render() {
         return (
             <div className="CreateForm">
-                <CreateStepper
+                <CreateUpdateStepper
                     ref="stepper"
-                    update={this.props.update}
+                    update={this.props.gameToUpdate !== undefined}
                     areInfoOK={this.areInfoOK.bind(this)}
                     closePopup={this.closePopup.bind(this)}
-                    createGame={this.createGame.bind(this)}
+                    createOrUpdateGame={this.createOrUpdateGame.bind(this)}
                     gameCreation={this.props.gameCreationStatus}
                     getStepContent={this.getStepContent.bind(this)}
                     handleLastStep={this.handleLastStep.bind(this)}

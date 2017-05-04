@@ -7,7 +7,7 @@ import Popup            from '../popup/Popup'
 import PropTypes        from 'prop-types';
 import RaisedButton     from 'material-ui/RaisedButton';
 
-import './CheckAndCreate.scss';
+import './LastStepCheck.scss';
 
 const propTypes = {
     connectedUserName: PropTypes.string,
@@ -17,7 +17,7 @@ const propTypes = {
     games: PropTypes.array
 };
 
-class CheckAndCreate extends React.Component {
+class LastStepCheck extends React.Component {
 
     redirectToSearchPage = () => {
         window.location.href = '/';
@@ -98,6 +98,6 @@ class CheckAndCreate extends React.Component {
     }
 }
 
-CheckAndCreate.propTypes = propTypes;
+LastStepCheck.propTypes = propTypes;
 
-export default CheckAndCreate;
+export default LastStepCheck;

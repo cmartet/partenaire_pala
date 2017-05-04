@@ -23,7 +23,7 @@ class UpdateScreen extends Component {
                     <CircularProgress size={80} thickness={5}/> :
                     <CreateForm
                         auth={this.props.auth}
-                        createGame={this.props.gamesActions.updateGame}
+                        createOrUpdateGame={this.props.gamesActions.updateGame}
                         games={this.props.games.data}
                         gameToUpdate={this.props.game.data}
                         gameAtSameTime={this.props.gamesActions.getGameWithinHourAndPlace}

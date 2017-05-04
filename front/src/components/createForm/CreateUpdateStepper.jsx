@@ -9,13 +9,13 @@ import {
     StepLabel,
 }                       from 'material-ui/Stepper';
 
-import './CreateStepper.scss';
+import './CreateUpdateStepper.scss';
 
 const STEP_MAX = 3;
 
 const propTypes = {
     areInfoOK: PropTypes.func,
-    createGame: PropTypes.func,
+    createOrUpdateGame: PropTypes.func,
     closePopup: PropTypes.func,
     gameCreation: PropTypes.object,
     getStepContent: PropTypes.func,
@@ -24,7 +24,7 @@ const propTypes = {
     update: PropTypes.bool
 };
 
-class CreateStepper extends React.Component {
+class CreateUpdateStepper extends React.Component {
 
     constructor(props) {
         super(props);
@@ -60,7 +60,7 @@ class CreateStepper extends React.Component {
                 this.setState({stepIndex: stepIndex + 1});
         }
         else {
-            this.props.createGame();
+            this.props.createOrUpdateGame();
         }
     };
 
@@ -120,6 +120,6 @@ class CreateStepper extends React.Component {
     }
 }
 
-CreateStepper.propTypes = propTypes;
+CreateUpdateStepper.propTypes = propTypes;
 
-export default CreateStepper;
+export default CreateUpdateStepper;

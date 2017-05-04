@@ -25,7 +25,7 @@ class CreateScreen extends Component {
 
                 <CreateForm
                     auth={this.props.auth}
-                    createGame={this.props.gamesActions.createGame}
+                    createOrUpdateGame={this.props.gamesActions.createGame}
                     games={this.props.games.data}
                     gameAtSameTime={this.props.gamesActions.getGameWithinHourAndPlace}
                     gameCreationStatus={this.props.gameCreation}
