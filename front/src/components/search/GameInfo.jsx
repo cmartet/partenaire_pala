@@ -1,5 +1,7 @@
 import React, {Component}   from 'react';
+import {hashHistory}        from 'react-router';
 import Chip                 from 'material-ui/Chip';
+import FlatButton           from 'material-ui/FlatButton';
 import PropTypes            from 'prop-types';
 import RaisedButton         from 'material-ui/RaisedButton';
 import * as utils           from '../../utils';
@@ -9,20 +11,20 @@ var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 import './GameInfo.scss';
 
 const propTypes = {
-    gameId: PropTypes.string,
-    place: PropTypes.string.required,
-    placePicture: PropTypes.string,
-    date: PropTypes.object.dateTime,
-    level: PropTypes.string,
-    maxPlayers: PropTypes.number,
     creator: PropTypes.string,
     creatorId: PropTypes.string,
-    players: PropTypes.array,
     connectedUserId: PropTypes.string,
+    date: PropTypes.object.dateTime,
     deleteGame: PropTypes.func,
+    displayMode: PropTypes.boolean,
+    gameId: PropTypes.string,
     joinGame: PropTypes.func,
     leaveGame: PropTypes.func,
-    displayMode: PropTypes.boolean
+    level: PropTypes.string,
+    maxPlayers: PropTypes.number,
+    place: PropTypes.string.required,
+    placePicture: PropTypes.string,
+    players: PropTypes.array
 };
 
 const defaultProps = {
@@ -84,6 +86,43 @@ class GameInfo extends Component {
         return userAlreadyInGame;
     };
 
+    handleButtons = () => {
+        if (this.props.displayMode) {
+            return null;
+        }
+
+        if (this.userIsCreator()) {
+            return (
+                <div>
+                    <FlatButton secondary={true}
+                                label="Editer"
+                                onClick={() => {hashHistory.push('/update/' + this.props.gameId)}}/>
+
+                    <RaisedButton secondary={true}
+                                  label="Supprimer"
+                                  onClick={() => this.props.deleteGame(this.props.gameId)}/>
+                </div>);
+        }
+
+        if (this.userAlreadyJoined()) {
+            return (<RaisedButton primary={true}
+                                  label="Ne plus participer"
+                                  onClick={() => this.props.leaveGame(this.props.gameId)}/>);
+        }
+        else {
+            return (<RaisedButton primary={true}
+                                  disabled={this.isGameComplete()}
+                                  label="Rejoindre"
+                                  onClick={() => this.props.joinGame(this.props.gameId)}/>);
+        }
+    };
+
+    displayPlacePicture = () => {
+        if (this.props.placePicture !== null) {
+            return (<img src={this.props.placePicture} alt={this.props.place}/>);
+        }
+    };
+
     render() {
         return (
             <div className="GameInfo">
@@ -92,7 +131,8 @@ class GameInfo extends Component {
                         {this.props.place}
                     </div>
                     <div className="nb-players-info">
-                        {React.createElement(PersonIcon, null)}{this.getNbPlayersInfo()}</div>
+                        {React.createElement(PersonIcon, null)}{this.getNbPlayersInfo()}
+                    </div>
                 </div>
 
                 <div className="all-info">
@@ -102,10 +142,7 @@ class GameInfo extends Component {
                               &nbsp;{this.props.creator} ({this.props.level})
                           </span>
                     </div>
-
-                    {(this.props.placePicture !== null) ?
-                        <img src={this.props.placePicture} alt={this.props.place + " Picture"}/>
-                        : null}
+                    {this.displayPlacePicture()}
                     <div className="game-datetime">
                         <div className="date">{utils.getFormattedDate(this.props.date)}</div>
                         <div className="time">{utils.getFormattedTime(this.props.date)}</div>
@@ -119,23 +156,7 @@ class GameInfo extends Component {
                             </div>) :
                             (<div>Aucun joueur n'a rejoint cette partie pour le moment.</div>)
                     }
-                    {this.props.displayMode ? null :
-                        this.userIsCreator() ?
-
-                            <RaisedButton secondary={true}
-                                          label="Supprimer"
-                                          onClick={() => this.props.deleteGame(this.props.gameId)}/> :
-
-                            this.userAlreadyJoined() ?
-
-                                <RaisedButton primary={true}
-                                              label="Ne plus participer"
-                                              onClick={() => this.props.leaveGame(this.props.gameId)}/>
-                                :
-                                <RaisedButton primary={true}
-                                              disabled={this.isGameComplete()}
-                                              label="Rejoindre"
-                                              onClick={() => this.props.joinGame(this.props.gameId)}/>}
+                    {this.handleButtons()}
 
                 </div>
             </div>

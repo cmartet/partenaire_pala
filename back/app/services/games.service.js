@@ -19,6 +19,13 @@ module.exports = {
 
         Game.find(query, callback);
     },
+    
+    //Get by gameId
+    getById: function (gameId, callback) {
+        Game.findById(gameId, function (err, game) {
+            callback(err, game);
+        });
+    },
 
     //Create a game
     create: function (game, creator, callback) {
@@ -61,10 +68,12 @@ module.exports = {
 
         var query = {
             "$set": {
-                "place":   game.place,
-                "date":    game.date,
-                "players": game.players,
-                "message": game.message
+                "date":              game.date,
+                "level":             game.level,
+                "maxMissingPlayers": game.maxMissingPlayers,
+                "message":           game.message,
+                "place":             game.place,
+                "players":           game.players
             }
         };
 

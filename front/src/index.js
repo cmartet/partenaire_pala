@@ -15,6 +15,7 @@ import LoginScreen      from './components/screens/LoginScreen'
 import ReactDOM         from 'react-dom';
 import SearchScreen     from './containers/SearchContainer'
 import thunkMiddleware  from 'redux-thunk';
+import UpdateContainer  from './containers/UpdateContainer'
 
 const store = configureStore({}, [thunkMiddleware]);
 
@@ -24,6 +25,7 @@ ReactDOM.render(
             <Route path="/" component={AppContainer}>
                 <IndexRoute component={SearchScreen}/>
                 <Route path="create" component={CreateContainer}/>
+                <Route path="update/:id" component={UpdateContainer}/>
                 <Route path="login" component={LoginScreen}/>
                 <Route path="authSuccess" component={AuthSuccess}/>
             </Route>

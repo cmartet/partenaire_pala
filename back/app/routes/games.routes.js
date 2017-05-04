@@ -23,6 +23,15 @@ module.exports = function (app, passport) {
         }
     );
 
+    app.get('/games/id/:id',
+        isLoggedIn(passport),
+        checkGameRights,
+        function (req, res, next) {
+            var gameId = req.params.id;
+            gamesService.getById(gameId, handleServiceCallback(req, res, next));
+        }
+    );
+
     app.post('/games',
         isLoggedIn(passport),
         function (req, res, next) {

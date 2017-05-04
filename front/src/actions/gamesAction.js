@@ -12,7 +12,7 @@ const createHeadersFor = (type, body) => {
         }
     };
 
-    if(type  === http.METHOD_POST){
+    if (body) {
         headers.body = JSON.stringify(body)
     }
 
@@ -28,12 +28,43 @@ const postHeaders = body => {
 };
 
 const deleteHeaders = () => {
-    return {
-        'method': http.METHOD_DELETE,
-        'headers': {
-            'Authorization': 'Bearer ' + util.getAuthCookie()
-        }
-    }
+    return createHeadersFor(http.METHOD_DELETE)
+};
+
+const getHeaders = () => {
+    return createHeadersFor(http.METHOD_GET)
+};
+
+const launchRequest = (url, headers, eventProgress, eventSuccess, eventError) => {
+    return function (dispatch) {
+        dispatch({type: eventProgress});
+
+        return fetch(url, headers)
+            .then(response => {
+                // response.status === http.STATUS_CODE_OK ?
+                    dispatch({type: eventSuccess})
+            }).catch(() => {
+                dispatch({type: eventError});
+            });
+    };
+};
+
+const launchGetRequest = (url, headers, eventProgress, eventSuccess, eventError) => {
+    return function (dispatch) {
+        dispatch({type: eventProgress});
+
+        return fetch(url, headers || {})
+            .then(response => {
+                return response.json();
+            }).then(data => {
+                dispatch({
+                    type: eventSuccess,
+                    data: data
+                });
+            }).catch(() => {
+                dispatch({type: eventError});
+            });
+    };
 };
 
 const formatParametersForFetchingGames = (place, beginDate, allDay) => {
@@ -90,6 +121,15 @@ export const createGame = (game) => {
             });
     }
 };
+
+export const updateGame = (game) => {
+    return launchRequest(urls.UPDATE_GAME + game._id,
+        putHeaders(game),
+        types.UPDATE_IN_PROGRESS,
+        types.UPDATED_GAME,
+        types.UPDATE_FAILED);
+};
+
 export const deleteGame = gameId => {
     return function (dispatch) {
 
@@ -113,63 +153,50 @@ export const reinitState = () => {
     }
 };
 
-const launchPutRequest = (url, body, eventProgress, eventSuccess, eventError) => {
-    return function (dispatch) {
-        dispatch({type: eventProgress});
-
-        return fetch(url, putHeaders(body))
-            .then(response => {
-                if (response.status === http.STATUS_CODE_OK) {
-                    dispatch({type: eventSuccess});
-                }
-                else {
-                    dispatch({type: eventError});
-                }
-            });
-    };
-};
-
 export const joinGame = (gameId) => {
-    return launchPutRequest(urls.JOIN_GAME + gameId,
-        null,
+    return launchRequest(urls.JOIN_GAME + gameId,
+        putHeaders(),
         types.JOIN_IN_PROGRESS,
         types.JOIN_SUCCESS,
         types.JOIN_FAILED);
 };
 
 export const unjoinGame = (gameId) => {
-    return launchPutRequest(urls.UNJOIN_GAME + gameId,
-        null,
+    return launchRequest(urls.UNJOIN_GAME + gameId,
+        putHeaders(),
         types.UNJOIN_IN_PROGRESS,
         types.UNJOIN_SUCCESS,
         types.UNJOIN_FAILED);
 };
 
-
-const retrieveGames = (url) => {
-    return function (dispatch) {
-        dispatch({type: types.GAMES_RETRIEVAL_IN_PROGRESS});
-
-        return fetch(url)
-            .then(response => {
-                return response.json();
-            }).then(data => {
-                dispatch({
-                    type: types.GAMES_RETRIEVED,
-                    data: data
-                });
-            }).catch(err => {
-                dispatch({type: types.GAMES_RETRIEVAL_ERROR});
-            });
-    }
-};
-
 export const fetchGames = (date, place) => {
     var url = formatParametersForFetchingGames(place, date, true);
-    return retrieveGames(url);
+
+    return launchGetRequest(url,
+        null,
+        types.GAMES_RETRIEVAL_IN_PROGRESS,
+        types.GAMES_RETRIEVED,
+        types.GAMES_RETRIEVAL_ERROR);
+
+};
+
+export const fetchGame = (gameId) => {
+    var url = urls.GET_GAME + gameId;
+
+    return launchGetRequest(url,
+        getHeaders(),
+        types.GAME_RETRIEVAL_IN_PROGRESS,
+        types.GAME_RETRIEVED,
+        types.GAME_RETRIEVAL_ERROR);
+
 };
 
 export const getGameWithinHourAndPlace = (dateTime, place) => {
     var url = formatParametersForFetchingGames(place, dateTime, false);
-    return retrieveGames(url);
+
+    return launchGetRequest(url,
+        null,
+        types.GAMES_RETRIEVAL_IN_PROGRESS,
+        types.GAMES_RETRIEVED,
+        types.GAMES_RETRIEVAL_ERROR);
 };

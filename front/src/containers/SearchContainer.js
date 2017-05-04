@@ -1,22 +1,26 @@
 import { bindActionCreators }   from 'redux';
 import { connect }              from 'react-redux';
-import * as gamesActions        from '../actions/gamesAction';
 import * as authActions         from '../actions/authenticationAction';
+import * as placesActions       from '../actions/placesAction';
+import * as gamesActions        from '../actions/gamesAction';
 import SearchScreen             from '../components/screens/SearchScreen';
 
 const mapStateToProps = (state) => {
     return {
+        auth: state.authentication,
         games: state.games.gamesRetrieval,
-        gameDeletion: state.games.gameDeletion,
         gameJoin: state.games.gameJoin,
-        auth: state.authentication
+        gameDeletion: state.games.gameDeletion,
+        gameUpdate: state.games.gameUpdate,
+        places: state.places.placesRetrieval
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        authActions: bindActionCreators(authActions, dispatch),
         gamesActions: bindActionCreators(gamesActions, dispatch),
-        authActions: bindActionCreators(authActions, dispatch)
+        placesActions: bindActionCreators(placesActions, dispatch)
     }
 };
 

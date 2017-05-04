@@ -16,7 +16,7 @@ module.exports = {
     getByLocation: function (lat, long, radius, callback) {
         var url = buildPlacesApiUrl(null, lat, long, radius);
         tools.httpGet(url, mapPlaces(callback));
-    },
+    }
 };
 
 var buildPlacesApiUrl = function (search, lat, long, radius) {
