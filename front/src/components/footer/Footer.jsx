@@ -20,6 +20,7 @@ class Footer extends React.Component {
                         <div><a href={"mailto:pike.app.team@gmail.com"}>Nous contacter</a></div>
                     </div>
                 </div>
+
                 <div className="author">
                     Made with
                     <span className="heart">

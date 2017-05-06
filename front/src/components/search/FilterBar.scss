@@ -1,11 +1,16 @@
 @import '../../common.scss';
 
 .FilterBar {
-  margin: $margin-l $margin-m;
+  padding: $margin-l $margin-m;
+  background-color: #f3f3f3;
 
   .search-form {
     display: flex;
     align-items: flex-end;
+
+    .place-field {
+      margin: 0 $margin-xl;
+    }
 
     .form-group {
       margin: 0 $margin-l;

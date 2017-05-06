@@ -26,17 +26,19 @@ class FilterBar extends Component {
             selectedFieldType: null
         }
     }
-    
+
     onChangeFieldType = (event, index, value) => {
-            this.props.changeFieldType(value);
-            this.setState({'selectedFieldType': value});
+        this.props.changeFieldType(value);
+        this.setState({'selectedFieldType': value});
     };
 
     render() {
         return (
             <div className="FilterBar">
+                <h2>Filtrer les parties</h2>
                 <form className="search-form">
-                    <SelectField title="Tout type de terrain"
+                    <SelectField className="typefield-field"
+                                 title="Tout type de terrain"
                                  id="filedType"
                                  floatingLabelText="Type de terrain"
                                  value={this.state.selectedFieldType}
@@ -46,27 +48,26 @@ class FilterBar extends Component {
                         <MenuItem value={gameData.TRINQUET} primaryText="Trinquet"/>
                     </SelectField>
 
-                    <TextField
-                        className="margin-left-l"
-                        type="text"
-                        floatingLabelText="Lieu"
-                        hintText="Ville, nom du terrain ..."
-                        onKeyPress={(e) => {if (e.key === 'Enter') this.props.launchReseach()}}
-                        onChange={this.props.changePlace}/>
+                    <TextField className="place-field"
+                               type="text"
+                               floatingLabelText="Lieu"
+                               hintText="Ville, nom du terrain ..."
+                               onKeyPress={(e) => {if (e.key === 'Enter') this.props.launchReseach()}}
+                               onChange={this.props.changePlace}/>
 
 
-                    <DatePicker hintText="Date"
+                    <DatePicker className="datepicker-field"
+                            hintText="Date"
                                 DateTimeFormat={util.getDateTimeFormat()}
                                 locale="fr"
                                 cancelLabel="Annuler"
                                 autoOk={true}
                                 onChange={this.props.changeDateTime}/>
 
-                    <RaisedButton
-                        className="margin-left-l"
-                        primary={true}
-                        label="Rechercher"
-                        onClick={this.props.launchReseach}/>
+                    <RaisedButton className="margin-left-l basque-theme green"
+                                  primary={true}
+                                  label="Rechercher"
+                                  onClick={this.props.launchReseach}/>
 
                 </form>
             </div>

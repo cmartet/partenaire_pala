@@ -1,10 +1,12 @@
 import React, {Component}   from 'react';
 import {hashHistory}        from 'react-router';
+import classNames           from 'classnames';
 import Chip                 from 'material-ui/Chip';
 import FlatButton           from 'material-ui/FlatButton';
 import PropTypes            from 'prop-types';
 import RaisedButton         from 'material-ui/RaisedButton';
 import * as utils           from '../../utils';
+import DeleteIcon           from 'material-ui/svg-icons/action/delete';
 
 var PersonIcon = require('react-icons/lib/io/person-stalker.js');
 
@@ -24,6 +26,7 @@ const propTypes = {
     maxPlayers: PropTypes.number,
     place: PropTypes.string.required,
     placePicture: PropTypes.string,
+    placeType: PropTypes.string,
     players: PropTypes.array
 };
 
@@ -93,28 +96,32 @@ class GameInfo extends Component {
 
         if (this.userIsCreator()) {
             return (
-                <div>
-                    <FlatButton secondary={true}
+                <div className="administration-zone">
+                    <FlatButton className="edit-btn"
+                                secondary={true}
                                 label="Editer"
                                 onClick={() => {hashHistory.push('/update/' + this.props.gameId)}}/>
 
-                    <RaisedButton secondary={true}
+                    <RaisedButton className="delete-btn"
+                                  secondary={true}
+                                  labelPosition="before"
                                   label="Supprimer"
+                                  icon={<DeleteIcon/>}
                                   onClick={() => this.props.deleteGame(this.props.gameId)}/>
                 </div>);
         }
 
-        if (this.userAlreadyJoined()) {
-            return (<RaisedButton primary={true}
-                                  label="Ne plus participer"
-                                  onClick={() => this.props.leaveGame(this.props.gameId)}/>);
-        }
-        else {
-            return (<RaisedButton primary={true}
-                                  disabled={this.isGameComplete()}
-                                  label="Rejoindre"
-                                  onClick={() => this.props.joinGame(this.props.gameId)}/>);
-        }
+        return this.userAlreadyJoined() ?
+            (<RaisedButton className="join-btn"
+                           primary={true}
+                           label="Ne plus participer"
+                           onClick={() => this.props.leaveGame(this.props.gameId)}/>)
+            :
+            (<RaisedButton className="join-btn"
+                           primary={true}
+                           disabled={this.isGameComplete()}
+                           label="Rejoindre"
+                           onClick={() => this.props.joinGame(this.props.gameId)}/>);
     };
 
     displayPlacePicture = () => {
@@ -124,9 +131,14 @@ class GameInfo extends Component {
     };
 
     render() {
+        const headerClass = classNames('header-info',
+            {'green': this.props.placeType === 'mur_a_gauche'},
+            {'white': this.props.placeType === 'trinquet'},
+            {'red': this.props.placeType === 'place_libre'});
+
         return (
             <div className="GameInfo">
-                <div className="header-info">
+                <div className={headerClass}>
                     <div className="place">
                         {this.props.place}
                     </div>
@@ -156,7 +168,9 @@ class GameInfo extends Component {
                             </div>) :
                             (<div>Aucun joueur n'a rejoint cette partie pour le moment.</div>)
                     }
-                    {this.handleButtons()}
+                    <div className="action-zone">
+                        {this.handleButtons()}
+                    </div>
 
                 </div>
             </div>

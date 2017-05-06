@@ -132,6 +132,7 @@ class SearchScreen extends React.Component {
                                     maxPlayers={game.maxMissingPlayers}
                                     place={game.place.name}
                                     placePicture={game.place.photo}
+                                    placeType={game.place.type}
                                     players={game.players}
                                 />
                             }) :

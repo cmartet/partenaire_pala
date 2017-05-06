@@ -4,3 +4,11 @@ body {
   font-size: 12px;
   font-family: 'Roboto', sans-serif;
 }
+
+.App {
+  height:100vh;
+  min-height:100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

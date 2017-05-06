@@ -4,6 +4,24 @@ $height-header: 50px;
 
 $color-header-shadow: #C0C0C0;
 
+@keyframes animateBorder {
+  to {
+    border-bottom: 3px solid $color-basque-green;
+  }
+}
+
+@-moz-keyframes animateBorder {
+  to {
+    border-bottom: 3px solid $color-basque-green;
+  }
+}
+
+@keyframes animateBorder {
+  to {
+    border-bottom: 3px solid $color-basque-green;
+  }
+}
+
 .navBar {
   height: $height-header;
   line-height: $height-header;
@@ -24,15 +42,24 @@ $color-header-shadow: #C0C0C0;
 
     &:hover {
       text-decoration: none;
-      color: $color-main-blue;
+      color: $color-basque-green;
       transition: color 0.3s;
     }
   }
 
   .brand {
-    text-align: left;
-    width: 300px;
-    font-size: 1.5em;
+    img {
+      transform: rotate(-30deg);
+      position: absolute;
+      top: calc(40px - #{$height-header});
+      left: -30px;
+      width: 200px;
+      height: 40px;
+    }
+    span {
+      white-space: nowrap;
+      margin-left: 150px;
+    }
   }
 
   .menu {
@@ -55,6 +82,7 @@ $color-header-shadow: #C0C0C0;
     .profile-info {
       display: flex;
       justify-content: center;
+
       .profile-name {
         display: flex;
       }
@@ -64,7 +92,7 @@ $color-header-shadow: #C0C0C0;
       cursor: pointer;
 
       &:hover {
-        color: $color-main-blue;
+        color: $color-basque-green;
         transition: color 0.3s;
       }
     }

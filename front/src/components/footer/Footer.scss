@@ -1,7 +1,8 @@
 @import '../../common.scss';
 
 .Footer {
-  background-color: #e0e0e0;
+  background-color: #f4f4f4;
+  border-top: 3px solid black;
 
   .links-container {
     display: flex;
@@ -20,10 +21,12 @@
     }
   }
 
+
   .author {
     height: 20px;
-    padding: $margin-xs $margin-xl;
-    background-color: #bbbbbb;
+    padding: 0 $margin-xl;
+    background-color: #EAEAEA;
+    font-size: 0.9em;
 
     .heart {
       color: red;

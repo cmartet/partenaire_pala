@@ -7,6 +7,19 @@ $margin-xl: 30px;
 $color-label: #919191;
 $color-main-blue: #0070C0;
 
+$color-basque-red: #DC241F;
+$color-basque-white: #FFFFFF;
+$color-basque-green: #009543;
+
 .margin-left-l {
   margin-left: $margin-l;
+}
+
+.basque-theme {
+
+  &.green {
+    button {
+      background-color: $color-basque-green !important;
+    }
+  }
 }
