@@ -19,6 +19,12 @@ const propTypes = {
     username: PropTypes.string
 };
 
+const defaultProps = {
+    logout: () => {},
+    profilePic: undefined,
+    username: undefined
+};
+
 class NavBar extends React.Component {
 
     constructor(props) {
@@ -45,11 +51,13 @@ class NavBar extends React.Component {
         switch (item) {
             case "logout":
                 this.props.logout();
+                break;
+            default:
+                return;
         }
     };
 
     displayLogout() {
-
         const welcomeMessage = (<span onClick={this.handleOpenMenu}>
                          {"Bonjour " + this.props.username}
                          </span>);
@@ -92,7 +100,7 @@ class NavBar extends React.Component {
     }
 
     displayAuthInfo() {
-        return utils.getAuthCookie() ? this.displayLogout() : this.displayUserInfo();
+        return utils.getAuthCookie() && this.props.username ? this.displayLogout() : this.displayUserInfo();
     }
 
     render() {
@@ -119,5 +127,6 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = propTypes;
+NavBar.defaultProps = defaultProps;
 
 export default NavBar;

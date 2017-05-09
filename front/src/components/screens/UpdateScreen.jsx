@@ -1,7 +1,7 @@
 import React, {Component}   from 'react';
 import {withRouter}         from 'react-router'
 import CircularProgress     from 'material-ui/CircularProgress';
-import CreateForm           from '../createForm/CreateForm'
+import CreateForm           from '../createForm/CreateUpdateForm'
 import NavBar               from '../navBar/NavBar';
 
 class UpdateScreen extends Component {

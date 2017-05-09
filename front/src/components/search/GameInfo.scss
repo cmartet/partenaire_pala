@@ -55,7 +55,6 @@ $color-shadow-card-hover: #888888;
       display: flex;
       padding-left: $margin-m;
       align-content: center;
-
     }
 
     .nb-players-info {
@@ -82,13 +81,6 @@ $color-shadow-card-hover: #888888;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-
-    img {
-      width: 150px;
-      max-height: 150px;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
 
     .creator-name {
       font-weight: bolder;
@@ -117,6 +109,13 @@ $color-shadow-card-hover: #888888;
         font-size: 1.5em;
         font-weight: bold;
       }
+    }
+
+    .cropped-img {
+      width: $width-card-game-info;
+      height: 200px;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
 
     .action-zone {

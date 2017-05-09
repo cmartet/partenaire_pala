@@ -1,28 +1,38 @@
 @import "../../common";
 
 $color-shadow-card-hover: #888888;
+$width-card: 300px;
 
 .SearchPlace {
   .card-container {
+    padding: $margin-l 0;
     display: flex;
     justify-content: space-around;
-    flex-basis: 25%;
-    flex-flow: row wrap;
+    flex-wrap: wrap;
+    flex: 1 0 100%;
 
     .card-place {
-      width: 300px;
+      width: $width-card;
+      margin: 0 $margin-xl;
 
       &.selected {
-        -webkit-box-shadow: 0 0 20px 2px $color-main-blue !important;
-        -moz-box-shadow: 0 0 20px 2px $color-main-blue !important;
-        box-shadow: 0 0 20px 2px $color-main-blue !important;
+        -webkit-box-shadow: 0 0 20px 2px $color-basque-green !important;
+        -moz-box-shadow: 0 0 20px 2px $color-basque-green !important;
+        box-shadow: 0 0 20px 2px $color-basque-green !important;
 
         &:hover {
           transition: none !important;
-          -webkit-box-shadow: 0 0 20px 2px $color-main-blue !important;
-          -moz-box-shadow: 0 0 20px 2px $color-main-blue !important;
-          box-shadow: 0 0 20px 2px $color-main-blue !important;
+          -webkit-box-shadow: 0 0 20px 2px $color-basque-green !important;
+          -moz-box-shadow: 0 0 20px 2px $color-basque-green !important;
+          box-shadow: 0 0 20px 2px $color-basque-green !important;
         }
+      }
+
+      .cropped-img {
+        width: $width-card;
+        height: 250px;
+        background-position: center center;
+        background-repeat: no-repeat;
       }
 
       &:hover {

@@ -1,6 +1,6 @@
 import React, {Component}   from 'react';
 import {withRouter}         from 'react-router'
-import CreateForm           from '../createForm/CreateForm'
+import CreateForm           from '../createForm/CreateUpdateForm.jsx'
 import NavBar               from '../navBar/NavBar';
 
 class CreateScreen extends Component {

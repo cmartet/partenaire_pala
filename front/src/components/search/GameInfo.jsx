@@ -126,7 +126,9 @@ class GameInfo extends Component {
 
     displayPlacePicture = () => {
         if (this.props.placePicture !== null) {
-            return (<img src={this.props.placePicture} alt={this.props.place}/>);
+            return (<div className="cropped-img"
+                         style={{backgroundImage: 'url(' + this.props.placePicture + ')'}}>
+                    </div> );
         }
     };
 

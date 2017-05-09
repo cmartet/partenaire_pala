@@ -67,7 +67,8 @@ class CreateUpdateStepper extends React.Component {
     render() {
         const {stepIndex} = this.state;
 
-        return (<div style={{width: '100%', maxWidth: 1000, margin: 'auto'}}>
+        return (
+            <div style={{width: '100%', maxWidth: 1000, margin: 'auto'}} className="CreateUpdateStepper">
                 <Stepper linear={false} activeStep={stepIndex}>
                     <Step>
                         <StepLabel>
@@ -107,6 +108,7 @@ class CreateUpdateStepper extends React.Component {
                             style={{marginRight: 12}}
                         />
                         <RaisedButton
+                            className="basque-theme green"
                             label={this.getNextButtonLabel()}
                             hidden={stepIndex === 2}
                             primary={true}

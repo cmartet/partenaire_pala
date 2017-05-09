@@ -101,7 +101,7 @@ class SearchPlace extends React.Component {
                                 onKeyPress={(e) => {if (e.key === 'Enter') this.searchPlaces()}}
                             />
                             <RaisedButton
-                                className="margin-left-l"
+                                className="margin-left-l basque-theme green"
                                 label="Rechercher"
                                 primary={true}
                                 onTouchTap={this.searchPlaces.bind(this)}
@@ -119,12 +119,16 @@ class SearchPlace extends React.Component {
                                         key={place.fronton_id}
                                         onClick={this.selectPlace(place)}>
                                         <CardMedia>
-                                            <img src={place.photo} alt="place_pic"/>
+                                            <div className="cropped-img"
+                                                 style={{backgroundImage: 'url(' + place.photo + ')'}}>
+                                            </div>
                                         </CardMedia>
                                         <CardTitle title={place.name} subtitle={util.mapPlaceType(place.type)}/>
                                         <CardText>{place.location.address}</CardText>
                                         <CardActions>
-                                            <FlatButton label="Choisir ce fronton"/>
+                                            <FlatButton
+                                                fullWidth={true}
+                                                label="Choisir ce fronton"/>
                                         </CardActions>
                                     </Card>;
                                 }) :

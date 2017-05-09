@@ -11,7 +11,7 @@ import TextField            from 'material-ui/TextField';
 import TimePicker           from 'material-ui/TimePicker';
 import * as utils           from '../../utils'
 
-import './CreateForm.scss';
+import './CreateUpdateForm.scss';
 
 const propTypes = {
     auth: PropTypes.object,
@@ -28,12 +28,12 @@ const defaultProps = {
     gameToUpdate: undefined
 };
 
-class CreateForm extends Component {
+class CreateUpdateForm extends Component {
 
     constructor(props) {
         super(props);
 
-        if(props.gameToUpdate !== undefined) {
+        if (props.gameToUpdate !== undefined) {
             this.state = {
                 allGameInfo: {},
                 creationInProgress: false,
@@ -97,7 +97,7 @@ class CreateForm extends Component {
     };
 
     buildGameFromState = () => {
-        let gameInfo =  {
+        let gameInfo = {
             place: this.state.place,
             date: this.state.dateTime,
             level: this.state.level,
@@ -106,7 +106,7 @@ class CreateForm extends Component {
             players: this.state.players
         };
 
-        if(this.props.gameToUpdate) {
+        if (this.props.gameToUpdate) {
             gameInfo._id = this.props.gameToUpdate._id;
         }
 
@@ -261,8 +261,11 @@ class CreateForm extends Component {
             }
         }
 
-        this.setState({'players': newPlayersArray});
+        this.setState({'players': newPlayersArray}, function () {
+            this.changeFirstPlayerInParticipants(this.props.auth.id, this.props.auth.name);
+        });
         this.setState({'nbPlayers': value});
+
     };
 
     onChangePlayerName = (index) => {
@@ -374,7 +377,7 @@ class CreateForm extends Component {
                                     errorText={this.state.error.nbPlayers}
                                     onChange={this.onChangeNbPlayers.bind(this)}
                                     max={this.state.maxMissingPlayers}
-                                    min={0}
+                                    min={1}
                                 />
 
                             </div>
@@ -384,6 +387,7 @@ class CreateForm extends Component {
                                     <TextField
                                         floatingLabelText={"Nom du joueur n°" + i}
                                         type="text"
+                                        disabled={i === 0}
                                         value={player.name}
                                         onChange={this.onChangePlayerName(i)}/>
                                 </div>
@@ -424,7 +428,7 @@ class CreateForm extends Component {
     }
 }
 
-CreateForm.propTypes = propTypes;
-CreateForm.defaultProps = defaultProps;
+CreateUpdateForm.propTypes = propTypes;
+CreateUpdateForm.defaultProps = defaultProps;
 
-export default CreateForm;
+export default CreateUpdateForm;
