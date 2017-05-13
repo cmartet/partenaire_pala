@@ -4,7 +4,7 @@ import {
     Card,
     CardActions,
     CardMedia,
-    CardTitle, CardText
+    CardTitle
 }                       from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton       from 'material-ui/FlatButton';
@@ -36,7 +36,7 @@ class SearchPlace extends React.Component {
         super(props);
 
         let initSearch = props.initSearch;
-        if(props.selectedPlace && props.selectedPlace.name) {
+        if (props.selectedPlace && props.selectedPlace.name) {
             initSearch = props.selectedPlace.name.split(',')[0];
         }
 
@@ -49,20 +49,9 @@ class SearchPlace extends React.Component {
     };
 
     componentDidMount = () => {
-        if(this.state.searchedPlace !== undefined)
+        if (this.state.searchedPlace !== undefined)
             this.props.searchAction(this.state.searchedPlace);
     };
-
-    // componentWillReceiveProps = (nextProps) => {
-    //     if (nextProps.selectedPlace.name && this.state.searchedPlace === undefined) {
-    //         this.setState({'selectedPlace': nextProps.selectedPlace});
-    //         if(nextProps.selectedPlace.name.indexOf(',')) {
-    //             this.setState({'searchedPlace': nextProps.selectedPlace.name.split(',')[0]}, () => {
-    //                 this.props.searchAction(this.state.searchedPlace);
-    //             });
-    //         }
-    //     }
-    // };
 
     handleChange = (inputName, event) => {
         this.setState({[inputName]: event.target.value});
@@ -86,7 +75,56 @@ class SearchPlace extends React.Component {
         }
     };
 
+    formatPlaceName = (placeName) => {
+        const nameRegex = /\d*\s([a-zA-Z'\-\s]*),.*/g;
+        return nameRegex.exec(placeName)[1];
+    };
+
+    displayOverlay = (place) => {
+        const cardTitle = this.formatPlaceName(place.name) + " (" + util.mapPlaceType(place.type) + ")";
+
+        const cardTitleStyle = {
+            padding: '0 5px 5px 10px'
+        };
+
+        const titleStyle = {
+            fontSize: '1.2em'
+        };
+
+        const subtitleStyle = {
+            fontSize: '0.8em'
+        };
+
+        return (<CardTitle title={cardTitle}
+                           titleStyle={titleStyle}
+                           style={cardTitleStyle}
+                           subtitleStyle={subtitleStyle}
+                           subtitle={place.location.address}/>);
+    };
+
+    displayPlaceCard = (place) => {
+        return <Card
+            className={"card-place " + (this.state.selectedPlace.fronton_id === place.fronton_id ? 'selected' : '')}
+            key={place.fronton_id}
+            onClick={this.selectPlace(place)}>
+            <CardMedia
+                overlayContentStyle={{paddingTop:0}}
+                overlay={this.displayOverlay(place)}>
+                <div className="cropped-img"
+                     style={{backgroundImage: 'url(' + place.photo + ')'}}>
+                </div>
+            </CardMedia>
+            <CardActions style={{padding: 0}}>
+                <FlatButton
+                    style={{padding:0}}
+                    fullWidth={true}
+                    label="Choisir ce fronton"/>
+            </CardActions>
+        </Card>;
+    };
+
     render() {
+
         return (
             <div className="SearchPlace">
                 <Row>
@@ -99,6 +137,8 @@ class SearchPlace extends React.Component {
                                 onChange={this.handleChange.bind(this, 'searchedPlace')}
                                 errorText={this.state.error}
                                 onKeyPress={(e) => {if (e.key === 'Enter') this.searchPlaces()}}
+                                underlineFocusStyle={{borderColor: "#009543"}}
+                                floatingLabelFocusStyle={{color: "#009543"}}
                             />
                             <RaisedButton
                                 className="margin-left-l basque-theme green"
@@ -113,25 +153,7 @@ class SearchPlace extends React.Component {
                     <div className="card-container">
                         {
                             (this.props.places.length > 0 && !this.props.isSearchInProgress) ?
-                                this.props.places.map(place => {
-                                    return <Card
-                                        className={"card-place " + (this.state.selectedPlace.fronton_id === place.fronton_id ? 'selected' : '')}
-                                        key={place.fronton_id}
-                                        onClick={this.selectPlace(place)}>
-                                        <CardMedia>
-                                            <div className="cropped-img"
-                                                 style={{backgroundImage: 'url(' + place.photo + ')'}}>
-                                            </div>
-                                        </CardMedia>
-                                        <CardTitle title={place.name} subtitle={util.mapPlaceType(place.type)}/>
-                                        <CardText>{place.location.address}</CardText>
-                                        <CardActions>
-                                            <FlatButton
-                                                fullWidth={true}
-                                                label="Choisir ce fronton"/>
-                                        </CardActions>
-                                    </Card>;
-                                }) :
+                                this.props.places.map(this.displayPlaceCard) :
                                 this.props.isSearchInProgress ?
                                     <CircularProgress size={80} thickness={5}/> :
 
