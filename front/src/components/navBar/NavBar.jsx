@@ -1,10 +1,10 @@
-import React        from 'react';
-import ExitToApp    from 'material-ui/svg-icons/action/exit-to-app';
+import React            from 'react';
+import classNames       from 'classnames';
+import ExitToApp        from 'material-ui/svg-icons/action/exit-to-app';
 import {List, ListItem} from 'material-ui/List';
-import Paper        from 'material-ui/Paper';
-import PropTypes    from 'prop-types';
-import * as utils   from '../../utils';
-import classNames from 'classnames';
+import Paper            from 'material-ui/Paper';
+import PropTypes        from 'prop-types';
+import * as utils       from '../../utils';
 
 import './NavBar.scss';
 
