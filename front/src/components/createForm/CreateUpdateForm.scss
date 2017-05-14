@@ -6,6 +6,10 @@
     margin: 0 16px;
   }
 
+  .row {
+    align-items: flex-end;
+  }
+
   .warning-already-exists {
     height: 50px;
     display: flex;

@@ -306,7 +306,12 @@ class CreateUpdateForm extends Component {
                 return (
                     <div>
                         <Row>
-                            <Col md={6}>
+                            <Col xs={12} md={12}>
+                                <h3>Niveau de la partie </h3>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xsOffset={3} mdOffset={1} xs={6} md={4}>
                                 <SelectField
                                     floatingLabelText="Niveau moyen *"
                                     value={this.state.level}
@@ -321,10 +326,16 @@ class CreateUpdateForm extends Component {
 
                                 </SelectField>
                             </Col>
+
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12}>
+                                <h3>Date & heure de début </h3>
+                            </Col>
                         </Row>
 
                         <Row>
-                            <Col xs={6} md={4}>
+                            <Col xsOffset={3} mdOffset={1} xs={6} md={4}>
                                 <DatePicker hintText="Date *"
                                             DateTimeFormat={utils.getDateTimeFormat()}
                                             locale="fr"
@@ -333,7 +344,6 @@ class CreateUpdateForm extends Component {
                                             defaultDate={this.state.date}
                                             errorText={this.state.error.date}
                                             onChange={this.handleDateTimeChange('date')}/>
-
                                 <TimePicker
                                     format="24hr"
                                     hintText="Heure *"
@@ -346,9 +356,14 @@ class CreateUpdateForm extends Component {
                         </Row>
 
                         <Row>
-                            <Col xs={12} md={8}>
+                            <Col xs={12} md={12}>
+                                <h3>Information complémentaire</h3>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xsOffset={3} mdOffset={1} xs={12} md={12}>
                                 <TextField
-                                    floatingLabelText="Information complémentaire"
+                                    floatingLabelText="Quelque chose à rajouter ? "
                                     hintText="(facultatif)"
                                     multiLine={true}
                                     rows={2}
