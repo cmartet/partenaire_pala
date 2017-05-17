@@ -1,9 +1,9 @@
 import React, {Component}   from 'react';
 import PropTypes            from 'prop-types';
 import {Row, Col}           from 'react-flexbox-grid';
-import LastStepCheck        from '../createForm/LastStepCheck';
 import CreateUpdateStepper  from '../createForm/CreateUpdateStepper';
 import DatePicker           from 'material-ui/DatePicker';
+import LastStepCheck        from '../createForm/LastStepCheck';
 import MenuItem             from 'material-ui/MenuItem';
 import SearchPlace          from '../createForm/SearchPlace';
 import SelectField          from 'material-ui/SelectField';
