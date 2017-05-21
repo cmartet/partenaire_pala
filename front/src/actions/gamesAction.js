@@ -68,22 +68,23 @@ const launchGetRequest = (url, headers, eventProgress, eventSuccess, eventError)
 };
 
 const formatParametersForFetchingGames = (place, beginDate, allDay) => {
-    var url = urls.GET_GAMES;
+    let url = urls.GET_GAMES;
 
-    var filter = {};
-    var isFilterSet = false;
+    let filter = {};
+    let isFilterSet = false;
+    const today = new Date();
 
     if (beginDate !== null) {
-        var end = new Date(beginDate.getTime());
+        var end = beginDate.getTime();
         if (allDay) {
             end.setHours(23, 59, 59, 999);
             filter.start = beginDate.toJSON();
-            filter.end = end.toJSON();
+            filter.end = new Date(end).toJSON();
         }
         else {
-            end.setTime(end.getTime() + (59 * 60 * 1000));
-            filter.start = beginDate.toJSON();
-            filter.end = end.toJSON();
+            end += (59 * 60 * 1000);
+            filter.start = new Date(beginDate.getTime() + (today.getTimezoneOffset() * 3600)).toJSON();
+            filter.end = new Date(end + (today.getTimezoneOffset() * 3600)).toJSON();
         }
         isFilterSet = true;
     }

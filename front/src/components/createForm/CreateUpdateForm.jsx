@@ -73,6 +73,9 @@ class CreateUpdateForm extends Component {
         }
     };
 
+    componentDidMount() {
+        this.changeFirstPlayerInParticipants(this.props.auth.id, this.props.auth.name);
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.gameToUpdate) {
@@ -85,14 +88,19 @@ class CreateUpdateForm extends Component {
             this.setState({'place': nextProps.gameToUpdate.place});
             this.setState({'players': nextProps.gameToUpdate.players});
         }
-        if (nextProps.auth.name && this.state.players.length === 0) {
+        if (nextProps.auth.name && this.state.players.length === 1) {
             this.changeFirstPlayerInParticipants(nextProps.auth.id, nextProps.auth.name);
         }
     };
 
     changeFirstPlayerInParticipants = (playerId, playerName) => {
         var players = this.state.players.slice();
-        players[0] = {_id: playerId, name: playerName};
+        if (playerName === null) {
+            players[0] = {name: 'Vous !'};
+        }
+        else {
+            players[0] = {_id: playerId, name: playerName};
+        }
         this.setState({'players': players});
     };
 

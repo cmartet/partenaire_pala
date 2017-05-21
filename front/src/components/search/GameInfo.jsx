@@ -126,9 +126,11 @@ class GameInfo extends Component {
 
     displayPlacePicture = () => {
         if (this.props.placePicture !== null) {
-            return (<div className="cropped-img"
-                         style={{backgroundImage: 'url(' + this.props.placePicture + ')'}}>
-                    </div> );
+            return (<div className="place-img">
+                <div className="cropped-img"
+                     style={{backgroundImage: 'url(' + this.props.placePicture + ')'}}>
+                </div>
+            </div> );
         }
     };
 
@@ -150,7 +152,7 @@ class GameInfo extends Component {
                 </div>
 
                 <div className="all-info">
-                    <div>
+                    <div className="creator-info">
                         Proposé par
                           <span className="creator-name">
                               &nbsp;{this.props.creator} ({this.props.level})
@@ -158,8 +160,9 @@ class GameInfo extends Component {
                     </div>
                     {this.displayPlacePicture()}
                     <div className="game-datetime">
-                        <div className="date">{utils.getFormattedDate(this.props.date)}</div>
-                        <div className="time">{utils.getFormattedTime(this.props.date)}</div>
+                        <div className="main-info date">{utils.getFormattedDate(this.props.date)}</div>
+                        <div> à </div>
+                        <div className="main-info">{utils.getFormattedTime(this.props.date)}</div>
                     </div>
 
                     {this.props.displayMode && this.props.players.length === 0 ? null :

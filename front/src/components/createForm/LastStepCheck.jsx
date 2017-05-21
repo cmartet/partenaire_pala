@@ -55,15 +55,19 @@ class LastStepCheck extends React.Component {
         if(!this.props.connectedUserName) {
             return (<Paper className="warning-already-exists" zDepth={2}>
                 <div>
-                    <span>Vous devez vous connecter pour continuer !</span>
-                    <RaisedButton label="Connexion" fullWidth={true} onClick={utils.loginFB}/>
+                    <div className="explanations">Vous devez vous connecter pour continuer !</div>
+                    <RaisedButton
+                        label="Connexion"
+                        className="basque-theme green"
+                        fullWidth={true}
+                        onClick={utils.loginFB}/>
                 </div>
             </Paper>);
         }
     };
 
     render() {
-        return (<div>
+        return (<div className="LastStepCheck">
                 {this.showCardWhenGameAtSameTime()}
                 {this.showCardWhenUserIsNotConnected()}
 
@@ -74,6 +78,7 @@ class LastStepCheck extends React.Component {
                         level={this.props.gameInfo.level}
                         placePicture={this.props.gameInfo.place.photo}
                         place={this.props.gameInfo.place.name}
+                        placeType={this.props.gameInfo.place.type}
                         maxPlayers={this.props.gameInfo.maxMissingPlayers}
                         creator={this.props.connectedUserName || 'Vous'}
                         date={this.props.gameInfo.date}

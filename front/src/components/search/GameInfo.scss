@@ -45,6 +45,7 @@ $color-shadow-card-hover: #888888;
 
     &.white {
       background-color: $color-basque-white;
+      color: black;
     }
 
     &.green {
@@ -82,8 +83,11 @@ $color-shadow-card-hover: #888888;
     justify-content: space-around;
     align-items: center;
 
-    .creator-name {
-      font-weight: bolder;
+    .creator-info {
+      margin-top: $margin-m;
+      .creator-name {
+        font-weight: bolder;
+      }
     }
 
     .players {
@@ -98,24 +102,27 @@ $color-shadow-card-hover: #888888;
 
     .game-datetime {
       display: flex;
-      flex-direction: column;
+      font-size: 1.2em;
+      flex-direction: row;
       align-items: center;
 
-      .date {
-        font-size: 1.2em;
-      }
-
-      .time {
-        font-size: 1.5em;
+      .main-info {
+        font-size: 1.3em;
         font-weight: bold;
+        padding: 0 $margin-xs;
+
+        &.date {
+          font-size: 1.3em;
+        }
       }
     }
 
     .cropped-img {
-      width: $width-card-game-info;
-      height: 200px;
-      background-position: center center;
-      background-repeat: no-repeat;
+      width: calc(#{$width-card-game-info} - 50px);
+      margin: $margin-m 0;
+      background: no-repeat center center;
+      background-size: contain;
+      height: 170px;
     }
 
     .action-zone {
@@ -135,7 +142,7 @@ $color-shadow-card-hover: #888888;
 
       .join-btn {
         button {
-          background-color: $color-basque-green!important;
+          background-color: $color-basque-green !important;
         }
       }
     }

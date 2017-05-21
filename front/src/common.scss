@@ -15,11 +15,20 @@ $color-basque-green: #009543;
   margin-left: $margin-l;
 }
 
+.flex {
+  display: flex;
+}
+
 .basque-theme {
 
   &.green {
     button {
       background-color: $color-basque-green !important;
+
+      span {
+        font-weight: 0!important;
+        color: white!important;
+      }
     }
   }
 }
