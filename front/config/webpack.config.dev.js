@@ -17,7 +17,7 @@ var publicPath = '/';
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 var publicUrl = 'http://www.partenaire-pala-dev.fr';
 
-var apiUrl = 'https://partenaire-pala-server-dev.herokuapp.com';
+var apiUrl = 'http://api.partenaire-pala-dev.fr';
 
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl, apiUrl);
