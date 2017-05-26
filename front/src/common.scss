@@ -1,0 +1,34 @@
+$margin-xs: 5px;
+$margin-s: 10px;
+$margin-m: 15px;
+$margin-l: 20px;
+$margin-xl: 30px;
+
+$color-label: #919191;
+$color-main-blue: #0070C0;
+
+$color-basque-red: #DC241F;
+$color-basque-white: #FFFFFF;
+$color-basque-green: #009543;
+
+.margin-left-l {
+  margin-left: $margin-l;
+}
+
+.flex {
+  display: flex;
+}
+
+.basque-theme {
+
+  &.green {
+    button {
+      background-color: $color-basque-green !important;
+
+      span {
+        font-weight: 0!important;
+        color: white!important;
+      }
+    }
+  }
+}

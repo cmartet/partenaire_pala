@@ -1,0 +1,42 @@
+@import '../../common.scss';
+
+.FilterBar {
+  padding: 0 $margin-s 0 $margin-m;
+  background-color: #f3f3f3;
+
+  .header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .filter-title {
+      font-size: 1.3em;
+    }
+  }
+
+  .search-form {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: $margin-m;
+
+    .place-field {
+      margin: 0 $margin-xl;
+    }
+
+    .form-group {
+      margin: 0 $margin-l;
+
+      .control-label {
+        color: $color-label;
+        display: block !important;
+      }
+      .dropdown-toggle {
+        padding: $margin-xs;
+      }
+    }
+
+    .search-btn {
+      margin: 0 $margin-l;
+    }
+  }
+}

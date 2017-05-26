@@ -1,0 +1,8 @@
+@import '../../common.scss';
+
+.result-games {
+  margin: $margin-xl 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}

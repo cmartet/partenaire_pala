@@ -1,0 +1,155 @@
+@import '../../common';
+
+$width-card-game-info: 350px;
+$height-card-game-info: 400px;
+$height-card-header: 40px;
+$color-shadow-card: #CCCCCC;
+$color-shadow-card-hover: #888888;
+
+.GameInfo {
+  margin: $margin-m;
+  width: $width-card-game-info;
+  height: $height-card-game-info;
+  transition: 0.5s ease-in;
+  -webkit-box-shadow: 0 0 10px 0 $color-shadow-card;
+  -moz-box-shadow: 0 0 10px 0 $color-shadow-card;
+  box-shadow: 0 0 10px 0 $color-shadow-card;
+
+  &:hover {
+    transition: 0.3s ease-in;
+    -webkit-box-shadow: 0 0 10px 0 $color-shadow-card-hover;
+    -moz-box-shadow: 0 0 10px 0 $color-shadow-card-hover;
+    box-shadow: 0 0 10px 0 $color-shadow-card-hover;
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    width: 100%;
+    font-size: 1.2em;
+    color: white;
+    height: $height-card-header;
+    line-height: $height-card-header;
+    text-align: center;
+    background-color: $color-main-blue;
+    -webkit-box-shadow: 0 2px 10px #c1c1c1;
+    -moz-box-shadow: 0 2px 10px #c1c1c1;
+    box-shadow: 0 2px 10px #c1c1c1;
+    opacity: 0.75;
+
+    &.red {
+      background-color: $color-basque-red;
+    }
+
+    &.white {
+      background-color: $color-basque-white;
+      color: black;
+    }
+
+    &.green {
+      background-color: $color-basque-green;
+    }
+
+    .place {
+      max-width: 250px;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      padding-left: $margin-m;
+      align-content: center;
+    }
+
+    .nb-players-info {
+      justify-content: flex-end;
+      display: flex;
+      position: absolute;
+      right: $margin-m;
+
+      .nb-players-present {
+        font-size: 1.2em;
+      }
+
+      svg {
+        align-self: center;
+        font-size: 1.4em;
+        padding-right: $margin-xs;
+      }
+    }
+  }
+
+  .all-info {
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    .creator-info {
+      margin-top: $margin-m;
+      .creator-name {
+        font-weight: bolder;
+      }
+    }
+
+    .players {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .players-list {
+      text-align: center;
+    }
+
+    .game-datetime {
+      display: flex;
+      font-size: 1.1em;
+      flex-direction: row;
+      align-items: center;
+
+      .main-info {
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: 0 $margin-xs;
+
+        &.date {
+          font-size: 1.1em;
+        }
+      }
+    }
+
+    .cropped-img {
+      width: calc(#{$width-card-game-info} - 50px);
+      margin: $margin-m 0;
+      background: no-repeat center center;
+      background-size: contain;
+      height: 170px;
+    }
+
+    .action-zone {
+      .administration-zone {
+        display: flex;
+        justify-content: space-between;
+      }
+      .delete-btn {
+        button {
+          background-color: $color-basque-red !important;
+        }
+      }
+
+      .edit-btn {
+        color: $color-basque-red !important;
+      }
+
+      .join-btn {
+        button {
+          background-color: $color-basque-green !important;
+        }
+      }
+    }
+  }
+
+}

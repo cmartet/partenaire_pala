@@ -1,0 +1,53 @@
+@import '../../common.scss';
+
+.Footer {
+  background-color: #f4f4f4;
+  border-top: 3px solid black;
+  font-size: 1.1em;
+
+  .links-container {
+    padding: 0 $margin-m $margin-m $margin-m;
+    display: flex;
+    height: 100px;
+
+    a {
+      text-decoration: none;
+      color: darkgrey;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    h3 {
+      color: grey;
+    }
+
+    .links {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      width: 200px;
+
+      &.contact {
+        flex-grow: 1;
+        text-align: end;
+        padding-right: $margin-s;
+        align-self: flex-end;
+      }
+    }
+  }
+
+  .author {
+    height: 20px;
+    padding: 0 $margin-xl;
+    background-color: #EAEAEA;
+    font-size: 0.9em;
+
+    .heart {
+      color: red;
+      font-size: 1.3em;
+      padding: 0 $margin-xs;
+    }
+  }
+}

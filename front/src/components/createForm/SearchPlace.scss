@@ -1,0 +1,47 @@
+@import "../../common";
+
+$color-shadow-card-hover: #888888;
+$width-card: 300px;
+
+.SearchPlace {
+  .card-container {
+    padding: $margin-l 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex: 1 0 100%;
+
+    .card-place {
+      width: $width-card;
+      margin: $margin-l $margin-xl;
+
+      &.selected {
+        -webkit-box-shadow: 0 0 20px 2px $color-basque-green !important;
+        -moz-box-shadow: 0 0 20px 2px $color-basque-green !important;
+        box-shadow: 0 0 20px 2px $color-basque-green !important;
+
+        &:hover {
+          transition: none !important;
+          -webkit-box-shadow: 0 0 20px 2px $color-basque-green !important;
+          -moz-box-shadow: 0 0 20px 2px $color-basque-green !important;
+          box-shadow: 0 0 20px 2px $color-basque-green !important;
+        }
+      }
+
+      .cropped-img {
+        width: $width-card;
+        height: 250px;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+
+      &:hover {
+        cursor: pointer;
+        transition: 0.3s ease-in !important;
+        -webkit-box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
+        -moz-box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
+        box-shadow: 0 0 10px 0 $color-shadow-card-hover !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+@import "../../common";
+
+.CreateForm {
+
+  .step-nav-container {
+    margin: 0 16px;
+  }
+
+  .row {
+    align-items: flex-end;
+  }
+
+  .flex {
+    align-content: center;
+  }
+
+  .players-planned {
+    width: 90px;
+    padding: 0 $margin-xs;
+
+    &.number {
+      align-self: center;
+      font-size: 1.4em;
+      text-align: center;
+    }
+  }
+
+  .players-max {
+    padding: 0 $margin-xs;
+    width: 200px;
+  }
+}
