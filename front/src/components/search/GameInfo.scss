@@ -53,6 +53,10 @@ $color-shadow-card-hover: #888888;
     }
 
     .place {
+      max-width: 250px;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: flex;
       padding-left: $margin-m;
       align-content: center;
@@ -102,17 +106,17 @@ $color-shadow-card-hover: #888888;
 
     .game-datetime {
       display: flex;
-      font-size: 1.2em;
+      font-size: 1.1em;
       flex-direction: row;
       align-items: center;
 
       .main-info {
-        font-size: 1.3em;
+        font-size: 1.1em;
         font-weight: bold;
         padding: 0 $margin-xs;
 
         &.date {
-          font-size: 1.3em;
+          font-size: 1.1em;
         }
       }
     }
