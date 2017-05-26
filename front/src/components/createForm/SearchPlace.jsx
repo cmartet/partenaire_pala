@@ -76,7 +76,7 @@ class SearchPlace extends React.Component {
     };
 
     formatPlaceName = (placeName) => {
-        const nameRegex = /\d*\s([a-zA-Z'\-\s]*),.*/g;
+        const nameRegex = /\d*\s([a-zA-ZÀ-ÿ'\-\s]*),.*/g;
         return nameRegex.exec(placeName)[1];
     };
 
