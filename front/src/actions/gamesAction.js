@@ -8,7 +8,8 @@ const createHeadersFor = (type, body) => {
         'method': type,
         'headers': {
             'Authorization': 'Bearer ' + util.getAuthCookie(),
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
         }
     };
 
