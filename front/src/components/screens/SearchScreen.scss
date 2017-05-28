@@ -1,8 +1,25 @@
 @import '../../common.scss';
 
-.result-games {
-  margin: $margin-xl 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+.SearchScreen {
+  .result-games {
+    margin: $margin-xl 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .no-result {
+      color: grey;
+      font-size: 1.4em;
+      text-align: center;
+
+      a {
+        color: grey;
+      }
+
+      .icon {
+        font-size: 1.2em;
+        padding: $margin-l 0;
+      }
+    }
+  }
 }

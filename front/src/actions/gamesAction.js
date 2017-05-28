@@ -76,13 +76,15 @@ const formatParametersForFetchingGames = (place, beginDate, allDay) => {
     const today = new Date();
 
     if (beginDate !== null) {
-        var end = beginDate.getTime();
         if (allDay) {
+            let end = new Date(beginDate);
             end.setHours(23, 59, 59, 999);
-            filter.start = beginDate.toJSON();
-            filter.end = new Date(end).toJSON();
+            beginDate.setHours(0, 0, 0);
+            filter.start = new Date(beginDate.getTime() + (today.getTimezoneOffset() * 3600)).toJSON();
+            filter.end = new Date(end.getTime() + (today.getTimezoneOffset() * 3600)).toJSON();
         }
         else {
+            let end = beginDate.getTime();
             end += (59 * 60 * 1000);
             filter.start = new Date(beginDate.getTime() + (today.getTimezoneOffset() * 3600)).toJSON();
             filter.end = new Date(end + (today.getTimezoneOffset() * 3600)).toJSON();
