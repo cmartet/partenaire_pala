@@ -70,6 +70,7 @@ $color-header-shadow: #C0C0C0;
     display: flex;
     display: -webkit-flex;
     justify-content: space-between;
+    white-space: nowrap;
 
     .links {
       display: flex;
