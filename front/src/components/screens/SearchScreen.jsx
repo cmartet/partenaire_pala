@@ -7,6 +7,8 @@ import NavBar           from '../navBar/NavBar';
 import Popup            from '../popup/Popup';
 import Snackbar         from 'material-ui/Snackbar';
 
+const MehIcon = require('react-icons/lib/fa/meh-o.js');
+
 import './SearchScreen.scss';
 
 class SearchScreen extends React.Component {
@@ -95,7 +97,7 @@ class SearchScreen extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="SearchScreen">
                 <NavBar location={this.props.location}
                         logout={this.props.authActions.logout}
                         profilePic={this.props.auth.profilePic}
@@ -138,7 +140,14 @@ class SearchScreen extends React.Component {
                             }) :
                             this.props.games.inProgress ?
                                 <CircularProgress size={80} thickness={5}/> :
-                                (<div>Pas de résultat. Et pas de résultat ... pas d'palais.</div>)
+                                (<div className="no-result">
+                                    <div className="icon">
+                                        {React.createElement(MehIcon, null)}
+                                    </div>
+                                    <div>Nous avons bien cherché, mais n'avons trouvé aucun résultat.</div>
+                                    <div className="margin-top-l">Mais vous pouvez <a href={process.env.PUBLIC_URL + '/#/create'}>créer
+                                        votre partie !</a></div>
+                                </div>)
                     }
                 </div>
 
