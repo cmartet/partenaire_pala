@@ -37,7 +37,7 @@ var publicPath = ensureSlash(homepagePathname, true);
 // var publicUrl = ensureSlash(homepagePathname, false);
 var publicUrl = 'http://www.partenaire-pala.fr';
 
-var domainName = 'api.partenaire-pala.fr';
+var domainName = 'partenaire-pala.fr';
 
 var apiUrl = 'http://api.partenaire-pala.fr';
 // Get environment variables to inject into our app.
