@@ -17,7 +17,7 @@ var publicPath = '/';
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 var publicUrl = 'http://www.partenaire-pala-dev.fr';
 
-var domainName = 'api.partenaire-pala.fr';
+var domainName = 'api.partenaire-pala-dev.fr';
 
 var apiUrl = 'http://api.partenaire-pala-dev.fr';
 
