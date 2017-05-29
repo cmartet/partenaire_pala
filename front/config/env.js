@@ -3,7 +3,7 @@
 
 var REACT_APP = /^REACT_APP_/i;
 
-function getClientEnvironment(publicUrl, apiUrl) {
+function getClientEnvironment(publicUrl, apiUrl, domainName) {
     var processEnv = Object
         .keys(process.env)
         .filter(key => REACT_APP.test(key))
@@ -21,7 +21,8 @@ function getClientEnvironment(publicUrl, apiUrl) {
             // This should only be used as an escape hatch. Normally you would put
             // images into the `src` and `import` them in code to get their paths.
             'PUBLIC_URL': JSON.stringify(publicUrl),
-            'API_URL': JSON.stringify(apiUrl)
+            'API_URL': JSON.stringify(apiUrl),
+            'DOMAIN_NAME': JSON.stringify(domainName)
         });
     return {'process.env': processEnv};
 }

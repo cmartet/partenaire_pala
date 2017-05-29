@@ -1,7 +1,9 @@
 import React            from 'react';
 import {withRouter}     from 'react-router';
 import CircularProgress from 'material-ui/CircularProgress';
+import Dialog           from 'material-ui/Dialog';
 import FilterBar        from '../search/FilterBar';
+import FlatButton       from 'material-ui/FlatButton';
 import GameInfo         from '../search/GameInfo';
 import NavBar           from '../navBar/NavBar';
 import Popup            from '../popup/Popup';
@@ -21,6 +23,7 @@ class SearchScreen extends React.Component {
             editGame: false,
             join: {},
             fieldType: null,
+            authModalOpened: false,
             place: null
         }
     }
@@ -74,8 +77,13 @@ class SearchScreen extends React.Component {
     };
 
     joinGame = gameId => {
-        this.setState({join: {inProgress: true, success: false, gameId: gameId}});
-        this.props.gamesActions.joinGame(gameId);
+        if(!this.props.auth.id) {
+            this.setState({authModalOpened:true});
+        }
+        else {
+            this.setState({join: {inProgress: true, success: false, gameId: gameId}});
+            this.props.gamesActions.joinGame(gameId);
+        }
     };
 
     unjoinGame = gameId => {
@@ -95,7 +103,20 @@ class SearchScreen extends React.Component {
         this.setState({join: {inProgress: false, success: false}});
     };
 
+    handleModalClose = () => {
+        this.setState({authModalOpened: false});
+    };
+
     render() {
+        const actions = [
+            <FlatButton
+                label="Ok !"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={this.handleModalClose}
+            />
+        ];
+
         return (
             <div className="SearchScreen">
                 <NavBar location={this.props.location}
@@ -145,8 +166,7 @@ class SearchScreen extends React.Component {
                                         {React.createElement(MehIcon, null)}
                                     </div>
                                     <div>Nous avons bien cherché, mais n'avons trouvé aucun résultat.</div>
-                                    <div className="margin-top-l">Mais vous pouvez <a href={process.env.PUBLIC_URL + '/#/create'}>créer
-                                        votre partie !</a></div>
+                                    <div>Mais vous pouvez toujouer <a href="">créez votre partie !</a></div>
                                 </div>)
                     }
                 </div>
@@ -162,6 +182,16 @@ class SearchScreen extends React.Component {
                     message="La modification a bien été enregistrée :)"
                     autoHideDuration={4000}
                     onRequestClose={this.handleSnackBarJoinClose}/>
+
+                <Dialog
+                    title="Qui êtes-vous ?"
+                    actions={actions}
+                    modal={false}
+                    open={this.state.authModalOpened}
+                    onRequestClose={this.handleModalClose}
+                >
+                    Vous devez vous connecter pour pouvoir rejoindre cette partie.
+                </Dialog>
             </div>
         )
     }

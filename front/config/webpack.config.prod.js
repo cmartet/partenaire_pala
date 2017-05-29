@@ -37,9 +37,11 @@ var publicPath = ensureSlash(homepagePathname, true);
 // var publicUrl = ensureSlash(homepagePathname, false);
 var publicUrl = 'http://www.partenaire-pala.fr';
 
+var domainName = 'partenaire-pala.fr';
+
 var apiUrl = 'http://api.partenaire-pala.fr';
 // Get environment variables to inject into our app.
-var env = getClientEnvironment(publicUrl, apiUrl);
+var env = getClientEnvironment(publicUrl, apiUrl, domainName);
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
