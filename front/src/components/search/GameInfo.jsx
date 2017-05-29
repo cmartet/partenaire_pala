@@ -111,17 +111,19 @@ class GameInfo extends Component {
                 </div>);
         }
 
-        return this.userAlreadyJoined() ?
-            (<RaisedButton className="join-btn"
-                           primary={true}
-                           label="Ne plus participer"
-                           onClick={() => this.props.leaveGame(this.props.gameId)}/>)
-            :
-            (<RaisedButton className="join-btn"
-                           primary={true}
-                           disabled={this.isGameComplete()}
-                           label="Rejoindre"
-                           onClick={() => this.props.joinGame(this.props.gameId)}/>);
+        if (this.userAlreadyJoined()) {
+            return <RaisedButton className="join-btn"
+                                 primary={true}
+                                 label="Ne plus participer"
+                                 onClick={() => this.props.leaveGame(this.props.gameId)}/>
+        }
+        else {
+            return <RaisedButton className="join-btn"
+                                 primary={true}
+                                 disabled={this.isGameComplete()}
+                                 label="Rejoindre"
+                                 onClick={() => this.props.joinGame(this.props.gameId)}/>
+        }
     };
 
     displayPlacePicture = () => {
@@ -161,7 +163,7 @@ class GameInfo extends Component {
                     {this.displayPlacePicture()}
                     <div className="game-datetime">
                         <div className="main-info date">{utils.getFormattedDate(this.props.date)}</div>
-                        <div> à </div>
+                        <div> à</div>
                         <div className="main-info">{utils.getFormattedTime(this.props.date)}</div>
                     </div>
 
