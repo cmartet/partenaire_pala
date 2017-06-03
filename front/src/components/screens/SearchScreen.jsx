@@ -166,7 +166,7 @@ class SearchScreen extends React.Component {
                                         {React.createElement(MehIcon, null)}
                                     </div>
                                     <div>Nous avons bien cherché, mais n'avons trouvé aucun résultat.</div>
-                                    <div>Mais vous pouvez toujouer <a href="">créez votre partie !</a></div>
+                                    <div>Mais vous pouvez <a href={process.env.PUBLIC_URL + '/#/create'}>créer votre partie !</a></div>
                                 </div>)
                     }
                 </div>
