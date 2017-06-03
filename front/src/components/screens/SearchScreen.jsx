@@ -159,7 +159,7 @@ class SearchScreen extends React.Component {
                                     players={game.players}
                                 />
                             }) :
-                            this.props.games.inProgress ?
+                            this.props.games.inProgress || this.props.gameJoin.inProgress ?
                                 <CircularProgress size={80} thickness={5}/> :
                                 (<div className="no-result">
                                     <div className="icon">
