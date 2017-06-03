@@ -18,3 +18,9 @@ export const fetchPlaces = (searchedPlace) => {
             });
     }
 };
+
+export const reinitState = () => {
+    return function (dispatch) {
+        dispatch({type: types.PLACES_REINIT_STATE});
+    };
+};

@@ -29,7 +29,8 @@ export default (state = getInitialState(), action) => {
             progressState.placesRetrieval.inProgress = true;
             return progressState;
 
+        case types.PLACES_REINIT_STATE:
         default:
-            return state;
+            return getInitialState();
     }
 }

@@ -7,6 +7,7 @@ class CreateScreen extends Component {
 
     componentDidMount = () => {
         this.props.authActions.getProfile();
+        this.props.placesActions.reinitState();
 
         window.addEventListener('message', event => {
             if (event.origin !== process.env.PUBLIC_URL) return;
