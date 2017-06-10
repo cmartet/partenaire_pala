@@ -125,8 +125,24 @@ $color-shadow-card-hover: #888888;
       width: calc(#{$width-card-game-info} - 50px);
       margin: $margin-m 0;
       background: no-repeat center center;
-      background-size: contain;
+      background-size: cover;
       height: 170px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+
+      .overlay {
+        background-color: black;
+        opacity: 0.541176;
+        color: rgba(255, 255, 255, 0.541176);
+        height: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        font-size: 0.8em;
+        padding: 0 5px 5px 10px;
+      }
     }
 
     .action-zone {

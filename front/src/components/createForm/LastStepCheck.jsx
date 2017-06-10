@@ -78,6 +78,7 @@ class LastStepCheck extends React.Component {
                         level={this.props.gameInfo.level}
                         placePicture={this.props.gameInfo.place.photo}
                         place={this.props.gameInfo.place.name}
+                        placeAddress={this.props.gameInfo.place.location.address}
                         placeType={this.props.gameInfo.place.type}
                         maxPlayers={this.props.gameInfo.maxMissingPlayers}
                         creator={this.props.connectedUserName || 'Vous'}

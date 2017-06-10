@@ -2,14 +2,11 @@ import React, {Component}   from 'react';
 import ArrowDown            from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import ArrowUp              from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import DatePicker           from 'material-ui/DatePicker';
+import FlatButton           from 'material-ui/FlatButton';
 import IconButton           from 'material-ui/IconButton';
-import MenuItem             from 'material-ui/MenuItem';
 import PropTypes            from 'prop-types';
 import RaisedButton         from 'material-ui/RaisedButton';
-import SelectField          from 'material-ui/SelectField';
 import TextField            from 'material-ui/TextField';
-
-import * as gameData        from '../../constants/GameData.js';
 import * as util            from '../../utils'
 
 import './FilterBar.scss';
@@ -28,7 +25,9 @@ class FilterBar extends Component {
 
         this.state = {
             selectedFieldType: null,
-            displayFilters: false
+            displayFilters: false,
+            place: '',
+            date: null
         }
     }
 
@@ -39,6 +38,26 @@ class FilterBar extends Component {
 
     handleFilterDisplay = () => {
         this.setState({'displayFilters': !this.state.displayFilters})
+    };
+
+    resetFilters = () => {
+        this.setState({place: '', date: undefined},
+            () => {
+                this.props.changePlace({target: {value: ''}});
+                this.props.changeDateTime(undefined);
+
+                this.props.launchReseach();
+            });
+    };
+
+    changeDate = (evt, value) => {
+        this.setState({date: value});
+        this.props.changeDateTime(value);
+    };
+
+    changePlace = (evt) => {
+        this.setState({place: evt.target.value});
+        this.props.changePlace(evt);
     };
 
     render() {
@@ -52,23 +71,12 @@ class FilterBar extends Component {
                 </div>
                 {this.state.displayFilters ?
                     <form className="search-form">
-                        <SelectField className="typefield-field"
-                                     title="Tout type de terrain"
-                                     id="filedType"
-                                     floatingLabelText="Type de terrain"
-                                     value={this.state.selectedFieldType}
-                                     onChange={this.onChangeFieldType}>
-                            <MenuItem value={gameData.FRONTON} primaryText="Fronton place libre"/>
-                            <MenuItem value={gameData.MUR_GAUCHE} primaryText="Fronton mur à gauche"/>
-                            <MenuItem value={gameData.TRINQUET} primaryText="Trinquet"/>
-                        </SelectField>
 
                         <TextField className="place-field"
-                                   type="text"
-                                   floatingLabelText="Lieu"
-                                   hintText="Ville, nom du terrain ..."
+                                   floatingLabelText="Ville, nom du terrain ..."
                                    onKeyPress={(e) => {if (e.key === 'Enter') this.props.launchReseach()}}
-                                   onChange={this.props.changePlace}/>
+                                   value={this.state.place}
+                                   onChange={this.changePlace}/>
 
 
                         <DatePicker className="datepicker-field"
@@ -77,12 +85,17 @@ class FilterBar extends Component {
                                     locale="fr"
                                     cancelLabel="Annuler"
                                     autoOk={true}
-                                    onChange={this.props.changeDateTime}/>
+                                    value={this.state.date}
+                                    onChange={this.changeDate}/>
 
                         <RaisedButton className="margin-left-l basque-theme green"
                                       primary={true}
                                       label="Rechercher"
                                       onClick={this.props.launchReseach}/>
+
+                        <FlatButton className="margin-left-l"
+                                    label="Supprimer les filtres"
+                                    onClick={this.resetFilters}/>
 
                     </form> : null }
             </div>
