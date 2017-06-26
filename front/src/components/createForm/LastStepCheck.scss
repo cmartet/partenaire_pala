@@ -2,8 +2,10 @@
 
 .LastStepCheck {
 
-  display: flex;
-  justify-content: center;
+  .gamecard-container {
+    display: flex;
+    justify-content: center;
+  }
 
   .warning-already-exists {
     height: 100px;
