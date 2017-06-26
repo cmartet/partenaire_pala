@@ -142,6 +142,7 @@ const handleJoinActions = (type) => {
 };
 
 export default (state = getInitialState(), action) => {
+
     switch (action.type) {
         case types.GAMES_RETRIEVED:
         case types.GAMES_RETRIEVAL_IN_PROGRESS:
@@ -170,6 +171,9 @@ export default (state = getInitialState(), action) => {
         case types.UNJOIN_IN_PROGRESS:
         case types.UNJOIN_FAILED:
             return handleJoinActions(action.type);
+
+        case types.REINIT_PROPS:
+            return getInitialState();
 
         default:
             return state;

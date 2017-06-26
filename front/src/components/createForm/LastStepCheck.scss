@@ -2,6 +2,9 @@
 
 .LastStepCheck {
 
+  display: flex;
+  justify-content: center;
+
   .warning-already-exists {
     height: 100px;
     display: flex;
