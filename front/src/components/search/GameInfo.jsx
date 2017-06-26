@@ -141,10 +141,7 @@ class GameInfo extends Component {
     };
 
     render() {
-        const headerClass = classNames('header-info',
-            {'green': this.props.placeType === 'mur_a_gauche'},
-            {'white': this.props.placeType === 'trinquet'},
-            {'red': this.props.placeType === 'place_libre'});
+        const headerClass = classNames('header-info green');
 
         return (
             <div className="GameInfo">
