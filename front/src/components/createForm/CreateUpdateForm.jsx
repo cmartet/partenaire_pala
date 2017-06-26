@@ -88,20 +88,20 @@ class CreateUpdateForm extends Component {
             this.setState({'place': nextProps.gameToUpdate.place});
             this.setState({'players': nextProps.gameToUpdate.players});
         }
-        if (nextProps.auth.name && this.state.players.length === 1) {
+        if (nextProps.auth.name) {
             this.changeFirstPlayerInParticipants(nextProps.auth.id, nextProps.auth.name);
         }
     };
 
     changeFirstPlayerInParticipants = (playerId, playerName) => {
-        var players = this.state.players.slice();
+        var players = this.state.players;
         if (playerName === null) {
             players[0] = {name: 'Vous !'};
         }
         else {
             players[0] = {_id: playerId, name: playerName};
         }
-        this.setState({'players': players});
+        this.setState({'players': players}, this.buildGameFromState);
     };
 
     buildGameFromState = () => {

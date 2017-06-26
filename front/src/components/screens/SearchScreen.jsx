@@ -52,10 +52,12 @@ class SearchScreen extends React.Component {
     };
 
     search = () => {
-        this.props.gamesActions.fetchGames(this.state.date, this.state.place);
+        this.setState({}, () => {
+            this.props.gamesActions.fetchGames(this.state.date, this.state.place);
+        });
     };
 
-    changeDateValue = (event, value) => {
+    changeDateValue = (value) => {
         this.setState({'date': value});
     };
 
@@ -154,19 +156,20 @@ class SearchScreen extends React.Component {
                                     level={game.level}
                                     maxPlayers={game.maxMissingPlayers}
                                     place={game.place.name}
+                                    placeAddress={game.place.location.address}
                                     placePicture={game.place.photo}
                                     placeType={game.place.type}
                                     players={game.players}
                                 />
                             }) :
-                            this.props.games.inProgress ?
+                            this.props.games.inProgress || this.props.gameJoin.inProgress ?
                                 <CircularProgress size={80} thickness={5}/> :
                                 (<div className="no-result">
                                     <div className="icon">
                                         {React.createElement(MehIcon, null)}
                                     </div>
                                     <div>Nous avons bien cherché, mais n'avons trouvé aucun résultat.</div>
-                                    <div>Mais vous pouvez toujouer <a href="">créez votre partie !</a></div>
+                                    <div>Mais vous pouvez <a href={process.env.PUBLIC_URL + '/#/create'}>créer votre partie !</a></div>
                                 </div>)
                     }
                 </div>

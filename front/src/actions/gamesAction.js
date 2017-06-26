@@ -75,7 +75,7 @@ const formatParametersForFetchingGames = (place, beginDate, allDay) => {
     let isFilterSet = false;
     const today = new Date();
 
-    if (beginDate !== null) {
+    if (beginDate) {
         if (allDay) {
             let end = new Date(beginDate);
             end.setHours(23, 59, 59, 999);

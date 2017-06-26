@@ -25,6 +25,7 @@ const propTypes = {
     level: PropTypes.string,
     maxPlayers: PropTypes.number,
     place: PropTypes.string.required,
+    placeAddress: PropTypes.string,
     placePicture: PropTypes.string,
     placeType: PropTypes.string,
     players: PropTypes.array
@@ -131,16 +132,16 @@ class GameInfo extends Component {
             return (<div className="place-img">
                 <div className="cropped-img"
                      style={{backgroundImage: 'url(' + this.props.placePicture + ')'}}>
+                    <div className="overlay">
+                        {this.props.placeAddress}
+                    </div>
                 </div>
             </div> );
         }
     };
 
     render() {
-        const headerClass = classNames('header-info',
-            {'green': this.props.placeType === 'mur_a_gauche'},
-            {'white': this.props.placeType === 'trinquet'},
-            {'red': this.props.placeType === 'place_libre'});
+        const headerClass = classNames('header-info green');
 
         return (
             <div className="GameInfo">
