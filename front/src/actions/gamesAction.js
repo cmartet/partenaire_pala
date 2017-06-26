@@ -43,7 +43,7 @@ const launchRequest = (url, headers, eventProgress, eventSuccess, eventError) =>
         return fetch(url, headers)
             .then(response => {
                 // response.status === http.STATUS_CODE_OK ?
-                    dispatch({type: eventSuccess})
+                dispatch({type: eventSuccess})
             }).catch(() => {
                 dispatch({type: eventError});
             });
@@ -113,14 +113,10 @@ export const createGame = (game) => {
         return fetch(urls.CREATE_GAME, postHeaders(game))
             .then(response => {
                 if (response.status === http.STATUS_CODE_OK) {
-                    dispatch({
-                        type: types.CREATED_GAME
-                    });
+                    dispatch({type: types.CREATED_GAME});
                 }
                 else {
-                    dispatch({
-                        type: types.CREATION_FAILED
-                    });
+                    dispatch({type: types.CREATION_FAILED});
                 }
             });
     }
@@ -151,9 +147,7 @@ export const deleteGame = gameId => {
 
 export const reinitState = () => {
     return function (dispatch) {
-        dispatch({
-            type: types.REINIT_PROPS
-        })
+        dispatch({type: types.REINIT_PROPS})
     }
 };
 

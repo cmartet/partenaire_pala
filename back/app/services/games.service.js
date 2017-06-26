@@ -82,7 +82,7 @@ module.exports = {
 
     //Delete a game
     delete: function (gameId, callback) {
-        Game.findOneAndRemove(gameId, callback);
+        Game.findByIdAndRemove(gameId, callback);
     },
 
     //Check if a user is the game creator

@@ -23,14 +23,13 @@ class LastStepCheck extends React.Component {
         window.location.href = '/';
     };
 
-    showCardWhenGameAtSameTime () {
+    showCardWhenGameAtSameTime() {
         // Same game we're talking about here
-        if(this.props.gameToUpdate && this.props.games.length === 1) {
+        if (this.props.gameToUpdate && this.props.games.length === 1) {
             return;
         }
 
-        if(this.props.games.length > 0)
-        {
+        if (this.props.games.length > 0) {
             return (<Paper className="warning-already-exists" zDepth={2}>
                 {this.props.games.length === 1 ?
                     <div>
@@ -51,8 +50,8 @@ class LastStepCheck extends React.Component {
         }
     };
 
-    showCardWhenUserIsNotConnected () {
-        if(!this.props.connectedUserName) {
+    showCardWhenUserIsNotConnected() {
+        if (!this.props.connectedUserName) {
             return (<Paper className="warning-already-exists" zDepth={2}>
                 <div>
                     <div className="explanations">Vous devez vous connecter pour continuer !</div>
@@ -71,22 +70,24 @@ class LastStepCheck extends React.Component {
                 {this.showCardWhenGameAtSameTime()}
                 {this.showCardWhenUserIsNotConnected()}
 
-                {this.props.gameCreation.inProgress ?
-                    <CircularProgress size={60} thickness={7}/> :
+                <div className="gamecard-container">
+                    {this.props.gameCreation.inProgress ?
+                        <CircularProgress size={60} thickness={7}/> :
 
-                    <GameInfo
-                        level={this.props.gameInfo.level}
-                        placePicture={this.props.gameInfo.place.photo}
-                        place={this.props.gameInfo.place.name}
-                        placeAddress={this.props.gameInfo.place.location.address}
-                        placeType={this.props.gameInfo.place.type}
-                        maxPlayers={this.props.gameInfo.maxMissingPlayers}
-                        creator={this.props.connectedUserName || 'Vous'}
-                        date={this.props.gameInfo.date}
-                        displayMode={true}
-                        players={this.props.gameInfo.players}/>
-                }
 
+                        <GameInfo
+                            level={this.props.gameInfo.level}
+                            placePicture={this.props.gameInfo.place.photo}
+                            place={this.props.gameInfo.place.name}
+                            placeAddress={this.props.gameInfo.place.location.address}
+                            placeType={this.props.gameInfo.place.type}
+                            maxPlayers={this.props.gameInfo.maxMissingPlayers}
+                            creator={this.props.connectedUserName || 'Vous'}
+                            date={this.props.gameInfo.date}
+                            displayMode={true}
+                            players={this.props.gameInfo.players}/>
+                    }
+                </div>
                 <Popup title="Game On !"
                        message="La partie est bien enregistrée !"
                        handleClose={this.redirectToSearchPage}
