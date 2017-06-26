@@ -173,7 +173,7 @@ export default (state = getInitialState(), action) => {
             return handleJoinActions(action.type);
 
         case types.REINIT_PROPS:
-            return getInitialState();
+           return getInitialState();
 
         default:
             return state;
