@@ -126,7 +126,9 @@ var buildDateFilter = function (query, startDate, endDate) {
     if (startDate) {
         query["$and"].push({"date": {"$gte": new Date(startDate)}});
     } else {
-        query["$and"].push({"date": {"$gte": new Date()}});
+        let todayMinus30min = new Date();
+        todayMinus30min.setMinutes(todayMinus30min.getMinutes() - 30);
+        query["$and"].push({"date": {"$gte": todayMinus30min}});
     }
 
     if (endDate) {
